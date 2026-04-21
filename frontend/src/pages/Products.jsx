@@ -38,22 +38,25 @@ const Products = () => {
     <div className="pt-24 pb-14 md:pt-32 md:pb-20 custom-container">
       <SectionHeader subtitle="Notre Catalogue" title="Tous les produits" />
       
-      {/* Category Filter */}
-      <div className="flex flex-wrap gap-4 mb-16 items-center">
-        <Filter size={20} className="text-primary mr-2" />
-        {categories.map(cat => (
-          <button
-            key={cat}
-            onClick={() => setActiveCategory(cat)}
-            className={`px-6 py-2 rounded-full text-sm font-bold transition-all border ${
-              activeCategory === cat 
-              ? 'bg-primary text-white border-primary shadow-lg' 
-              : 'bg-white text-gray-400 border-gray-100 hover:border-primary hover:text-primary'
-            }`}
-          >
-            {cat}
-          </button>
-        ))}
+      <div className="flex items-center gap-4 mb-12 overflow-x-auto no-scrollbar pb-4 md:flex-wrap md:overflow-visible">
+        <div className="p-2 bg-primary/5 text-primary rounded-xl shrink-0">
+          <Filter size={18} />
+        </div>
+        <div className="flex gap-3 flex-nowrap md:flex-wrap">
+          {categories.map(cat => (
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`px-6 py-2.5 rounded-full text-xs font-bold transition-all border whitespace-nowrap ${
+                activeCategory === cat 
+                ? 'bg-primary text-white border-primary shadow-md shadow-primary/20' 
+                : 'bg-white text-gray-400 border-gray-100 hover:border-primary hover:text-primary'
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Product Grid */}
