@@ -16,7 +16,7 @@ const Hero = () => {
               <Button className="whitespace-nowrap hidden md:block">Découvrir la gamme</Button>
               <Button className="whitespace-nowrap md:hidden">Notre gammes</Button>
               </a>
-            <a href="#products">
+            <a href="/#products">
               <Button variant="secondary" className="whitespace-nowrap">Nos Bestsellers</Button>
             </a>
           </div>

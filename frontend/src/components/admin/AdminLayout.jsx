@@ -1,13 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Sidebar from './Sidebar';
 import { Menu, Search, Bell, User, LogOut } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import logo from '../../assets/logo.jpeg';
 import { subscribeToPushNotifications } from '../../services/pushNotification';
 import userService from '../../services/userService';
-import { CheckCheck, Package, ShoppingBag, AlertTriangle } from 'lucide-react';
-import { formatDistanceToNow } from 'date-fns';
-import { fr } from 'date-fns/locale/fr';
+import { CheckCheck, ShoppingBag, AlertTriangle } from 'lucide-react';
+// Custom time-ago formatter to avoid dependency issues
+const formatTimeAgo = (date) => {
+  const seconds = Math.floor((new Date() - new Date(date)) / 1000);
+  if (seconds < 60) return "À l'instant";
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return `Il y a ${minutes}m`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `Il y a ${hours}h`;
+  const days = Math.floor(hours / 24);
+  return `Il y a ${days}j`;
+};
 
 const AdminLayout = ({ children }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
@@ -16,26 +25,32 @@ const AdminLayout = ({ children }) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const { user, logout } = useAuth();
-
-  const fetchNotifications = async () => {
+  const fetchNotifications = useCallback(async (isMounted = true) => {
     try {
       const { data } = await userService.getNotifications();
-      setNotifications(data);
+      if (isMounted && Array.isArray(data)) {
+        setNotifications(data);
+      }
     } catch (err) {
       console.error(err);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    // Subscribe to push notifications if the user is an admin
+    let isMounted = true;
+
     if (user && user.role === 'admin') {
       subscribeToPushNotifications();
-      fetchNotifications();
-      // Poll for new notifications every minute
-      const interval = setInterval(fetchNotifications, 60000);
-      return () => clearInterval(interval);
+      // Defer the fetch to the next tick to avoid cascading render warnings
+      setTimeout(() => fetchNotifications(isMounted), 0);
+      
+      const interval = setInterval(() => fetchNotifications(isMounted), 60000);
+      return () => {
+        isMounted = false;
+        clearInterval(interval);
+      };
     }
-  }, [user]);
+  }, [user, fetchNotifications]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -139,7 +154,7 @@ const AdminLayout = ({ children }) => {
                             <p className={`text-xs font-bold truncate ${!n.isRead ? 'text-gray-900' : 'text-gray-600'}`}>{n.title}</p>
                             <p className="text-[11px] text-gray-500 line-clamp-2 mt-0.5 leading-relaxed">{n.message}</p>
                             <p className="text-[10px] text-gray-400 mt-1">
-                              {formatDistanceToNow(new Date(n.createdAt), { addSuffix: true, locale: fr })}
+                              {formatTimeAgo(n.createdAt)}
                             </p>
                           </div>
                           {!n.isRead && (

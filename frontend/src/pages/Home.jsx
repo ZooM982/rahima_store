@@ -34,9 +34,11 @@ const Home = () => {
     <main>
       <Hero />
       <Features />
-      {!loading && products.length > 0 && (
-        <Bestsellers products={products} onAddToCart={addToCart} />
-      )}
+      <div id="products">
+        {!loading && products.length > 0 && (
+          <Bestsellers products={products} onAddToCart={addToCart} />
+        )}
+      </div>
       <About />
       <Testimonials />
     </main>
