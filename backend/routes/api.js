@@ -3,7 +3,7 @@ const { login, register } = require('../controllers/authController');
 const { getProducts, getProductById, createProduct, updateProduct, deleteProduct } = require('../controllers/productController');
 const { createOrder, getOrders, getOrderById, updateOrderStatus } = require('../controllers/orderController');
 const { getUsers, deleteUser } = require('../controllers/userController');
-const { subscribe } = require('../controllers/notificationController');
+
 const { authMiddleware, adminMiddleware } = require('../middleware/auth');
 
 const router = express.Router();

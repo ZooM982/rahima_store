@@ -13,7 +13,7 @@ const productSchema = new mongoose.Schema({
   category: { 
     type: String, 
     required: true,
-    enum: ['Vêtements Homme', 'Vêtements Femme', 'Montres', 'Parfums', 'Sacs', 'Soin Visage', 'Maquillage', 'Accessoires']
+    enum: ['Vêtements Homme', 'Vêtements Femme', 'Montres', 'Parfums', 'Sacs', 'Soin Visage', 'Soin Corps', 'Maquillage', 'Accessoires']
   },
   // Default image if no variant selected
   mainImage: { type: String, required: true },
