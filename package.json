@@ -1,6 +1,10 @@
 {
   "name": "rahima_store_mern",
   "version": "1.0.0",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
   "description": "Rahima Store MERN Stack",
   "scripts": {
     "dev:frontend": "npm run dev --prefix frontend",

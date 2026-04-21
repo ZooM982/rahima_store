@@ -5,7 +5,7 @@ const SectionHeader = ({ subtitle, title, alignment = 'left' }) => {
 
   return (
     <div className={`mb-16 ${isCenter ? 'text-center' : ''}`}>
-      <span className="text-primary font-semibold uppercase tracking-widest text-sm">
+      <span className="text-primary font-semibold uppercase tracking-widest text-sm whitespace-nowrap">
         {subtitle}
       </span>
       <h2 className={`text-5xl mt-4 font-serif ${isCenter ? 'italic' : ''}`}>

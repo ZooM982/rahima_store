@@ -63,7 +63,7 @@ const Products = () => {
       {loading ? (
         <div className="flex flex-col items-center justify-center p-20 text-gray-400 min-h-[400px]">
           <Loader2 className="animate-spin mb-4" size={32} />
-          <p>Chargement de votre univers beauté...</p>
+          <p className="text-center">Chargement de votre univers beauté...</p>
         </div>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
