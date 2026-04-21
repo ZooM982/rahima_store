@@ -7,7 +7,7 @@ import { subscribeToPushNotifications } from '../../services/pushNotification';
 import userService from '../../services/userService';
 import { CheckCheck, Package, ShoppingBag, AlertTriangle } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
-import { fr } from 'date-fns/locale';
+import { fr } from 'date-fns/locale/fr';
 
 const AdminLayout = ({ children }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
