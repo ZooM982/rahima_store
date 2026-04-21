@@ -17,7 +17,9 @@ const Home = () => {
     const fetchProducts = async () => {
       try {
         const { data } = await productService.getProducts();
-        if (!ignore) setProducts(data.slice(0, 4)); // Show first 4 as bestsellers
+        if (!ignore && Array.isArray(data)) {
+          setProducts(data.slice(0, 4)); // Show first 4 as bestsellers
+        }
       } catch (err) {
         console.error(err);
       } finally {

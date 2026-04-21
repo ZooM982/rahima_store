@@ -16,7 +16,7 @@ const Products = () => {
     const fetchProducts = async () => {
       try {
         const { data } = await productService.getProducts();
-        if (!ignore) setAllProducts(data);
+        if (!ignore && Array.isArray(data)) setAllProducts(data);
       } catch (err) {
         console.error(err);
       } finally {
@@ -27,11 +27,12 @@ const Products = () => {
     return () => { ignore = true; };
   }, []);
 
-  const categories = ['Tous', ...new Set(allProducts.map(p => p.category))];
+  const safeProducts = Array.isArray(allProducts) ? allProducts : [];
+  const categories = ['Tous', ...new Set(safeProducts.map(p => p.category))];
 
   const filteredProducts = activeCategory === 'Tous' 
-    ? allProducts 
-    : allProducts.filter(p => p.category === activeCategory);
+    ? safeProducts 
+    : safeProducts.filter(p => p.category === activeCategory);
 
   return (
     <div className="pt-24 pb-14 md:pt-32 md:pb-20 custom-container">

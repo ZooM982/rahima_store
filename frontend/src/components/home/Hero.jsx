@@ -3,7 +3,7 @@ import Button from '../common/Button';
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden py-10 sm:py-20">
+    <section className="relative min-h-screen flex items-center overflow-hidden py-20">
       <div className="custom-container grid md:grid-cols-2 gap-10 items-center relative z-10">
         <div className="animate-fade-up">
           <span className="inline-block text-primary font-semibold tracking-[0.2em] uppercase text-sm mb-4">Cosmétique de Luxe</span>
