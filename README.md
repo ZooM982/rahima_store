@@ -87,7 +87,7 @@ Le projet gère deux types d'utilisateurs :
 
 L'API est entièrement documentée avec Swagger. Pour consulter la documentation et tester les endpoints :
 1. Lancez le backend.
-2. Ouvrez : [http://localhost:5000/api-docs](http://localhost:5000/api-docs)
+2. Ouvrez : [https://rahima-store-api.onrender.com/api-docs](https://rahima-store-api.onrender.com/api-docs)
 
 ---
 

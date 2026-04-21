@@ -18,7 +18,7 @@ const options = {
         description: 'Serveur de Développement',
       },
       {
-        url: 'https://rahima-store-api.vercel.app/api',
+        url: 'https://rahima-store-api.onrender.com/api',
         description: 'Serveur de Production',
       },
     ],
