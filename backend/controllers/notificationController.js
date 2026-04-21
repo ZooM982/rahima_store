@@ -1,4 +1,5 @@
 const Subscription = require('../models/Subscription');
+const Notification = require('../models/Notification');
 const webpush = require('web-push');
 
 // Config web-push
@@ -70,8 +71,45 @@ exports.updatePreferences = async (req, res) => {
   }
 };
 
+// Internal helper to get in-app notifications
+exports.getNotifications = async (req, res) => {
+  try {
+    const notifications = await Notification.find().sort({ createdAt: -1 }).limit(20);
+    res.json(notifications);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+exports.markAsRead = async (req, res) => {
+  try {
+    const notification = await Notification.findByIdAndUpdate(req.params.id, { isRead: true }, { new: true });
+    res.json(notification);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+exports.markAllAsRead = async (req, res) => {
+  try {
+    await Notification.updateMany({ isRead: false }, { isRead: true });
+    res.json({ message: 'All notifications marked as read' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 exports.sendNotificationToAdmins = async (payload, type = 'emailOnSale') => {
   try {
+    // 1. Save to In-App Notifications DB
+    await Notification.create({
+      title: payload.title,
+      message: payload.body,
+      type: type === 'lowStockAlert' ? 'SYSTEM' : 'ORDER',
+      relatedId: payload.data?.url?.split('/').pop()
+    });
+
+    // 2. Send Push Notifications
     const adminSubscriptions = await Subscription.find({ isAdmin: true });
     
     const notificationPromises = adminSubscriptions.map(sub => {

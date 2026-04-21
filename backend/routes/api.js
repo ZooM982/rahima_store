@@ -151,8 +151,10 @@ router.get('/users', authMiddleware, adminMiddleware, getUsers);
 router.delete('/users/:id', authMiddleware, adminMiddleware, deleteUser);
 
 // Notifications
+const { getNotifications, markAsRead, markAllAsRead, subscribe } = require('../controllers/notificationController');
+router.get('/notifications', authMiddleware, adminMiddleware, getNotifications);
+router.put('/notifications/read-all', authMiddleware, adminMiddleware, markAllAsRead);
+router.put('/notifications/:id/read', authMiddleware, adminMiddleware, markAsRead);
 router.post('/notifications/subscribe', authMiddleware, subscribe);
-router.get('/notifications/preferences', authMiddleware, require('../controllers/notificationController').getPreferences);
-router.put('/notifications/preferences', authMiddleware, require('../controllers/notificationController').updatePreferences);
 
 module.exports = router;
