@@ -3,7 +3,8 @@ import { useAuth } from '../hooks/useAuth';
 import orderService from '../services/orderService';
 import Button from '../components/common/Button';
 import Input from '../components/ui/Input';
-import { Package, User, MapPin, Phone, LogOut, ChevronRight, Clock, ShoppingBag } from 'lucide-react';
+import { Package, User, MapPin, Phone, LogOut, ChevronRight, Clock, ShoppingBag, FileText } from 'lucide-react';
+import { generateInvoice } from '../utils/invoiceGenerator';
 import { Link } from 'react-router-dom';
 import { productSlug } from '../utils/slug';
 
@@ -174,12 +175,20 @@ const UserDashboard = () => {
                           <p className="text-[10px] text-gray-400 uppercase tracking-wider">Articles</p>
                           <p className="text-sm font-bold">{order.items.length} produit(s)</p>
                         </div>
-                        <Link
-                          to={order.items[0]?.productId ? `/products/${productSlug(order.items[0].productId)}` : '/products'}
-                          className="flex items-center justify-end gap-2 text-sm font-bold text-gray-500 hover:text-primary transition-colors group"
-                        >
-                          Voir produits <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                        </Link>
+                          <div className="flex gap-4">
+                            <button
+                              onClick={() => generateInvoice(order)}
+                              className="flex items-center gap-2 text-sm font-bold text-primary hover:text-primary-dark transition-colors"
+                            >
+                              <FileText size={16} /> Facture
+                            </button>
+                            <Link
+                              to={order.items[0]?.productId ? `/products/${productSlug(order.items[0].productId)}` : '/products'}
+                              className="flex items-center justify-end gap-2 text-sm font-bold text-gray-500 hover:text-primary transition-colors group"
+                            >
+                              Voir produits <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                            </Link>
+                          </div>
                       </div>
                     </div>
                   ))}

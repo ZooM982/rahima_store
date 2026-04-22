@@ -6,7 +6,7 @@ const Hero = () => {
     <section className="relative min-h-screen flex items-center overflow-hidden py-20">
       <div className="custom-container grid md:grid-cols-2 gap-10 items-center relative z-10">
         <div className="animate-fade-up">
-          <span className="inline-block text-primary font-semibold tracking-[0.2em] uppercase text-sm mb-4">Cosmétique de Luxe</span>
+          <span className="inline-block text-primary font-bold tracking-[0.2em] uppercase text-sm mb-4">Cosmétique de Luxe</span>
           <h1 className="text-4xl md:text-7xl leading-[1.1] mb-8 font-serif">Révélez votre <span className="italic text-secondary">éclat</span> naturel</h1>
           <p className="text-lg text-gray-600 mb-10 max-w-md leading-relaxed">
             Découvrez notre collection exclusive de soins et maquillage conçue pour sublimer votre beauté unique avec des ingrédients précieux.

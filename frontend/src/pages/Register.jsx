@@ -3,22 +3,27 @@ import { useAuth } from '../hooks/useAuth';
 import { useNavigate, Link } from 'react-router-dom';
 import Button from '../components/common/Button';
 import Input from '../components/ui/Input';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Loader2 } from 'lucide-react';
 import SEO from '../components/SEO';
 
 const Register = () => {
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const { register } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError('');
     try {
       await register(formData.name, formData.email, formData.password);
       navigate('/login');
     } catch (err) {
       setError(err.response?.data?.message || 'Erreur lors de l\'inscription');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -61,7 +66,20 @@ const Register = () => {
             onChange={(e) => setFormData({...formData, password: e.target.value})}
             required
           />
-          <Button type="submit" className="w-full mt-6">Rejoindre Rahima</Button>
+          <Button 
+            type="submit" 
+            className="w-full mt-6 flex items-center justify-center gap-2"
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <Loader2 size={20} className="animate-spin" />
+                Création du compte...
+              </>
+            ) : (
+              'Rejoindre Rahima'
+            )}
+          </Button>
         </form>
         
         <div className="mt-8 text-center border-t border-gray-50 pt-8">

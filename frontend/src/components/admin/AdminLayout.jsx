@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Sidebar from './Sidebar';
 import { Menu, Search, Bell, User, LogOut } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
-import logo from '../../assets/logo.jpeg';
+import logo from '../../assets/logo2.png';
 import { subscribeToPushNotifications } from '../../services/pushNotification';
 import userService from '../../services/userService';
 import { CheckCheck, ShoppingBag, AlertTriangle } from 'lucide-react';

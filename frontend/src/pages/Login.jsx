@@ -3,24 +3,29 @@ import { useAuth } from '../hooks/useAuth';
 import { useNavigate, Link } from 'react-router-dom';
 import Button from '../components/common/Button';
 import Input from '../components/ui/Input';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Loader2 } from 'lucide-react';
 import SEO from '../components/SEO';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError('');
     try {
       const user = await login(email, password);
       if (user.role === 'admin') navigate('/admin');
       else navigate('/');
     } catch (err) {
       setError(err.response?.data?.message || 'Erreur lors de la connexion');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -58,7 +63,20 @@ const Login = () => {
             autoComplete="current-password"
             required
           />
-          <Button type="submit" className="w-full mt-4">Se connecter</Button>
+          <Button 
+            type="submit" 
+            className="w-full mt-4 flex items-center justify-center gap-2"
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <Loader2 size={20} className="animate-spin" />
+                Connexion en cours...
+              </>
+            ) : (
+              'Se connecter'
+            )}
+          </Button>
         </form>
         
         <div className="mt-8 text-center">

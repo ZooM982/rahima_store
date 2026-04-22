@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Globe, Send, Share2, Mail, MapPin, Phone } from 'lucide-react';
-import logo from '../assets/logo.jpeg';
+import logo from '../assets/logo2.png';
 
 const Footer = () => {
   const navigate = useNavigate();

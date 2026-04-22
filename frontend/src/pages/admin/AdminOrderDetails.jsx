@@ -4,6 +4,8 @@ import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Printer, Truck, CheckCircle, Package, Loader2, Phone } from 'lucide-react';
 import Button from '../../components/common/Button';
 import orderService from '../../services/orderService';
+import { generateInvoice } from '../../utils/invoiceGenerator';
+import { FileText } from 'lucide-react';
 
 const AdminOrderDetails = () => {
   const { id } = useParams();
@@ -66,7 +68,13 @@ const AdminOrderDetails = () => {
           </div>
         </div>
         <div className="flex gap-2 w-full sm:w-auto">
-          <Button variant="secondary" className="flex-1 sm:flex-none py-2 px-4 text-xs"><Printer size={16} /> Facture PDF</Button>
+          <Button 
+            variant="secondary" 
+            className="flex-1 sm:flex-none py-2 px-4 text-xs"
+            onClick={() => generateInvoice(order)}
+          >
+            <FileText size={16} /> Facture PDF
+          </Button>
           <Button 
             className="flex-1 sm:flex-none py-2 px-4 text-xs"
             onClick={() => handleStatusChange('Validated')}

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ShoppingBag, ChevronLeft, Star, ShieldCheck, Truck, RotateCcw, Loader2 } from 'lucide-react';
+import { ShoppingBag, ChevronLeft, Star, ShieldCheck, Truck, RotateCcw, Loader2, Check } from 'lucide-react';
 import { useCart } from '../hooks/useCart';
 import Button from '../components/common/Button';
 import productService from '../services/productService';
@@ -13,6 +13,19 @@ const ProductDetails = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedVariant, setSelectedVariant] = useState(0);
+  const [isAdded, setIsAdded] = useState(false);
+
+  const handleAddToCart = () => {
+    addToCart({
+      ...product,
+      _id: `${product._id}-${product.variants[selectedVariant]?.color || 'main'}`,
+      price: product.price,
+      img: currentImage,
+      selectedColor: product.variants[selectedVariant]?.color
+    });
+    setIsAdded(true);
+    setTimeout(() => setIsAdded(false), 2000);
+  };
 
   useEffect(() => {
     let ignore = false;
@@ -140,20 +153,25 @@ const ProductDetails = () => {
               </div>
             )}
 
-            <div className="flex flex-col sm:flex-row gap-4 mb-12">
+            <div className="flex flex-col sm:flex-row gap-4 mb-12 relative">
               <Button 
-                onClick={() => addToCart({
-                  ...product,
-                  _id: `${product._id}-${product.variants[selectedVariant]?.color || 'main'}`,
-                  price: product.price,
-                  img: currentImage,
-                  selectedColor: product.variants[selectedVariant]?.color
-                })}
-                className="flex-1 py-6 text-base"
+                onClick={handleAddToCart}
+                className={`flex-1 py-6 text-base transition-all duration-300 ${
+                  isAdded ? 'bg-green-500 hover:bg-green-600 scale-95 shadow-lg shadow-green-500/30' : ''
+                }`}
               >
-                <ShoppingBag size={20} /> Ajouter au panier
+                {isAdded ? <Check size={20} /> : <ShoppingBag size={20} />} 
+                {isAdded ? 'Ajouté au panier !' : 'Ajouter au panier'}
               </Button>
             </div>
+            
+            {/* Toast Notification */}
+            {isAdded && (
+              <div className="fixed bottom-20 left-1/2 -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-full shadow-2xl z-[100] flex items-center gap-2 animate-bounce">
+                <Check size={18} />
+                <span className="font-bold text-sm">{product.name} ajouté au panier</span>
+              </div>
+            )}
 
             {/* Trust Badges */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-10 border-t border-gray-100">

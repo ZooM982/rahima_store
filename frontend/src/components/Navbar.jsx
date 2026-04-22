@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { ShoppingBag, User, LogOut, LayoutDashboard } from 'lucide-react';
 import { useCart } from '../hooks/useCart';
 import { useAuth } from '../hooks/useAuth';
-import logo from '../assets/logo.jpeg';
+import logo from '../assets/logo2.png';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -40,7 +40,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? 'glass-effect py-4 shadow-sm' : 'py-6'}`}>
+    <nav className={`fixed z-50 transition-all duration-500 ${scrolled ? 'glass-effect py-4 shadow-sm rounded-[30px] top-5 right-0 left-0 w-[80%] mx-auto' : 'py-6 w-full top-0 left-0'}`}>
       <div className="custom-container flex justify-between items-center">
         <Link to="/" onClick={scrollToTop} className="text-2xl font-bold tracking-tighter flex items-center gap-2">
           <img src={logo} alt="Rahima Store" className="w-10 h-10 object-cover rounded-full border border-gray-100 shadow-sm" />

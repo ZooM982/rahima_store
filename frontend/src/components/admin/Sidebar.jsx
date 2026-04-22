@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../../assets/logo.jpeg';
+import logo from '../../assets/logo2.png';
 import { 
   X, LayoutDashboard, Package, ShoppingCart, Users, Settings, LogOut 
 } from 'lucide-react';
