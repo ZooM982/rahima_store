@@ -72,6 +72,7 @@ router.get('/orders/:id', authMiddleware, adminMiddleware, getOrderById);
 router.put('/orders/:id/status', authMiddleware, adminMiddleware, updateOrderStatus);
 
 // Users
+router.get('/users', authMiddleware, adminMiddleware, getUsers);
 router.get('/users/customer/:email', authMiddleware, adminMiddleware, getCustomerDetails);
 router.delete('/users/:id', authMiddleware, adminMiddleware, deleteUser);
 
