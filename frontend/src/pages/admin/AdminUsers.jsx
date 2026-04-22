@@ -56,10 +56,12 @@ const AdminUsers = () => {
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {users.map((u, i) => (
             <div key={i} className="bg-white p-6 rounded-3xl shadow-sm border border-gray-50 hover:shadow-md transition-shadow relative overflow-hidden group">
-              <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4 bg-bg-soft text-primary">
+              <div className='flex items-center gap-2 mb-2'>
+                <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-bg-soft text-primary">
                 <span className="font-bold uppercase text-lg">{u.name.charAt(0)}</span>
               </div>
               <h3 className="font-bold text-lg text-gray-800">{u.name}</h3>
+              </div>
               
               <div className="space-y-2 mt-4">
                 <p className="text-gray-500 text-[11px] flex items-center gap-2">
