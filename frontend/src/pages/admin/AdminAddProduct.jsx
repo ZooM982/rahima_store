@@ -15,7 +15,8 @@ const AdminAddProduct = () => {
     category: 'Soin Visage',
     description: '',
     mainImage: null,
-    mainImagePreview: ''
+    mainImagePreview: '',
+    stock: 0
   });
 
   const [variants, setVariants] = useState([{ color: '', image: null, imagePreview: '', stock: 0 }]);
@@ -58,7 +59,9 @@ const AdminAddProduct = () => {
         mainImage: formData.mainImagePreview, 
         price: Number(formData.price),
         variants: validVariants,
-        stock: validVariants.reduce((acc, v) => acc + Number(v.stock), 0)
+        stock: validVariants.length > 0 
+          ? validVariants.reduce((acc, v) => acc + Number(v.stock), 0)
+          : Number(formData.stock)
       };
       await productService.createProduct(payload);
       navigate('/admin/products');
@@ -87,6 +90,11 @@ const AdminAddProduct = () => {
             <div className="grid sm:grid-cols-2 gap-4">
               <Input label="Nom" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} required />
               <Input label="Prix (FCFA)" type="number" value={formData.price} onChange={e => setFormData({...formData, price: e.target.value})} required />
+              {variants.filter(v => v.color.trim() !== '').length === 0 && (
+                <div className="sm:col-span-2">
+                  <Input label="Stock Total" type="number" value={formData.stock} onChange={e => setFormData({...formData, stock: e.target.value})} />
+                </div>
+              )}
               <div className="sm:col-span-2">
                 <label className="block text-sm font-bold uppercase tracking-widest text-gray-400 mb-2 px-2">Catégorie</label>
                 <select 
