@@ -44,7 +44,12 @@ const limiter = rateLimit({
 app.use('/api/auth/login', limiter); // Apply specifically to login
 app.use('/api/auth/register', limiter); // Apply specifically to register
 app.use(cors({
-  origin: 'https://rahima-store.vercel.app',
+  origin: [
+    'https://rahima-store.vercel.app',
+    'https://www.rahima-store.vercel.app',
+    'http://localhost:5173',
+    'http://localhost:3000'
+  ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
   optionsSuccessStatus: 200
