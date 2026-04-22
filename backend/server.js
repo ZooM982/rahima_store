@@ -9,10 +9,12 @@ const seedAdmin = require('./config/seedAdmin');
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 const apiRoutes = require('./routes/api');
 const { swaggerUi, specs } = require('./config/swagger');
+const { backfillSlugs } = require('./controllers/productController');
 
 // Connect to Database
 connectDB().then(() => {
   seedAdmin();
+  backfillSlugs(); // Generate slugs for existing products
 });
 
 const app = express();

@@ -4,6 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import Button from '../components/common/Button';
 import Input from '../components/ui/Input';
 import { ArrowLeft } from 'lucide-react';
+import SEO from '../components/SEO';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -25,6 +26,7 @@ const Login = () => {
 
   return (
     <div className="h-screen w-full flex items-center justify-center bg-bg-soft bg-[url('/bg-pattern.png')] bg-cover relative">
+      <SEO title="Connexion" description="Connectez-vous à votre compte Rahima Store." url="/login" noIndex />
       <Link to="/" className="absolute top-8 left-8 flex items-center gap-2 text-gray-400 hover:text-primary transition-all font-bold uppercase tracking-widest text-xs">
         <ArrowLeft size={16} /> Retour boutique
       </Link>

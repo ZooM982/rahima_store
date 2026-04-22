@@ -1,9 +1,24 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Globe, Send, Share2, Mail, MapPin, Phone } from 'lucide-react';
 import logo from '../assets/logo.jpeg';
 
 const Footer = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const navigateToSection = (sectionId) => (e) => {
+    e.preventDefault();
+    if (location.pathname === '/') {
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      navigate('/');
+      setTimeout(() => {
+        document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+  };
+
   return (
     <footer className="bg-white border-t border-gray-50 pt-20 pb-10">
       <div className="custom-container">
@@ -29,8 +44,16 @@ const Footer = () => {
             <h4 className="font-serif italic text-lg mb-6">Navigation</h4>
             <ul className="space-y-4 text-sm text-gray-400">
               <li><Link to="/products" className="hover:text-primary transition-colors">Boutique</Link></li>
-              <li><a href="/#about" className="hover:text-primary transition-colors">À Propos</a></li>
-              <li><a href="/#testimonials" className="hover:text-primary transition-colors">Avis Clientes</a></li>
+              <li>
+                <a href="/#about" onClick={navigateToSection('about')} className="hover:text-primary transition-colors">
+                  À Propos
+                </a>
+              </li>
+              <li>
+                <a href="/#testimonials" onClick={navigateToSection('testimonials')} className="hover:text-primary transition-colors">
+                  Avis Clientes
+                </a>
+              </li>
               <li><Link to="/cart" className="hover:text-primary transition-colors">Mon Panier</Link></li>
             </ul>
           </div>
@@ -38,10 +61,10 @@ const Footer = () => {
           <div>
             <h4 className="font-serif italic text-lg mb-6">Service Client</h4>
             <ul className="space-y-4 text-sm text-gray-400">
-              <li><a href="#" className="hover:text-primary transition-colors">Livraison & Retours</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Conditions Générales</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Politique de Confidentialité</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">FAQ</a></li>
+              <li><Link to="/livraison-retours" className="hover:text-primary transition-colors">Livraison &amp; Retours</Link></li>
+              <li><Link to="/conditions-generales" className="hover:text-primary transition-colors">Conditions Générales</Link></li>
+              <li><Link to="/politique-confidentialite" className="hover:text-primary transition-colors">Politique de Confidentialité</Link></li>
+              <li><Link to="/faq" className="hover:text-primary transition-colors">FAQ</Link></li>
             </ul>
           </div>
 
@@ -66,6 +89,11 @@ const Footer = () => {
 
         <div className="pt-8 border-t border-gray-50 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-widest text-gray-300 font-bold">
           <p>© {new Date().getFullYear()} Rahima Store. Tous droits réservés.</p>
+          {/* <div className="flex gap-6">
+            <Link to="/conditions-generales" className="hover:text-gray-500 transition-colors">CGV</Link>
+            <Link to="/politique-confidentialite" className="hover:text-gray-500 transition-colors">Confidentialité</Link>
+            <Link to="/livraison-retours" className="hover:text-gray-500 transition-colors">Livraison</Link>
+          </div> */}
           <p>Made by SAM Corporate</p>
         </div>
       </div>

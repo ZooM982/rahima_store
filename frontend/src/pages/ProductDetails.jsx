@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ShoppingBag, ChevronLeft, Star, ShieldCheck, Truck, RotateCcw, Loader2 } from 'lucide-react';
 import { useCart } from '../hooks/useCart';
 import Button from '../components/common/Button';
 import productService from '../services/productService';
+import SEO, { buildProductSchema, buildBreadcrumbSchema } from '../components/SEO';
+import { productSlug } from '../utils/slug';
 
 const ProductDetails = () => {
-  const { id } = useParams();
+  const { slug } = useParams();
   const { addToCart } = useCart();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -16,7 +18,7 @@ const ProductDetails = () => {
     let ignore = false;
     const fetchProduct = async () => {
       try {
-        const { data } = await productService.getProductById(id);
+        const { data } = await productService.getProductById(slug);
         if (!ignore) {
           setProduct(data);
           if (data.variants && data.variants.length > 0) {
@@ -31,7 +33,7 @@ const ProductDetails = () => {
     };
     fetchProduct();
     return () => { ignore = true; };
-  }, [id]);
+  }, [slug]);
 
   if (loading) return (
     <div className="pt-40 pb-20 flex flex-col items-center justify-center text-gray-400">
@@ -51,6 +53,22 @@ const ProductDetails = () => {
 
   return (
     <div className="pt-24 pb-14 md:pt-32 md:pb-20">
+      <SEO
+        title={product.name}
+        description={product.description || `Découvrez ${product.name} — ${product.category}. Livraison rapide à Dakar.`}
+        image={product.mainImage}
+        url={`/products/${productSlug(product)}`}
+        type="product"
+        keywords={`${product.name}, ${product.category}, cosmétiques Dakar, acheter ${product.name} Sénégal`}
+        structuredData={[
+          buildProductSchema(product),
+          buildBreadcrumbSchema([
+            { name: 'Accueil', url: '/' },
+            { name: 'Boutique', url: '/products' },
+            { name: product.name, url: `/products/${productSlug(product)}` },
+          ]),
+        ]}
+      />
       <div className="custom-container">
         <Link to="/products" className="flex items-center gap-2 text-gray-400 hover:text-primary mb-12 transition-colors group">
           <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform" /> Retour à la boutique
@@ -142,21 +160,21 @@ const ProductDetails = () => {
               <div className="flex items-center gap-3">
                 <div className="p-3 bg-green-50 text-green-600 rounded-2xl"><ShieldCheck size={20} /></div>
                 <div>
-                  <h4 className="text-xs font-bold uppercase">Qualité Supérieure</h4>
+                  <h4 className="text-xs font-bold font-sans uppercase">Qualité Supérieure</h4>
                   <p className="text-[10px] text-gray-400">Testé & Approuvé</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
                 <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl"><Truck size={20} /></div>
                 <div>
-                  <h4 className="text-xs font-bold uppercase">Livraison Dakar</h4>
+                  <h4 className="text-xs font-bold font-sans uppercase">Livraison Dakar</h4>
                   <p className="text-[10px] text-gray-400">Gratuite dès 50k</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
                 <div className="p-3 bg-orange-50 text-orange-600 rounded-2xl"><RotateCcw size={20} /></div>
                 <div>
-                  <h4 className="text-xs font-bold uppercase">Satisfait ou remboursé</h4>
+                  <h4 className="text-xs font-bold font-sans uppercase">Satisfait ou remboursé</h4>
                   <p className="text-[10px] text-gray-400">Sous 14 jours</p>
                 </div>
               </div>

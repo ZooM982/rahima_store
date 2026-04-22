@@ -4,6 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import Button from '../components/common/Button';
 import Input from '../components/ui/Input';
 import { ArrowLeft } from 'lucide-react';
+import SEO from '../components/SEO';
 
 const Register = () => {
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
@@ -23,6 +24,7 @@ const Register = () => {
 
   return (
     <div className="h-screen w-full flex items-center justify-center bg-bg-soft bg-[url('/bg-pattern.png')] bg-cover relative overflow-hidden">
+      <SEO title="Créer un compte" description="Rejoignez Rahima Store et profitez d'une expérience beauté personnalisée." url="/register" noIndex />
       <Link to="/login" className="absolute top-8 left-8 flex items-center gap-2 text-gray-400 hover:text-primary transition-all font-bold uppercase tracking-widest text-xs">
         <ArrowLeft size={16} /> Déjà membre ?
       </Link>

@@ -4,6 +4,7 @@ import ProductCard from '../components/ui/ProductCard';
 import SectionHeader from '../components/ui/SectionHeader';
 import { Filter, Loader2 } from 'lucide-react';
 import productService from '../services/productService';
+import SEO, { buildBreadcrumbSchema } from '../components/SEO';
 
 const Products = () => {
   const { addToCart } = useCart();
@@ -30,12 +31,30 @@ const Products = () => {
   const safeProducts = Array.isArray(allProducts) ? allProducts : [];
   const categories = ['Tous', ...new Set(safeProducts.map(p => p.category))];
 
-  const filteredProducts = activeCategory === 'Tous' 
-    ? safeProducts 
+  // IDs of the 20 most recently added products
+  const newProductIds = new Set(
+    [...safeProducts]
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      .slice(0, 20)
+      .map(p => p._id)
+  );
+
+  const filteredProducts = activeCategory === 'Tous'
+    ? safeProducts
     : safeProducts.filter(p => p.category === activeCategory);
 
   return (
     <div className="pt-24 pb-14 md:pt-32 md:pb-20 custom-container">
+      <SEO
+        title="Boutique — Cosmétiques & Soins Beauté"
+        description="Découvrez toute notre collection de cosmétiques, soins visage, cheveux et parfums. Livraison rapide à Dakar et partout au Sénégal."
+        url="/products"
+        keywords="acheter cosmétiques Dakar, boutique beauté sénégal, soins visage naturels, parfums africains, produits capillaires Dakar"
+        structuredData={buildBreadcrumbSchema([
+          { name: 'Accueil', url: '/' },
+          { name: 'Boutique', url: '/products' },
+        ])}
+      />
       <SectionHeader subtitle="Notre Catalogue" title="Tous les produits" />
       
       <div className="flex items-center gap-4 mb-12 overflow-x-auto no-scrollbar pb-4 md:flex-wrap md:overflow-visible">
@@ -68,7 +87,7 @@ const Products = () => {
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {filteredProducts.map((p, i) => (
-            <ProductCard key={i} product={p} onAddToCart={addToCart} />
+            <ProductCard key={i} product={p} onAddToCart={addToCart} isNew={newProductIds.has(p._id)} />
           ))}
         </div>
       )}

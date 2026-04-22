@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useCart } from '../hooks/useCart';
+import { useAuth } from '../hooks/useAuth';
 import { Trash2, Plus, Minus, CreditCard, ChevronLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Button from '../components/common/Button';
@@ -8,9 +9,20 @@ import orderService from '../services/orderService';
 
 const Cart = () => {
   const { cart, removeFromCart, updateQuantity, cartTotal, clearCart } = useCart();
+  const { user } = useAuth();
   const [orderComplete, setOrderComplete] = useState(false);
   const [lastOrder, setLastOrder] = useState(null);
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '', address: '' });
+  const [autoCreateAccount, setAutoCreateAccount] = useState(false);
+  const [formData, setFormData] = useState({ 
+    name: user?.name || '', 
+    email: user?.email || '', 
+    phone: user?.phone || '', 
+    address: user?.address || '' 
+  });
+
+  // Instead of useEffect, we'll use a 'key' on the form to reset it 
+  // when the user identity changes. This is the recommended React pattern.
+
 
   const handleCheckout = async (e) => {
     e.preventDefault();
@@ -24,7 +36,9 @@ const Cart = () => {
           price: item.price
         })),
         totalAmount: cartTotal,
-        customer: formData
+        customer: formData,
+        userId: user?.id || user?._id,
+        autoCreateAccount: !user && autoCreateAccount
       };
       await orderService.createOrder(orderData);
       setLastOrder({ items: [...cart], total: cartTotal });
@@ -92,15 +106,17 @@ const Cart = () => {
                 <div className="w-24 h-24 rounded-2xl overflow-hidden flex-shrink-0 bg-gray-100">
                   <img src={item.img} alt={item.name} className="w-full h-full object-cover" />
                 </div>
-                <div className="flex-1">
+               <div className="sm:flex gap-2">
+                 <div className="flex-1">
                   <h3 className="font-bold text-lg leading-tight">{item.name}</h3>
                   <p className="text-primary font-bold">{item.price.toLocaleString()} FCFA</p>
                 </div>
-                <div className="flex items-center gap-4 bg-bg-soft px-4 py-2 rounded-full">
-                  <button onClick={() => updateQuantity(item._id, item.quantity - 1)} className="hover:text-primary"><Minus size={16} /></button>
-                  <span className="font-bold w-4 text-center">{item.quantity}</span>
-                  <button onClick={() => updateQuantity(item._id, item.quantity + 1)} className="hover:text-primary"><Plus size={16} /></button>
+                <div className="flex items-center gap-4 bg-bg-soft px-4 py-2 rounded-full sm:ml-12 ml-3">
+                  <button onClick={() => updateQuantity(item._id, item.quantity - 1)} className="mx-auto hover:text-primary"><Minus size={16} /></button>
+                  <span className="mx-auto font-bold w-4 text-center">{item.quantity}</span>
+                  <button onClick={() => updateQuantity(item._id, item.quantity + 1)} className="mx-auto hover:text-primary"><Plus size={16} /></button>
                 </div>
+               </div>
                 <button onClick={() => removeFromCart(item._id)} className="text-gray-300 hover:text-red-500 transition-colors ml-auto">
                   <Trash2 size={24} />
                 </button>
@@ -127,7 +143,11 @@ const Cart = () => {
               </div>
             </div>
             
-            <form onSubmit={handleCheckout} className="space-y-4">
+            <form 
+              key={user?.id || user?._id || 'guest'} 
+              onSubmit={handleCheckout} 
+              className="space-y-4"
+            >
               <Input 
                 required
                 placeholder="Nom complet" 
@@ -157,6 +177,22 @@ const Cart = () => {
                 value={formData.address}
                 onChange={(e) => setFormData({...formData, address: e.target.value})}
               />
+
+              {!user && (
+                <div className="flex items-center gap-3 py-2 px-4 bg-primary/5 rounded-xl border border-primary/10">
+                  <input 
+                    type="checkbox" 
+                    id="autoCreate" 
+                    className="w-4 h-4 rounded text-primary focus:ring-primary"
+                    checked={autoCreateAccount}
+                    onChange={(e) => setAutoCreateAccount(e.target.checked)}
+                  />
+                  <label htmlFor="autoCreate" className="text-sm text-gray-600 cursor-pointer">
+                    Créer un compte automatiquement
+                  </label>
+                </div>
+              )}
+
               <Button type="submit" className="w-full mt-4">
                 <CreditCard size={20} /> Valider et Payer
               </Button>

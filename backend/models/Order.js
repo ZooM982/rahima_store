@@ -13,6 +13,7 @@ const orderSchema = new mongoose.Schema({
     phone: { type: String, required: true },
     address: { type: String, required: true }
   },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   status: { type: String, default: 'Pending', enum: ['Pending', 'Validated', 'Delivered', 'Cancelled'] },
   invoiceUrl: { type: String },
   createdAt: { type: Date, default: Date.now }

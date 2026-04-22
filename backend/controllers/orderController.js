@@ -1,9 +1,41 @@
+const User = require('../models/User');
 const Order = require('../models/Order');
+const bcrypt = require('bcryptjs');
 const { sendNotificationToAdmins } = require('./notificationController');
 
 const createOrder = async (req, res) => {
   try {
-    const order = await Order.create(req.body);
+    const { items, totalAmount, customer, userId, autoCreateAccount } = req.body;
+    
+    let finalUserId = userId;
+
+    // If not logged in but email matches an existing user, link it
+    if (!finalUserId) {
+      const existingUser = await User.findOne({ email: customer.email });
+      if (existingUser) {
+        finalUserId = existingUser._id;
+      } else if (autoCreateAccount) {
+        // Auto-create account
+        const tempPassword = Math.random().toString(36).slice(-8); // Random password
+        const hashedPassword = await bcrypt.hash(tempPassword, 10);
+        const newUser = await User.create({
+          name: customer.name,
+          email: customer.email,
+          phone: customer.phone,
+          address: customer.address,
+          password: hashedPassword
+        });
+        finalUserId = newUser._id;
+        // In a real app, we'd send an email with the tempPassword here
+      }
+    }
+
+    const order = await Order.create({
+      items,
+      totalAmount,
+      customer,
+      userId: finalUserId
+    });
     
     // 1. Process Stock and Check for Low Stock
     for (const item of order.items) {
@@ -78,6 +110,15 @@ const getOrders = async (req, res) => {
   }
 };
 
+const getMyOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({ userId: req.user.id }).populate('items.productId').sort({ createdAt: -1 });
+    res.json(orders);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 const getOrderById = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id).populate('items.productId');
@@ -101,4 +142,4 @@ const updateOrderStatus = async (req, res) => {
   }
 };
 
-module.exports = { createOrder, getOrders, getOrderById, updateOrderStatus };
+module.exports = { createOrder, getOrders, getMyOrders, getOrderById, updateOrderStatus };

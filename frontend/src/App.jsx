@@ -17,6 +17,11 @@ import AdminUsers from './pages/admin/AdminUsers';
 import AdminSettings from './pages/admin/AdminSettings';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import UserDashboard from './pages/UserDashboard';
+import ConditionsGenerales from './pages/legal/ConditionsGenerales';
+import PolitiqueConfidentialite from './pages/legal/PolitiqueConfidentialite';
+import LivraisonRetours from './pages/legal/LivraisonRetours';
+import FAQ from './pages/legal/FAQ';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import MobileBottomNav from './components/MobileBottomNav';
@@ -34,6 +39,7 @@ const AppContent = () => {
   const location = useLocation();
   const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
   const isAdminPage = location.pathname.startsWith('/admin');
+  const isDashboardPage = location.pathname === '/dashboard';
 
   return (
     <div className={`min-h-screen ${isAuthPage ? 'h-screen overflow-hidden' : 'bg-bg-soft font-sans'}`}>
@@ -41,10 +47,21 @@ const AppContent = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
-        <Route path="/products/:id" element={<ProductDetails />} />
+        <Route path="/products/:slug" element={<ProductDetails />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/dashboard" 
+          element={
+            <ProtectedRoute>
+              <UserDashboard />
+            </ProtectedRoute>
+          } 
+        />
+        <Route path="/conditions-generales" element={<ConditionsGenerales />} />
+        <Route path="/politique-confidentialite" element={<PolitiqueConfidentialite />} />
+        <Route path="/livraison-retours" element={<LivraisonRetours />} />
+        <Route path="/faq" element={<FAQ />} />
         
         {/* Admin Routes */}
         <Route 
@@ -65,7 +82,7 @@ const AppContent = () => {
           } 
         />
       </Routes>
-      {!isAuthPage && !isAdminPage && <Footer />}
+      {!isAuthPage && !isAdminPage && !isDashboardPage && <Footer />}
       {!isAuthPage && isAdminPage && <MobileBottomNav />}
     </div>
   );
