@@ -89,12 +89,21 @@ const AdminEditProduct = () => {
     e.preventDefault();
     setSubmitting(true);
     try {
+      // Filter out empty variants before sending
+      const validVariants = variants
+        .filter(v => v.color.trim() !== '' || v.imagePreview !== '')
+        .map(v => ({
+          color: v.color,
+          image: v.imagePreview,
+          stock: Number(v.stock) || 0
+        }));
+
       const payload = {
         ...formData,
         mainImage: formData.mainImagePreview,
         price: Number(formData.price),
-        variants: variants.map(v => ({ ...v, image: v.imagePreview, stock: Number(v.stock) })),
-        stock: variants.reduce((acc, v) => acc + Number(v.stock), 0)
+        variants: validVariants,
+        stock: validVariants.reduce((acc, v) => acc + Number(v.stock), 0)
       };
       await productService.updateProduct(id, payload);
       navigate('/admin/products');
