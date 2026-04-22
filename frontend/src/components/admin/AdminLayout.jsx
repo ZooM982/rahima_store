@@ -54,6 +54,18 @@ const AdminLayout = ({ children }) => {
     }
   }, [user, fetchNotifications]);
 
+  const unreadCount = notifications.filter(n => !n.isRead).length;
+
+  useEffect(() => {
+    if ('setAppBadge' in navigator) {
+      if (unreadCount > 0) {
+        navigator.setAppBadge(unreadCount).catch(console.error);
+      } else {
+        navigator.clearAppBadge().catch(console.error);
+      }
+    }
+  }, [unreadCount]);
+
   useEffect(() => {
     const handleResize = () => {
       const mobile = window.innerWidth < 1024;
@@ -107,8 +119,10 @@ const AdminLayout = ({ children }) => {
                 title="Notifications"
               >
                 <Bell size={18} />
-                {notifications.some(n => !n.isRead) && (
-                  <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-red-500 rounded-full border-2 border-white"></span>
+                {unreadCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[8px] font-bold w-4 h-4 rounded-full flex items-center justify-center border-2 border-white animate-pulse">
+                    {unreadCount > 99 ? '99+' : unreadCount}
+                  </span>
                 )}
               </button>
 
