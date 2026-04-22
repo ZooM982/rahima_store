@@ -1,8 +1,10 @@
-import { jsPDF } from 'jspdf';
-import autoTable from 'jspdf-autotable';
 import logo from '../assets/logo.jpeg';
 
-export const generateInvoice = (order) => {
+export const generateInvoice = async (order) => {
+  // Dynamic imports for heavy PDF libraries
+  const { jsPDF } = await import('jspdf');
+  const autoTable = (await import('jspdf-autotable')).default;
+
   const doc = jsPDF({
     orientation: 'portrait',
     unit: 'mm',
