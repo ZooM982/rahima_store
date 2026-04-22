@@ -25,14 +25,25 @@ connectDB().then(() => {
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Trust Proxy (Required for Render/Vercel behind a proxy)
+app.set('trust proxy', 1);
+
 // 1. CORS - Must be first
 app.use(cors({
-  origin: [
-    'https://rahima-store.vercel.app',
-    'https://www.rahima-store.vercel.app',
-    'http://localhost:5173',
-    'http://localhost:3000'
-  ],
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      'https://rahima-store.vercel.app',
+      'https://www.rahima-store.vercel.app',
+      'http://localhost:5173',
+      'http://localhost:3000'
+    ];
+    // allow requests with no origin (like mobile apps or curl requests)
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
   credentials: true,
@@ -48,7 +59,7 @@ app.use(helmet({
     action: 'deny'
   }
 })); 
-app.use(xss());
+// app.use(xss());
 app.use(hpp());
 
 // 3. Rate Limiting
