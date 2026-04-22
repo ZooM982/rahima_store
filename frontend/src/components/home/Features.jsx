@@ -33,9 +33,9 @@ const Features = () => {
                 {f.icon}
               </div>
               <div className="flex flex-col">
-                <h3 className="text-sm font-bold uppercase tracking-[0.25em] text-gray-900 leading-tight font-sans">
+                <h2 className="text-sm font-bold uppercase tracking-[0.25em] text-gray-900 leading-tight font-sans">
                   {f.title}
-                </h3>
+                </h2>
                 <p className="text-[13px] text-gray-400 font-medium mt-1 uppercase tracking-wider italic">
                   {f.desc}
                 </p>

@@ -25,7 +25,15 @@ const Hero = () => {
         <div className="relative h-[300px] md:h-[500px] animate-scale">
           <div className="absolute -inset-4 bg-accent rounded-[40px] rotate-3 -z-10"></div>
           <div className="relative h-full w-full rounded-[40px] overflow-hidden shadow-2xl">
-            <img src="/hero.png" alt="Rahima Store" className="w-full h-full object-cover" />
+            <img 
+              src="/hero.png" 
+              alt="Rahima Store" 
+              className="w-full h-full object-cover" 
+              fetchpriority="high"
+              loading="eager"
+              width="600"
+              height="500"
+            />
           </div>
           <div className="absolute -bottom-8 left-0 md:-left-8 glass-effect p-5 rounded-2xl shadow-xl max-w-[200px] animate-fade">
             <p className="text-sm font-bold text-primary mb-1">100% Naturel</p>

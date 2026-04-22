@@ -26,7 +26,13 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Security Middlewares
-app.use(helmet()); // Set security HTTP headers
+app.use(helmet({
+  contentSecurityPolicy: false, // Disable default CSP to avoid issues with external assets for now, or customize it
+  crossOriginEmbedderPolicy: false,
+  frameguard: {
+    action: 'deny'
+  }
+})); 
 app.use(xss()); // Sanitize user input from malicious XSS
 app.use(hpp()); // Prevent HTTP Parameter Pollution
 
@@ -38,7 +44,7 @@ const limiter = rateLimit({
 app.use('/api/auth/login', limiter); // Apply specifically to login
 app.use('/api/auth/register', limiter); // Apply specifically to register
 app.use(cors({
-  origin: '*', // Permet toutes les origines pour corriger le blocage en production
+  origin: 'https://rahima-store.vercel.app',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
   optionsSuccessStatus: 200

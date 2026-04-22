@@ -1,6 +1,6 @@
 const Product = require('../models/Product');
 
-const SITE_URL = 'https://rahima-store.com';
+const SITE_URL = 'https://rahima-store.vercel.app';
 
 /** Mirror of frontend slug utility */
 const slugify = (text = '') =>
