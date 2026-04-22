@@ -11,6 +11,11 @@ const apiRoutes = require('./routes/api');
 const { swaggerUi, specs } = require('./config/swagger');
 const { backfillSlugs } = require('./controllers/productController');
 
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const hpp = require('hpp');
+const xss = require('xss-clean');
+
 // Connect to Database
 connectDB().then(() => {
   seedAdmin();
@@ -20,7 +25,18 @@ connectDB().then(() => {
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
+// Security Middlewares
+app.use(helmet()); // Set security HTTP headers
+app.use(xss()); // Sanitize user input from malicious XSS
+app.use(hpp()); // Prevent HTTP Parameter Pollution
+
+// Rate Limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100 // Limit each IP to 100 requests per windowMs
+});
+app.use('/api/auth/login', limiter); // Apply specifically to login
+app.use('/api/auth/register', limiter); // Apply specifically to register
 app.use(cors({
   origin: '*', // Permet toutes les origines pour corriger le blocage en production
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
