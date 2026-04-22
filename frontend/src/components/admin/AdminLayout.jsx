@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import { Menu, Search, Bell, User, LogOut } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
@@ -25,6 +26,7 @@ const AdminLayout = ({ children }) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
   const fetchNotifications = useCallback(async (isMounted = true) => {
     try {
       const { data } = await userService.getNotifications();
@@ -111,7 +113,7 @@ const AdminLayout = ({ children }) => {
               </button>
 
               {showNotifications && (
-                <div className="absolute right-[-80px] md:right-0 mt-2 w-80 md:w-96 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50 animate-fade-in">
+                <div className="absolute right-0 md:right-[-80px] md:right-0 mt-2 w-80 md:w-96 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50 animate-fade-in">
                   <div className="p-4 border-b border-gray-50 flex items-center justify-between bg-gray-50/50">
                     <h3 className="font-bold text-sm">Notifications</h3>
                     <button 
@@ -141,6 +143,19 @@ const AdminLayout = ({ children }) => {
                               fetchNotifications();
                             }
                             setShowNotifications(false);
+                            
+                            // Navigate based on type and relatedId
+                            if (n.type === 'ORDER' && n.relatedId && n.relatedId !== 'users') {
+                              navigate(`/admin/orders/${n.relatedId}`);
+                            } else if (n.type === 'USER' || n.relatedId === 'users') {
+                              navigate(`/admin/users`);
+                            } else if (n.type === 'SYSTEM') {
+                              if (n.message?.includes('produit')) {
+                                navigate('/admin/products');
+                              } else {
+                                navigate('/admin/settings');
+                              }
+                            }
                           }}
                           className={`p-4 border-b border-gray-50 cursor-pointer hover:bg-gray-50 transition-colors flex gap-4 ${!n.isRead ? 'bg-primary/5' : ''}`}
                         >

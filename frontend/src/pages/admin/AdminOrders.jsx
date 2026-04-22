@@ -35,7 +35,7 @@ const AdminOrders = () => {
         {loading ? (
           <div className="flex flex-col items-center justify-center p-20 text-gray-400">
             <Loader2 className="animate-spin mb-4" size={32} />
-            <p>Chargement des commandes...</p>
+            <p className='text-center whitespace-nowrap w-fit'>Chargement des commandes...</p>
           </div>
         ) : (
           <div className="overflow-x-auto">

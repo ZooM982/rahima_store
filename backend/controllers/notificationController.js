@@ -102,11 +102,16 @@ exports.markAllAsRead = async (req, res) => {
 exports.sendNotificationToAdmins = async (payload, type = 'emailOnSale') => {
   try {
     // 1. Save to In-App Notifications DB
+    let finalType = 'SYSTEM';
+    if (type === 'emailOnSale') finalType = 'ORDER';
+    if (type === 'newCustomerAlert') finalType = 'USER';
+    if (type === 'lowStockAlert') finalType = 'SYSTEM';
+
     await Notification.create({
       title: payload.title,
       message: payload.body,
-      type: type === 'lowStockAlert' ? 'SYSTEM' : 'ORDER',
-      relatedId: payload.data?.url?.split('/').pop()
+      type: finalType,
+      relatedId: payload.data?.url?.split('/').pop() !== 'users' ? payload.data?.url?.split('/').pop() : null
     });
 
     // 2. Send Push Notifications
