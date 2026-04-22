@@ -20,8 +20,18 @@ const formatTimeAgo = (date) => {
 };
 
 const AdminLayout = ({ children }) => {
-  const [isSidebarOpen, setSidebarOpen] = useState(true);
+  const [isSidebarOpen, setSidebarOpen] = useState(() => {
+    const saved = localStorage.getItem('admin_sidebar_open');
+    return saved !== null ? JSON.parse(saved) : window.innerWidth >= 1024;
+  });
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+
+  // Persist sidebar state
+  useEffect(() => {
+    if (!isMobile) {
+      localStorage.setItem('admin_sidebar_open', JSON.stringify(isSidebarOpen));
+    }
+  }, [isSidebarOpen, isMobile]);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState([]);
@@ -70,8 +80,12 @@ const AdminLayout = ({ children }) => {
     const handleResize = () => {
       const mobile = window.innerWidth < 1024;
       setIsMobile(mobile);
-      if (mobile) setSidebarOpen(false);
-      else setSidebarOpen(true);
+      if (mobile) {
+        setSidebarOpen(false);
+      } else {
+        const saved = localStorage.getItem('admin_sidebar_open');
+        setSidebarOpen(saved !== null ? JSON.parse(saved) : true);
+      }
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
