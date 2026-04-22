@@ -33,8 +33,8 @@ const productSchema = new mongoose.Schema({
 });
 
 // ── Auto-generate slug before save ────────────────────────────────
-productSchema.pre('save', async function (next) {
-  if (!this.isModified('name') && this.slug) return next();
+productSchema.pre('save', async function () {
+  if (!this.isModified('name') && this.slug) return;
 
   const base = slugify(this.name);
   let slug = base;
@@ -45,13 +45,12 @@ productSchema.pre('save', async function (next) {
     slug = `${base}-${counter++}`;
   }
   this.slug = slug;
-  next();
 });
 
 // ── Auto-generate slug on findOneAndUpdate ─────────────────────────
-productSchema.pre('findOneAndUpdate', async function (next) {
+productSchema.pre('findOneAndUpdate', async function () {
   const update = this.getUpdate();
-  if (!update?.name) return next();
+  if (!update?.name) return;
 
   const base = slugify(update.name);
   let slug = base;
@@ -62,7 +61,6 @@ productSchema.pre('findOneAndUpdate', async function (next) {
     slug = `${base}-${counter++}`;
   }
   this.setUpdate({ ...update, slug });
-  next();
 });
 
 module.exports = mongoose.model('Product', productSchema);
