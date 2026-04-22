@@ -2,7 +2,7 @@ const express = require('express');
 const { login, register, getMe, updateProfile } = require('../controllers/authController');
 const { getProducts, getProductById, createProduct, updateProduct, deleteProduct } = require('../controllers/productController');
 const { createOrder, getOrders, getMyOrders, getOrderById, updateOrderStatus } = require('../controllers/orderController');
-const { getUsers, deleteUser } = require('../controllers/userController');
+const { getUsers, deleteUser, getCustomerDetails } = require('../controllers/userController');
 const { generateSitemap, generateRobots } = require('../controllers/seoController');
 const { authMiddleware, adminMiddleware } = require('../middleware/auth');
 
@@ -72,7 +72,7 @@ router.get('/orders/:id', authMiddleware, adminMiddleware, getOrderById);
 router.put('/orders/:id/status', authMiddleware, adminMiddleware, updateOrderStatus);
 
 // Users
-router.get('/users', authMiddleware, adminMiddleware, getUsers);
+router.get('/users/customer/:email', authMiddleware, adminMiddleware, getCustomerDetails);
 router.delete('/users/:id', authMiddleware, adminMiddleware, deleteUser);
 
 // Notifications

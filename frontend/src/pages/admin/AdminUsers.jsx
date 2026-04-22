@@ -3,6 +3,8 @@ import AdminLayout from '../../components/admin/AdminLayout';
 import orderService from '../../services/orderService';
 import { Mail, Phone, MapPin, Calendar, Loader2 } from 'lucide-react';
 
+import { Link } from 'react-router-dom';
+
 const AdminUsers = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -55,7 +57,7 @@ const AdminUsers = () => {
       ) : (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {users.map((u, i) => (
-            <div key={i} className="bg-white p-6 rounded-3xl shadow-sm border border-gray-50 hover:shadow-md transition-shadow relative overflow-hidden group">
+            <Link to={`/admin/users/${u.email}`} key={i} className="bg-white p-6 rounded-3xl shadow-sm border border-gray-50 hover:shadow-md transition-shadow relative overflow-hidden group block">
               <div className='flex items-center gap-2 mb-2'>
                 <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-bg-soft text-primary">
                 <span className="font-bold uppercase text-lg">{u.name.charAt(0)}</span>
@@ -80,7 +82,7 @@ const AdminUsers = () => {
                   <Calendar size={12} /> Dernier achat: {new Date(u.lastOrder).toLocaleDateString()}
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
           {users.length === 0 && (
             <div className="col-span-full py-20 text-center text-gray-400 italic">

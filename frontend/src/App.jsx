@@ -19,6 +19,7 @@ const AdminEditProduct = lazy(() => import('./pages/admin/AdminEditProduct'));
 const AdminOrders = lazy(() => import('./pages/admin/AdminOrders'));
 const AdminOrderDetails = lazy(() => import('./pages/admin/AdminOrderDetails'));
 const AdminUsers = lazy(() => import('./pages/admin/AdminUsers'));
+const AdminUserDetails = lazy(() => import('./pages/admin/AdminUserDetails'));
 const AdminSettings = lazy(() => import('./pages/admin/AdminSettings'));
 const Login = lazy(() => import('./pages/Login'));
 const Register = lazy(() => import('./pages/Register'));
@@ -89,6 +90,7 @@ const AppContent = () => {
                   <Route path="/orders" element={<AdminOrders />} />
                   <Route path="/orders/:id" element={<AdminOrderDetails />} />
                   <Route path="/users" element={<AdminUsers />} />
+                  <Route path="/users/:email" element={<AdminUserDetails />} />
                   <Route path="/settings" element={<AdminSettings />} />
                 </Routes>
               </ProtectedRoute>
