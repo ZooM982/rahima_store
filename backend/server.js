@@ -25,24 +25,7 @@ connectDB().then(() => {
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Security Middlewares
-app.use(helmet({
-  contentSecurityPolicy: false, // Disable default CSP to avoid issues with external assets for now, or customize it
-  crossOriginEmbedderPolicy: false,
-  frameguard: {
-    action: 'deny'
-  }
-})); 
-app.use(xss()); // Sanitize user input from malicious XSS
-app.use(hpp()); // Prevent HTTP Parameter Pollution
-
-// Rate Limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100 // Limit each IP to 100 requests per windowMs
-});
-app.use('/api/auth/login', limiter); // Apply specifically to login
-app.use('/api/auth/register', limiter); // Apply specifically to register
+// 1. CORS - Must be first
 app.use(cors({
   origin: [
     'https://rahima-store.vercel.app',
@@ -52,8 +35,30 @@ app.use(cors({
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+  credentials: true,
   optionsSuccessStatus: 200
 }));
+
+// 2. Security Middlewares
+app.use(helmet({
+  contentSecurityPolicy: false,
+  crossOriginEmbedderPolicy: false,
+  crossOriginResourcePolicy: { policy: "cross-origin" },
+  frameguard: {
+    action: 'deny'
+  }
+})); 
+app.use(xss());
+app.use(hpp());
+
+// 3. Rate Limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, 
+  max: 100 
+});
+app.use('/api/auth/login', limiter);
+app.use('/api/auth/register', limiter);
+
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 if (process.env.NODE_ENV !== 'production') {
