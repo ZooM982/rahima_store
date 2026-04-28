@@ -29,8 +29,9 @@ const PORT = process.env.PORT || 5000;
 app.set('trust proxy', 1);
 
 const allowedOrigins = [
+  'https://rahima-store.vercel.app',
+  'https://www.rahima-store.vercel.app',
   'https://rahima-store-frontend.vercel.app',
-  'https://www.rahima-store-frontend.vercel.app',
   'http://localhost:5173',
   'http://localhost:3000'
 ];
