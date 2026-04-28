@@ -27,7 +27,7 @@ const ProductCard = ({ product, onAddToCart, isNew }) => {
         </Link>
         <button 
           onClick={handleAddToCart}
-          className={`absolute cursor-pointer bottom-6 left-1/2 -translate-x-1/2 w-[80%] py-4 rounded-full font-bold shadow-xl flex items-center justify-center gap-2 transition-all duration-300 ${
+          className={`absolute cursor-pointer bottom-6 left-1/2 -translate-x-1/2 w-[80%] py-4 rounded-full font-bold shadow-xl hidden md:flex items-center justify-center gap-2 transition-all duration-300 ${
             isAdded 
               ? 'bg-green-500 text-white opacity-100 scale-95 translate-y-0' 
               : 'bg-white text-gray-900 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0'
