@@ -28,27 +28,40 @@ const PORT = process.env.PORT || 5000;
 // Trust Proxy (Required for Render/Vercel behind a proxy)
 app.set('trust proxy', 1);
 
-// 1. CORS - Must be first
-app.use(cors({
+const allowedOrigins = [
+  'https://rahima-store.vercel.app',
+  'https://www.rahima-store.vercel.app',
+  'http://localhost:5173',
+  'http://localhost:3000'
+];
+
+// Logging middleware to debug CORS and requests - visible in Render logs
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  console.log(`${req.method} ${req.url} - Origin: ${origin}`);
+  next();
+});
+
+const corsOptions = {
   origin: function (origin, callback) {
-    const allowedOrigins = [
-      'https://rahima-store.vercel.app',
-      'https://www.rahima-store.vercel.app',
-      'http://localhost:5173',
-      'http://localhost:3000'
-    ];
-    // allow requests with no origin (like mobile apps or curl requests)
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+    if (!origin) return callback(null, true);
+    
+    const isAllowed = allowedOrigins.some(o => o.toLowerCase() === origin.toLowerCase());
+    if (isAllowed) {
       callback(null, true);
     } else {
+      console.warn(`CORS Blocked: Origin "${origin}" not in allowed list.`);
       callback(new Error('Not allowed by CORS'));
     }
   },
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
   credentials: true,
-  optionsSuccessStatus: 200
-}));
+  optionsSuccessStatus: 204
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 // 2. Security Middlewares
 app.use(helmet({
