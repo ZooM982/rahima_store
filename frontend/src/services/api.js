@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'https://rahima-store-frontend.vercel.app/api',
+  baseURL: import.meta.env.VITE_API_URL || 'https://rahima-store-backend.vercel.app/api',
 });
 
 // Add a request interceptor to attach the JWT token
