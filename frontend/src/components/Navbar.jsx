@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { ShoppingBag, User, LogOut, LayoutDashboard } from 'lucide-react';
+import { ShoppingBag, User, LogOut, LayoutDashboard, LayoutGrid } from 'lucide-react';
 import { useCart } from '../hooks/useCart';
 import { useAuth } from '../hooks/useAuth';
 import logo from '../assets/logo2.png';
@@ -54,8 +54,13 @@ const Navbar = () => {
         </div>
 
         <div className="flex items-center gap-1 sm:gap-2">
+          {/* Shop Icon - Visible on Mobile only (as the text is visible on desktop) */}
+          <Link to="/products" className="md:hidden p-2 text-gray-500 hover:text-primary hover:bg-bg-soft rounded-full transition-all" title="Boutique">
+            <LayoutGrid size={22} />
+          </Link>
+
           <Link to="/cart" className="relative p-2 hover:bg-bg-soft rounded-full transition-colors">
-            <ShoppingBag size={22} />
+            <ShoppingBag size={22} className={cartCount > 0 ? "text-primary" : ""} />
             {cartCount > 0 && (
               <span className="absolute top-0 right-0 bg-primary text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center border-2 border-white font-bold">
                 {cartCount}
