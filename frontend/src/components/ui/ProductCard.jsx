@@ -16,7 +16,7 @@ const ProductCard = ({ product, onAddToCart, isNew }) => {
 
   return (
     <div className="group">
-      <div className="relative h-[250px] md:h-[350px] rounded-3xl overflow-hidden mb-6 bg-gray-100">
+      <div className="relative h-[220px] md:h-[320px] rounded-3xl overflow-hidden mb-6 bg-gray-100">
         <Link to={`/products/${productSlug(product)}`}>
           <img 
             src={product.mainImage || product.img} 

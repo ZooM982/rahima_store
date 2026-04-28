@@ -4,6 +4,7 @@ import { ShoppingBag, ChevronLeft, Star, ShieldCheck, Truck, RotateCcw, Loader2,
 import { useCart } from '../hooks/useCart';
 import Button from '../components/common/Button';
 import productService from '../services/productService';
+import DetailsSkeleton from '../components/ui/DetailsSkeleton';
 import SEO, { buildProductSchema, buildBreadcrumbSchema } from '../components/SEO';
 import { productSlug } from '../utils/slug';
 
@@ -12,6 +13,7 @@ const ProductDetails = () => {
   const { addToCart } = useCart();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [selectedImage, setSelectedImage] = useState('');
   const [selectedVariant, setSelectedVariant] = useState(0);
   const [isAdded, setIsAdded] = useState(false);
 
@@ -20,7 +22,7 @@ const ProductDetails = () => {
       ...product,
       _id: `${product._id}-${product.variants[selectedVariant]?.color || 'main'}`,
       price: product.price,
-      img: currentImage,
+      img: selectedImage || product.mainImage,
       selectedColor: product.variants[selectedVariant]?.color
     });
     setIsAdded(true);
@@ -37,6 +39,7 @@ const ProductDetails = () => {
           if (data.variants && data.variants.length > 0) {
             setSelectedVariant(0);
           }
+          setSelectedImage(data.mainImage);
         }
       } catch (err) {
         console.error(err);
@@ -48,12 +51,7 @@ const ProductDetails = () => {
     return () => { ignore = true; };
   }, [slug]);
 
-  if (loading) return (
-    <div className="pt-40 pb-20 flex flex-col items-center justify-center text-gray-400">
-      <Loader2 className="animate-spin mb-4" size={32} />
-      <p>Préparation de votre rituel beauté...</p>
-    </div>
-  );
+  if (loading) return <DetailsSkeleton />;
 
   if (!product) return (
     <div className="pt-40 pb-20 text-center">
@@ -62,10 +60,10 @@ const ProductDetails = () => {
     </div>
   );
 
-  const currentImage = product.variants[selectedVariant]?.image || product.mainImage;
+  const currentDisplayImage = selectedImage || product.mainImage;
 
   return (
-    <div className="pt-24 pb-14 md:pt-32 md:pb-20">
+    <div className="pt-16 pb-10 md:pt-20 md:pb-14">
       <SEO
         title={product.name}
         description={product.description || `Découvrez ${product.name} — ${product.category}. Livraison rapide à Dakar.`}
@@ -83,16 +81,16 @@ const ProductDetails = () => {
         ]}
       />
       <div className="custom-container">
-        <Link to="/products" className="flex items-center gap-2 text-gray-400 hover:text-primary mb-12 transition-colors group">
+        <Link to="/products" className="flex items-center gap-2 text-gray-400 hover:text-primary mb-8 transition-colors group">
           <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform" /> Retour à la boutique
         </Link>
 
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
+        <div className="grid lg:grid-cols-2 gap-10 items-start">
           {/* Images Section */}
           <div className="space-y-6">
             <div className="aspect-square rounded-[60px] overflow-hidden bg-white shadow-2xl relative group">
               <img 
-                src={currentImage} 
+                src={currentDisplayImage} 
                 alt={product.name} 
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
               />
@@ -105,13 +103,25 @@ const ProductDetails = () => {
             
             {/* Thumbnails / Variants */}
             <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+              {/* Main Image Thumbnail */}
+              <button 
+                onClick={() => setSelectedImage(product.mainImage)}
+                className={`w-24 h-24 rounded-2xl overflow-hidden flex-shrink-0 border-2 transition-all ${selectedImage === product.mainImage ? 'border-primary ring-4 ring-primary/10 scale-105' : 'border-transparent opacity-60 hover:opacity-100'}`}
+              >
+                <img src={product.mainImage} className="w-full h-full object-cover" alt="Main view" />
+              </button>
+
+              {/* Variant Thumbnails */}
               {product.variants.map((v, i) => (
                 <button 
                   key={i}
-                  onClick={() => setSelectedVariant(i)}
-                  className={`w-24 h-24 rounded-2xl overflow-hidden flex-shrink-0 border-2 transition-all ${selectedVariant === i ? 'border-primary ring-4 ring-primary/10 scale-105' : 'border-transparent opacity-60 hover:opacity-100'}`}
+                  onClick={() => {
+                    setSelectedVariant(i);
+                    setSelectedImage(v.image);
+                  }}
+                  className={`w-24 h-24 rounded-2xl overflow-hidden flex-shrink-0 border-2 transition-all ${selectedImage === v.image ? 'border-primary ring-4 ring-primary/10 scale-105' : 'border-transparent opacity-60 hover:opacity-100'}`}
                 >
-                  <img src={v.image || product.mainImage} className="w-full h-full object-cover" alt="" />
+                  <img src={v.image} className="w-full h-full object-cover" alt={v.color} />
                 </button>
               ))}
             </div>
@@ -143,7 +153,10 @@ const ProductDetails = () => {
                   {product.variants.map((v, i) => (
                     <button 
                       key={i}
-                      onClick={() => setSelectedVariant(i)}
+                      onClick={() => {
+                        setSelectedVariant(i);
+                        setSelectedImage(v.image);
+                      }}
                       className={`px-6 py-3 rounded-2xl text-xs font-bold transition-all border ${selectedVariant === i ? 'bg-primary text-white border-primary shadow-lg shadow-primary/20' : 'bg-white text-gray-400 border-gray-100 hover:border-primary'}`}
                     >
                       {v.color}

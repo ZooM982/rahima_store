@@ -60,7 +60,7 @@ const UserDashboard = () => {
   };
 
   return (
-    <div className="pt-24 pb-28 md:pt-32 md:pb-20 custom-container">
+    <div className="pt-16 pb-20 md:pt-20 md:pb-14 custom-container">
       <div className="grid lg:grid-cols-4 gap-8">
 
         {/* Sidebar — desktop only */}

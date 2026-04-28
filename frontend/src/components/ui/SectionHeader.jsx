@@ -4,7 +4,7 @@ const SectionHeader = ({ subtitle, title, alignment = 'left' }) => {
   const isCenter = alignment === 'center';
 
   return (
-    <div className={`mb-16 ${isCenter ? 'text-center' : ''}`}>
+    <div className={`mb-12 ${isCenter ? 'text-center' : ''}`}>
       <span className="text-primary font-semibold uppercase tracking-widest text-sm whitespace-nowrap">
         {subtitle}
       </span>

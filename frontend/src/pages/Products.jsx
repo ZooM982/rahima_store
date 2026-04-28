@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useCart } from '../hooks/useCart';
 import ProductCard from '../components/ui/ProductCard';
+import ProductSkeleton from '../components/ui/ProductSkeleton';
 import SectionHeader from '../components/ui/SectionHeader';
 import { Filter, Loader2 } from 'lucide-react';
 import productService from '../services/productService';
@@ -44,7 +45,7 @@ const Products = () => {
     : safeProducts.filter(p => p.category === activeCategory);
 
   return (
-    <div className="pt-24 pb-14 md:pt-32 md:pb-20 custom-container">
+    <div className="pt-16 pb-10 md:pt-20 md:pb-14 custom-container">
       <SEO
         title="Boutique — Cosmétiques & Soins Beauté"
         description="Découvrez toute notre collection de cosmétiques, soins visage, cheveux et parfums. Livraison rapide à Dakar et partout au Sénégal."
@@ -57,7 +58,7 @@ const Products = () => {
       />
       <SectionHeader subtitle="Notre Catalogue" title="Tous les produits" />
       
-      <div className="flex items-center gap-4 mb-12 overflow-x-auto no-scrollbar pb-4 md:flex-wrap md:overflow-visible">
+      <div className="flex items-center gap-4 mb-8 overflow-x-auto no-scrollbar pb-4 md:flex-wrap md:overflow-visible">
         <div className="p-2 bg-primary/5 text-primary rounded-xl shrink-0">
           <Filter size={18} />
         </div>
@@ -79,18 +80,17 @@ const Products = () => {
       </div>
 
       {/* Product Grid */}
-      {loading ? (
-        <div className="flex flex-col items-center justify-center p-20 text-gray-400 min-h-[400px]">
-          <Loader2 className="animate-spin mb-4" size={32} />
-          <p className="text-center">Chargement de votre univers beauté...</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-          {filteredProducts.map((p, i) => (
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        {loading ? (
+          Array(8).fill(0).map((_, i) => (
+            <ProductSkeleton key={i} />
+          ))
+        ) : (
+          filteredProducts.map((p, i) => (
             <ProductCard key={i} product={p} onAddToCart={addToCart} isNew={newProductIds.has(p._id)} />
-          ))}
-        </div>
-      )}
+          ))
+        )}
+      </div>
 
       {filteredProducts.length === 0 && !loading && (
         <div className="text-center py-20 bg-white rounded-[40px]">

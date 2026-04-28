@@ -3,7 +3,7 @@ import Button from '../common/Button';
 
 const About = () => {
   return (
-    <section id="about" className="bg-text-main text-white overflow-hidden relative py-14 md:py-32">
+    <section id="about" className="bg-text-main text-white overflow-hidden relative py-14 md:py-24">
       <div className="custom-container grid md:grid-cols-2 gap-20 items-center">
         <div className="relative h-[400px] md:h-[500px]">
           <div className="relative h-full w-full rounded-tr-[100px] rounded-bl-[100px] overflow-hidden">

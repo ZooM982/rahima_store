@@ -10,7 +10,7 @@ const Testimonials = () => {
   ];
 
   return (
-    <section id="testimonials" className="py-14 md:py-32 bg-white">
+    <section id="testimonials" className="py-14 md:py-24 bg-white">
       <div className="custom-container">
         <SectionHeader subtitle="Avis Clientes" title="Ce que disent nos clientes" alignment="center" />
         <div className="grid md:grid-cols-3 gap-8">

@@ -92,13 +92,19 @@ const AdminDashboard = () => {
           </div>
 
           <div className="bg-white rounded-[24px] shadow-sm border border-gray-50 overflow-hidden">
-             <div className="p-5 border-b border-gray-50 bg-gray-50/20">
+             <div className="p-5 border-b border-gray-50 bg-gray-50/20 flex justify-between items-center">
                 <h2 className="text-base font-bold">Produits Récents</h2>
+                <Link to="/admin/products">
+                    <button className="bg-primary text-white px-6 py-2.5 rounded-2xl font-bold flex items-center gap-2 hover:shadow-lg transition-all text-sm">
+                        <Plus size={16} /> Gérer les produits
+                    </button>
+                </Link>
              </div>
              <div className="overflow-x-auto">
                 <table className="w-full text-left min-w-[600px]">
                   <thead className="text-gray-400 text-[9px] uppercase tracking-[0.2em] font-bold">
                     <tr>
+                      <th className="px-6 py-4">Image</th>
                       <th className="px-6 py-4">Nom</th>
                       <th className="px-6 py-4">Prix</th>
                       <th className="px-6 py-4">Stock</th>
@@ -108,6 +114,7 @@ const AdminDashboard = () => {
                   <tbody className="divide-y divide-gray-50">
                     {data.products.slice(0, 5).map(p => (
                       <tr key={p._id} className="hover:bg-bg-soft/30 transition-colors text-sm">
+                        <td className="px-6 py-3.5"><img src={p.mainImage} alt={p.name} className="w-10 h-10 object-cover rounded-lg" /></td>
                         <td className="px-6 py-3.5 font-bold text-gray-800">{p.name}</td>
                         <td className="px-6 py-3.5 font-semibold text-primary">{p.price.toLocaleString()} FCFA</td>
                         <td className="px-6 py-3.5">

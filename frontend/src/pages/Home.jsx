@@ -6,6 +6,8 @@ import Bestsellers from '../components/home/Bestsellers';
 import About from '../components/home/About';
 import Testimonials from '../components/home/Testimonials';
 import productService from '../services/productService';
+import ProductSkeleton from '../components/ui/ProductSkeleton';
+import SectionHeader from '../components/ui/SectionHeader';
 import SEO, { organizationSchema, webSiteSchema, storeSchema } from '../components/SEO';
 
 const Home = () => {
@@ -52,9 +54,20 @@ const Home = () => {
       <Hero />
       <Features />
       <div id="products">
-        {!loading && products.length > 0 && (
+        {loading ? (
+          <section className="py-14 md:py-24">
+            <div className="custom-container">
+              <SectionHeader subtitle="Nos Incontournables" title="Les Bestsellers" />
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                {Array(4).fill(0).map((_, i) => (
+                  <ProductSkeleton key={i} />
+                ))}
+              </div>
+            </div>
+          </section>
+        ) : products.length > 0 ? (
           <Bestsellers products={products} onAddToCart={addToCart} newProductIds={newProductIds} />
-        )}
+        ) : null}
       </div>
       <About />
       <Testimonials />

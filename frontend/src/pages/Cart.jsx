@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState } from 'react';
 import { useCart } from '../hooks/useCart';
 import { useAuth } from '../hooks/useAuth';
@@ -66,7 +67,7 @@ const Cart = () => {
 
   if (orderComplete && lastOrder) {
     return (
-      <div className="pt-24 pb-14 md:pt-32 md:pb-20 custom-container">
+      <div className="pt-16 pb-10 md:pt-20 md:pb-14 custom-container">
         <div className="bg-white p-12 rounded-[40px] shadow-2xl max-w-2xl mx-auto text-center">
           <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-8 text-3xl">✓</div>
           <h1 className="text-4xl font-serif mb-4">Merci pour votre commande !</h1>
@@ -108,7 +109,7 @@ const Cart = () => {
   }
 
   return (
-    <div className="pt-24 pb-14 md:pt-32 md:pb-20 custom-container relative overflow-hidden">
+    <div className="pt-16 pb-10 md:pt-20 md:pb-14 custom-container relative overflow-hidden">
       <AnimatePresence mode="wait">
         {isProcessing ? (
           <motion.div 
@@ -196,16 +197,16 @@ const Cart = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, x: -100 }}
           >
-            <Link to="/" className="flex items-center gap-2 text-gray-400 hover:text-primary mb-12 transition-colors">
+            <Link to="/" className="flex items-center gap-2 text-gray-400 hover:text-primary mb-8 transition-colors">
               <ChevronLeft size={20} /> Retour aux produits
             </Link>
             
-            <h1 className="text-5xl font-serif mb-16">Votre Panier</h1>
+            <h1 className={`text-5xl font-serif mb-10 ${cart.length === 0 ? 'text-center' : ''}`}>Votre Panier</h1>
             
-            <div className="grid lg:grid-cols-3 gap-16">
-              <div className="lg:col-span-2 space-y-8">
+            <div className={cart.length === 0 ? 'max-w-2xl mx-auto' : 'grid lg:grid-cols-3 gap-10'}>
+              <div className={cart.length === 0 ? '' : 'lg:col-span-2 space-y-8'}>
                 {cart.length === 0 ? (
-                  <div className="bg-white p-16 rounded-[40px] text-center">
+                  <div className="bg-white p-16 rounded-[40px] text-center shadow-sm border border-gray-50">
                     <p className="text-xl text-gray-500 mb-8">Votre panier est désolément vide.</p>
                     <Link to="/" className="inline-block"><Button>Continuer mes achats</Button></Link>
                   </div>
@@ -244,7 +245,7 @@ const Cart = () => {
                     </div>
                     <div className="flex justify-between text-gray-500">
                       <span>Livraison</span>
-                      <span className="text-green-500 font-medium">Offerte</span>
+                      <span className="text-green-500 font-medium">À la charge du client</span>
                     </div>
                     <div className="flex justify-between font-bold text-xl pt-4 border-t border-gray-100">
                       <span>Total</span>
