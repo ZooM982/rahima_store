@@ -92,6 +92,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 // API Routes
 app.use('/api', apiRoutes);
+app.use('/', apiRoutes); // Support pour les requêtes où Vercel retire le préfixe /api
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 app.get('/', (req, res) => {
