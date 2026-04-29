@@ -3,14 +3,14 @@ import { Eye, EyeOff } from 'lucide-react';
 
 const Input = ({ label, type = 'text', textarea = false, autoComplete, ...props }) => {
   const [showPassword, setShowPassword] = useState(false);
-  const baseClasses = "w-full px-5 py-3.5 rounded-2xl bg-bg-soft border-none outline-none focus:ring-2 focus:ring-primary/20 transition-all text-sm";
+  const baseClasses = "w-full px-5 py-3.5 rounded-2xl bg-white/5 border border-white/10 outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/10 transition-all text-sm text-white placeholder:text-gray-600";
 
   const isPassword = type === 'password';
   const inputType = isPassword ? (showPassword ? 'text' : 'password') : type;
 
   return (
     <div className="w-full">
-      {label && <label className="block text-sm font-bold uppercase tracking-widest text-gray-400 mb-2 px-2">{label}</label>}
+      {label && <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2 px-2">{label}</label>}
       <div className="relative">
         {textarea ? (
           <textarea 

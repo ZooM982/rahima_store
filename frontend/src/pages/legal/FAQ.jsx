@@ -12,11 +12,11 @@ const faqs = [
       },
       {
         q: 'Puis-je modifier ou annuler ma commande ?',
-        a: "Vous pouvez modifier ou annuler votre commande tant qu'elle n'a pas encore été préparée pour la livraison. Contactez-nous rapidement par email ou téléphone avec votre numéro de commande."
+        a: "Vous pouvez modifier ou annuler votre commande tant qu&rsquo;elle n&rsquo;a pas encore été préparée pour la livraison. Contactez-nous rapidement par email ou téléphone avec votre numéro de commande."
       },
       {
         q: 'Comment créer un compte client ?',
-        a: "Vous pouvez créer un compte en cliquant sur l'icône utilisateur dans la barre de navigation, puis sur « S'inscrire ». Vous pouvez aussi cocher « Créer un compte automatiquement » lors de votre première commande."
+        a: "Vous pouvez créer un compte en cliquant sur l&rsquo;icône utilisateur dans la barre de navigation, puis sur « S&rsquo;inscrire ». Vous pouvez aussi cocher « Créer un compte automatiquement » lors de votre première commande."
       },
       {
         q: 'Est-ce que mes informations sont sauvegardées pour les prochaines commandes ?',
@@ -50,14 +50,14 @@ const faqs = [
     items: [
       {
         q: 'Les produits sont-ils authentiques ?',
-        a: "Absolument. Rahima Store s'engage à ne proposer que des produits authentiques, sélectionnés auprès de fournisseurs certifiés. Chaque produit est vérifié avant expédition."
+        a: "Absolument. Rahima Store s&rsquo;engage à ne proposer que des produits authentiques, sélectionnés auprès de fournisseurs certifiés. Chaque produit est vérifié avant expédition."
       },
       {
         q: 'Les produits sont-ils adaptés à tous les types de peau ?',
         a: "Nos produits sont soigneusement sélectionnés pour convenir aux peaux africaines et métissées. Chaque fiche produit indique le type de peau recommandé. En cas de doute, contactez-nous pour un conseil personnalisé."
       },
       {
-        q: 'Un produit que je cherche n\'est pas disponible, que faire ?',
+        q: 'Un produit que je cherche n&rsquo;est pas disponible, que faire ?',
         a: "Contactez-nous par email ou WhatsApp en nous indiquant le produit souhaité. Si nous pouvons nous le procurer, nous vous ferons une offre dans les meilleurs délais."
       },
     ]
@@ -75,7 +75,7 @@ const faqs = [
       },
       {
         q: 'Que faire si je reçois un produit endommagé ?',
-        a: "Prenez des photos du produit et de l'emballage et contactez-nous immédiatement par email à contact@rahima-store.com. Nous vous enverrons un produit de remplacement ou vous rembourserons dans les meilleurs délais."
+        a: "Prenez des photos du produit et de l&rsquo;emballage et contactez-nous immédiatement par email à contact@rahima-store.com. Nous vous enverrons un produit de remplacement ou vous rembourserons dans les meilleurs délais."
       },
     ]
   },
@@ -84,10 +84,10 @@ const faqs = [
 const FaqItem = ({ q, a }) => {
   const [open, setOpen] = useState(false);
   return (
-    <div className={`border border-gray-100 rounded-2xl overflow-hidden transition-all ${open ? 'shadow-md' : ''}`}>
+    <div className={`border border-white/10 rounded-2xl overflow-hidden transition-all ${open ? 'shadow-md bg-white/5' : ''}`}>
       <button
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between p-5 text-left font-medium text-gray-800 hover:bg-gray-50 transition-colors"
+        className="w-full flex items-center justify-between p-5 text-left font-medium text-white hover:bg-white/5 transition-colors"
       >
         <span>{q}</span>
         <ChevronDown
@@ -96,7 +96,7 @@ const FaqItem = ({ q, a }) => {
         />
       </button>
       {open && (
-        <div className="px-5 pb-5 text-sm text-gray-500 leading-relaxed border-t border-gray-50">
+        <div className="px-5 pb-5 text-sm text-gray-400 leading-relaxed border-t border-white/5">
           <p className="pt-4">{a}</p>
         </div>
       )}
@@ -109,7 +109,7 @@ const FAQ = () => (
     <div className="not-prose space-y-10">
       {faqs.map((cat) => (
         <div key={cat.category}>
-          <h2 className="text-xl font-serif text-gray-800 mb-4 pb-2 border-b border-gray-100">{cat.category}</h2>
+          <h2 className="text-xl font-serif text-white mb-4 pb-2 border-b border-white/5">{cat.category}</h2>
           <div className="space-y-3">
             {cat.items.map((item) => (
               <FaqItem key={item.q} q={item.q} a={item.a} />
@@ -119,8 +119,8 @@ const FAQ = () => (
       ))}
 
       {/* Contact CTA */}
-      <div className="bg-primary/5 border border-primary/10 rounded-3xl p-8 text-center">
-        <h3 className="text-xl font-serif mb-2">Vous n'avez pas trouvé votre réponse ?</h3>
+      <div className="bg-white/5 border border-white/10 rounded-3xl p-8 text-center">
+        <h3 className="text-xl font-serif mb-2 text-white">Vous n&rsquo;avez pas trouvé votre réponse ?</h3>
         <p className="text-sm text-gray-500 mb-6">Notre équipe est disponible du lundi au samedi, de 9h à 19h.</p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <a
@@ -131,7 +131,7 @@ const FAQ = () => (
           </a>
           <a
             href="tel:+221338000000"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border border-gray-200 text-gray-700 rounded-2xl text-sm font-bold hover:border-primary hover:text-primary transition-colors"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-transparent border border-white/10 text-white rounded-2xl text-sm font-bold hover:border-primary hover:text-primary transition-colors"
           >
             Appeler le service client
           </a>

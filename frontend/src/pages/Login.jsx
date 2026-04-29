@@ -6,6 +6,8 @@ import Input from '../components/ui/Input';
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import SEO from '../components/SEO';
 
+import logo from '../assets/logo.png';
+
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -36,13 +38,14 @@ const Login = () => {
         <ArrowLeft size={16} /> Retour boutique
       </Link>
 
-      <div className="bg-white p-10 rounded-[60px] shadow-2xl w-full max-w-lg mx-auto transform scale-90 md:scale-100">
+      <div className="bg-[#0a0a0a] p-10 rounded-[60px] shadow-2xl w-full max-w-lg mx-auto transform scale-90 md:scale-100 border border-white/5">
         <div className="text-center mb-8">
+          <img src={logo} alt="Rahima Store" className="w-20 h-20 mx-auto mb-4 object-contain" />
           <span className="text-primary font-bold uppercase tracking-[0.2em] text-[10px]">Bon retour</span>
-          <h1 className="text-4xl font-serif mt-1">Connexion</h1>
+          <h1 className="text-4xl font-serif mt-1 text-white">Connexion</h1>
         </div>
         
-        {error && <p className="bg-red-50 text-red-500 p-3 rounded-2xl mb-6 text-center text-xs font-medium">{error}</p>}
+        {error && <p className="bg-red-500/10 text-red-500 p-3 rounded-2xl mb-6 text-center text-xs font-medium border border-red-500/20">{error}</p>}
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input 
@@ -65,7 +68,7 @@ const Login = () => {
           />
           <Button 
             type="submit" 
-            className="w-full mt-4 flex items-center justify-center gap-2"
+            className="w-full mt-4 flex items-center justify-center gap-2 bg-primary text-black hover:bg-primary-dark"
             disabled={loading}
           >
             {loading ? (
@@ -80,7 +83,7 @@ const Login = () => {
         </form>
         
         <div className="mt-8 text-center">
-          <p className="text-gray-400 text-sm">Pas encore de compte ?</p>
+          <p className="text-gray-500 text-sm">Pas encore de compte ?</p>
           <Link to="/register" className="text-primary font-bold hover:underline mt-2 inline-block">Créer un compte Rahima</Link>
         </div>
       </div>

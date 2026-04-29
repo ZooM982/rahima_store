@@ -79,14 +79,14 @@ const AdminAddProduct = () => {
           <Link to="/admin/products" className="text-xs font-bold text-gray-400 hover:text-primary flex items-center gap-1 mb-2">
             <ArrowLeft size={14} /> Revenir à la liste
           </Link>
-          <h1 className="text-3xl font-serif">Nouveau Produit</h1>
+          <h1 className="text-3xl font-serif text-white">Nouveau Produit</h1>
         </div>
       </header>
 
       <form onSubmit={handleSubmit} className="grid lg:grid-cols-3 gap-8 pb-20 items-start">
         <div className="lg:col-span-2 space-y-6">
-          <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-50">
-            <h2 className="text-lg font-bold mb-6 italic underline underline-offset-8 decoration-primary/30">Détails de l'article</h2>
+          <section className="bg-[#0f0f0f] p-8 rounded-3xl shadow-sm border border-white/5">
+            <h2 className="text-lg font-bold mb-6 italic underline underline-offset-8 decoration-primary/30 text-white">Détails de l'article</h2>
             <div className="grid sm:grid-cols-2 gap-4">
               <Input label="Nom" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} required />
               <Input label="Prix (FCFA)" type="number" value={formData.price} onChange={e => setFormData({...formData, price: e.target.value})} required />
@@ -98,7 +98,7 @@ const AdminAddProduct = () => {
               <div className="sm:col-span-2">
                 <label className="block text-sm font-bold uppercase tracking-widest text-gray-400 mb-2 px-2">Catégorie</label>
                 <select 
-                  className="w-full px-5 py-3.5 rounded-2xl bg-bg-soft border-none outline-none focus:ring-2 focus:ring-primary/20 transition-all text-sm"
+                  className="w-full px-5 py-3.5 rounded-2xl bg-white/5 border border-white/10 outline-none focus:ring-2 focus:ring-primary/20 transition-all text-sm text-white"
                   value={formData.category}
                   onChange={e => setFormData({...formData, category: e.target.value})}
                 >
@@ -113,14 +113,14 @@ const AdminAddProduct = () => {
             </div>
           </section>
 
-          <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-50">
+          <section className="bg-[#0f0f0f] p-8 rounded-3xl shadow-sm border border-white/5">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-lg font-bold italic">Variantes (Couleurs)</h2>
+              <h2 className="text-lg font-bold italic text-white">Variantes (Couleurs)</h2>
               <button type="button" onClick={addVariant} className="text-primary font-bold text-xs flex items-center gap-1"><Plus size={14} /> Ajouter une couleur</button>
             </div>
             <div className="space-y-4">
               {variants.map((v, i) => (
-                <div key={i} className="p-6 bg-gray-50/50 rounded-2xl border border-gray-100 flex flex-col sm:flex-row gap-6 relative group">
+                <div key={i} className="p-6 bg-white/5 rounded-2xl border border-white/5 flex flex-col sm:flex-row gap-6 relative group">
                   {variants.length > 1 && (
                     <button type="button" onClick={() => removeVariant(i)} className="absolute -top-2 -right-2 bg-white text-red-500 p-1.5 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity"><Trash2 size={14} /></button>
                   )}
@@ -132,7 +132,7 @@ const AdminAddProduct = () => {
 
                   <div className="w-full sm:w-48">
                     <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Photo variante</label>
-                    <div className="relative h-28 w-full rounded-xl border-2 border-dashed border-gray-200 flex flex-col items-center justify-center overflow-hidden hover:border-primary transition-colors cursor-pointer">
+                    <div className="relative h-28 w-full rounded-xl border-2 border-dashed border-white/10 flex flex-col items-center justify-center overflow-hidden hover:border-primary transition-colors cursor-pointer">
                       {v.imagePreview ? (
                         <img src={v.imagePreview} className="w-full h-full object-cover" alt="Preview" />
                       ) : (
@@ -155,9 +155,9 @@ const AdminAddProduct = () => {
         </div>
 
         <div className="lg:sticky lg:top-24 space-y-6">
-          <section className="bg-white p-6 rounded-3xl shadow-sm border border-gray-50">
-             <h2 className="text-base font-bold mb-4 flex items-center gap-2"><ImageIcon size={18} className="text-primary" /> Image Principale</h2>
-             <div className="relative h-60 w-full rounded-2xl border-2 border-dashed border-gray-200 flex flex-col items-center justify-center overflow-hidden hover:border-primary transition-colors cursor-pointer">
+          <section className="bg-[#0f0f0f] p-6 rounded-3xl shadow-sm border border-white/5">
+             <h2 className="text-base font-bold mb-4 flex items-center gap-2 text-white"><ImageIcon size={18} className="text-primary" /> Image Principale</h2>
+             <div className="relative h-60 w-full rounded-2xl border-2 border-dashed border-white/10 flex flex-col items-center justify-center overflow-hidden hover:border-primary transition-colors cursor-pointer">
                 {formData.mainImagePreview ? (
                   <img src={formData.mainImagePreview} className="w-full h-full object-cover" alt="Main Preview" />
                 ) : (
@@ -176,7 +176,7 @@ const AdminAddProduct = () => {
              </div>
           </section>
 
-          <section className="bg-white p-6 rounded-3xl shadow-sm border border-gray-50">
+          <section className="bg-[#0f0f0f] p-6 rounded-3xl shadow-sm border border-white/5">
             <Button type="submit" disabled={loading} className="w-full shadow-xl shadow-primary/20">
               {loading ? <Loader2 className="animate-spin" /> : <><Check size={20} /> Publier le produit</>}
             </Button>

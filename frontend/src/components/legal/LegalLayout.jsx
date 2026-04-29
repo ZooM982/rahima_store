@@ -24,12 +24,12 @@ const LegalLayout = ({ title, lastUpdated, children }) => {
             <FileText size={24} />
           </div>
           <div>
-            <h1 className="text-3xl md:text-4xl font-serif">{title}</h1>
+            <h1 className="text-3xl md:text-4xl font-serif text-white">{title}</h1>
             <p className="text-xs text-gray-400 mt-1">Dernière mise à jour : {lastUpdated}</p>
           </div>
         </div>
 
-        <div className="mt-10 prose prose-sm max-w-none space-y-8 text-gray-600 leading-relaxed">
+        <div className="mt-10 prose prose-sm max-w-none space-y-8 text-gray-400 leading-relaxed">
           {children}
         </div>
       </div>
@@ -39,7 +39,7 @@ const LegalLayout = ({ title, lastUpdated, children }) => {
 
 const Section = ({ title, children }) => (
   <div>
-    <h2 className="text-lg font-bold text-gray-800 mb-3 pb-2 border-b border-gray-100">{title}</h2>
+    <h2 className="text-lg font-bold text-white mb-3 pb-2 border-b border-white/5">{title}</h2>
     <div className="space-y-2">{children}</div>
   </div>
 );

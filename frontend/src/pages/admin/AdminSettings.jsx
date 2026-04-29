@@ -40,14 +40,14 @@ const AdminSettings = () => {
   return (
     <AdminLayout>
       <header className="mb-8">
-        <h1 className="text-3xl font-serif">Paramètres</h1>
+        <h1 className="text-3xl font-serif text-white">Paramètres</h1>
         <p className="text-gray-400 text-sm">Configurez les options de votre boutique.</p>
       </header>
 
       <div className="grid lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-6">
-          <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-50">
-            <h2 className="text-lg font-bold mb-6 flex items-center gap-3 italic">
+          <section className="bg-[#0f0f0f] p-8 rounded-3xl shadow-sm border border-white/10">
+            <h2 className="text-lg font-bold mb-6 flex items-center gap-3 italic text-white">
               <Globe size={20} className="text-primary" /> Informations Générales
             </h2>
             <div className="grid sm:grid-cols-2 gap-4">
@@ -60,8 +60,8 @@ const AdminSettings = () => {
             <Button className="mt-8">Enregistrer les modifications</Button>
           </section>
 
-          <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-50">
-            <h2 className="text-lg font-bold mb-6 flex items-center gap-3 italic">
+          <section className="bg-[#0f0f0f] p-8 rounded-3xl shadow-sm border border-white/10">
+            <h2 className="text-lg font-bold mb-6 flex items-center gap-3 italic text-white">
               <ShieldCheck size={20} className="text-primary" /> Sécurité
             </h2>
             <div className="space-y-4">
@@ -74,8 +74,8 @@ const AdminSettings = () => {
         </div>
 
         <div className="space-y-6">
-          <section className="bg-white p-6 rounded-3xl shadow-sm border border-gray-50">
-            <h2 className="text-base font-bold mb-4 flex items-center gap-2">
+          <section className="bg-[#0f0f0f] p-6 rounded-3xl shadow-sm border border-white/10">
+            <h2 className="text-base font-bold mb-4 flex items-center gap-2 text-white">
               <Bell size={18} className="text-primary" /> Notifications
             </h2>
             {loading ? (
@@ -110,9 +110,9 @@ const AdminSettings = () => {
 
 const Toggle = ({ label, active = false, onChange }) => (
   <label className="flex items-center justify-between cursor-pointer group" onClick={onChange}>
-    <span className="text-sm text-gray-600 group-hover:text-primary transition-colors">{label}</span>
-    <div className={`w-10 h-5 rounded-full relative transition-all ${active ? 'bg-primary' : 'bg-gray-200'}`}>
-      <div className={`absolute top-1 w-3 h-3 bg-white rounded-full transition-all ${active ? 'right-4' : 'left-1'}`}></div>
+    <span className="text-sm text-gray-500 group-hover:text-primary transition-colors">{label}</span>
+    <div className={`w-10 h-5 rounded-full relative transition-all ${active ? 'bg-primary' : 'bg-white/10'}`}>
+      <div className={`absolute top-1 w-3 h-3 bg-white rounded-full transition-all ${active ? 'left-6' : 'left-1'}`}></div>
     </div>
   </label>
 );

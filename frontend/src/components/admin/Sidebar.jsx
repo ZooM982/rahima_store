@@ -19,13 +19,13 @@ const Sidebar = ({ isOpen, toggle, isMobile }) => {
   ];
 
   const sidebarClasses = `
-    fixed inset-y-0 left-0 z-50 bg-white border-r border-gray-100 transition-all duration-300 transform
+    fixed inset-y-0 left-0 z-50 bg-[#080808] border-r border-white/5 transition-all duration-300 transform
     ${isMobile ? (isOpen ? 'translate-x-0 w-72' : '-translate-x-full w-[200px]') : (isOpen ? 'w-[200px]' : 'w-16')}
   `;
 
   return (
     <aside className={sidebarClasses}>
-      <div className="p-4 flex items-center justify-between h-16 border-b border-gray-50">
+      <div className="p-4 flex items-center justify-between h-16 border-b border-white/5">
         {(isOpen || isMobile) ? (
           <div className="flex items-center gap-3">
             <img src={logo} alt="" className="w-8 h-8 rounded-lg object-cover" />
@@ -48,7 +48,7 @@ const Sidebar = ({ isOpen, toggle, isMobile }) => {
             to={link.path}
             className={`
               flex items-center gap-3 p-2.5 rounded-xl transition-all group
-              ${location.pathname === link.path ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-gray-400 hover:bg-bg-soft hover:text-primary'}
+              ${location.pathname === link.path ? 'bg-primary text-black shadow-lg shadow-primary/20' : 'text-gray-400 hover:bg-white/5 hover:text-primary'}
             `}
           >
             <div className="flex-shrink-0">{link.icon}</div>
@@ -60,7 +60,7 @@ const Sidebar = ({ isOpen, toggle, isMobile }) => {
       <div className="absolute bottom-6 left-0 w-full px-4">
         <button 
           onClick={logout}
-          className="flex items-center gap-4 p-3.5 text-gray-400 hover:text-red-500 hover:bg-red-50 w-full rounded-2xl transition-all"
+          className="flex items-center gap-4 p-3.5 text-gray-400 hover:text-red-500 hover:bg-red-500/10 w-full rounded-2xl transition-all"
         >
           <LogOut size={20} />
           {(isOpen || isMobile) && <span className="font-bold text-sm">Déconnexion</span>}

@@ -9,29 +9,19 @@ import productService from '../services/productService';
 import ProductSkeleton from '../components/ui/ProductSkeleton';
 import SectionHeader from '../components/ui/SectionHeader';
 import SEO, { organizationSchema, webSiteSchema, storeSchema } from '../components/SEO';
+import { useQuery } from '@tanstack/react-query';
 
 const Home = () => {
   const { addToCart } = useCart();
-  const [allProducts, setAllProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    let ignore = false;
-    const fetchProducts = async () => {
-      try {
-        const { data } = await productService.getProducts();
-        if (!ignore && Array.isArray(data)) {
-          setAllProducts(data);
-        }
-      } catch (err) {
-        console.error(err);
-      } finally {
-        if (!ignore) setLoading(false);
-      }
-    };
-    fetchProducts();
-    return () => { ignore = true; };
-  }, []);
+  // Reuse catalog-products query to share cache
+  const { data: allProducts = [], isLoading: loading } = useQuery({
+    queryKey: ['catalog-products'],
+    queryFn: async () => {
+      const { data } = await productService.getProducts();
+      return data;
+    },
+  });
 
   // 4 bestsellers to display
   const products = allProducts.slice(0, 4);

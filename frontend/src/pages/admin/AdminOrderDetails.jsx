@@ -63,7 +63,7 @@ const AdminOrderDetails = () => {
             <ArrowLeft size={20} />
           </Link>
           <div>
-            <h1 className="text-3xl font-serif">Commande #{id.substring(0, 8)}</h1>
+            <h1 className="text-3xl font-serif text-white">Commande #{id.substring(0, 8)}</h1>
             <p className="text-gray-400 text-sm">Passée le {new Date(order.createdAt).toLocaleDateString()}</p>
           </div>
         </div>
@@ -86,9 +86,9 @@ const AdminOrderDetails = () => {
 
       <div className="grid lg:grid-cols-3 gap-8 pb-20">
         <div className="lg:col-span-2 space-y-6">
-          <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-50">
-            <h2 className="text-lg font-bold mb-6 flex items-center gap-2">Articles commandés</h2>
-            <div className="divide-y divide-gray-50">
+          <section className="bg-[#0f0f0f] p-8 rounded-3xl shadow-sm border border-white/5">
+            <h2 className="text-lg font-bold mb-6 flex items-center gap-2 text-white">Articles commandés</h2>
+            <div className="divide-y divide-white/5">
               {order.items.map((item, i) => (
                 <div key={i} className="py-4 flex items-center justify-between group">
                   <div className="flex items-center gap-4">
@@ -104,19 +104,19 @@ const AdminOrderDetails = () => {
                       </div>
                     )}
                     <div>
-                      <h4 className="font-bold text-gray-800 line-clamp-1">{item.productId?.name || 'Produit supprimé'}</h4>
+                      <h4 className="font-bold text-white line-clamp-1">{item.productId?.name || 'Produit supprimé'}</h4>
                       <p className="text-xs text-secondary font-medium">{item.price.toLocaleString()} FCFA</p>
                       <p className="text-[10px] text-gray-400">Quantité: {item.quantity}</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="font-bold">{(item.price * item.quantity).toLocaleString()} FCFA</p>
+                    <p className="font-bold text-white">{(item.price * item.quantity).toLocaleString()} FCFA</p>
                   </div>
                 </div>
               ))}
             </div>
-            <div className="mt-8 pt-6 border-t border-gray-50 space-y-3">
-              <div className="flex justify-between text-2xl font-serif text-primary border-t border-gray-50 pt-4 mt-4">
+            <div className="mt-8 pt-6 border-t border-white/5 space-y-3">
+              <div className="flex justify-between text-2xl font-serif text-primary border-t border-white/5 pt-4 mt-4">
                 <span>Total</span>
                 <span>{order.totalAmount.toLocaleString()} FCFA</span>
               </div>
@@ -125,12 +125,12 @@ const AdminOrderDetails = () => {
         </div>
 
         <div className="space-y-6">
-          <section className="bg-white p-6 rounded-3xl shadow-sm border border-gray-50">
-            <h2 className="text-base font-bold mb-6 italic">Informations Client</h2>
+          <section className="bg-[#0f0f0f] p-6 rounded-3xl shadow-sm border border-white/5">
+            <h2 className="text-base font-bold mb-6 italic text-white">Informations Client</h2>
             <div className="space-y-4">
               <div>
                 <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Nom</p>
-                <p className="text-sm font-bold text-gray-800">{order.customer.name}</p>
+                <p className="text-sm font-bold text-white">{order.customer.name}</p>
               </div>
               <div>
                 <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Email</p>
@@ -138,7 +138,7 @@ const AdminOrderDetails = () => {
               </div>
               <div>
                 <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Téléphone</p>
-                <p className="text-sm font-bold text-gray-800 flex items-center gap-2">
+                <p className="text-sm font-bold text-white flex items-center gap-2">
                   <Phone size={14} className="text-primary" /> {order.customer.phone}
                 </p>
               </div>
@@ -149,17 +149,17 @@ const AdminOrderDetails = () => {
             </div>
           </section>
 
-          <section className="bg-white p-6 rounded-3xl shadow-sm border border-gray-50">
-            <h2 className="text-base font-bold mb-6 italic">Statut & Expédition</h2>
+          <section className="bg-[#0f0f0f] p-6 rounded-3xl shadow-sm border border-white/5">
+            <h2 className="text-base font-bold mb-6 italic text-white">Statut & Expédition</h2>
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-orange-50 text-orange-500 rounded-full flex items-center justify-center"><Truck size={20} /></div>
+              <div className="w-10 h-10 bg-orange-500/10 text-orange-500 rounded-full flex items-center justify-center"><Truck size={20} /></div>
               <div>
                 <p className="text-[10px] text-gray-400 font-bold">Actuel</p>
                 <p className="text-sm font-bold uppercase">{order.status}</p>
               </div>
             </div>
             <select 
-              className="w-full px-4 py-2 bg-bg-soft rounded-xl text-xs font-bold outline-none border border-gray-100"
+              className="w-full px-4 py-2 bg-white/5 rounded-xl text-xs font-bold outline-none border border-white/10 text-white"
               value={order.status}
               onChange={(e) => handleStatusChange(e.target.value)}
             >

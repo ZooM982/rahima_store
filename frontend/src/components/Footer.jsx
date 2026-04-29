@@ -63,7 +63,7 @@ const Footer = () => {
           <div>
             <h4 className="font-serif italic text-lg mb-6 text-white">Service Client</h4>
             <ul className="space-y-4 text-sm text-white/50">
-              <li><Link to="/livraison-retours" className="hover:text-primary transition-colors">Livraison &amp; Retours</Link></li>
+              <li><Link to="/livraison-retours" className="hover:text-primary transition-colors">Livraison <span className="ampersand">&</span> Retours</Link></li>
               <li><Link to="/conditions-generales" className="hover:text-primary transition-colors">Conditions Générales</Link></li>
               <li><Link to="/politique-confidentialite" className="hover:text-primary transition-colors">Politique de Confidentialité</Link></li>
               <li><Link to="/faq" className="hover:text-primary transition-colors">FAQ</Link></li>

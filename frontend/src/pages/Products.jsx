@@ -6,41 +6,32 @@ import SectionHeader from '../components/ui/SectionHeader';
 import { Filter, Loader2 } from 'lucide-react';
 import productService from '../services/productService';
 import SEO, { buildBreadcrumbSchema } from '../components/SEO';
+import { useQuery } from '@tanstack/react-query';
 
 const Products = () => {
   const { addToCart } = useCart();
   const [activeCategory, setActiveCategory] = useState(sessionStorage.getItem('catalog-category') || 'Tous');
-  const [allProducts, setAllProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [visibleCount, setVisibleCount] = useState(parseInt(sessionStorage.getItem('catalog-visible-count')) || 30);
   const loaderRef = useRef(null);
 
-  useEffect(() => {
-    let ignore = false;
-    const fetchProducts = async () => {
-      try {
-        const { data } = await productService.getProducts();
-        if (!ignore && Array.isArray(data)) {
-          setAllProducts(data);
-          
-          // Restore scroll position after a short delay to ensure rendering is complete
-          const savedScroll = sessionStorage.getItem('catalog-scroll');
-          if (savedScroll) {
-            setTimeout(() => {
-              window.scrollTo(0, parseInt(savedScroll));
-              sessionStorage.removeItem('catalog-scroll'); // Optional: clear after restore
-            }, 100);
-          }
-        }
-      } catch (err) {
-        console.error(err);
-      } finally {
-        if (!ignore) setLoading(false);
+  // Fetch products with caching
+  const { data: allProducts = [], isLoading: loading } = useQuery({
+    queryKey: ['catalog-products'],
+    queryFn: async () => {
+      const { data } = await productService.getProducts();
+      return data;
+    },
+    onSuccess: () => {
+      // Restore scroll position after a short delay to ensure rendering is complete
+      const savedScroll = sessionStorage.getItem('catalog-scroll');
+      if (savedScroll) {
+        setTimeout(() => {
+          window.scrollTo(0, parseInt(savedScroll));
+          sessionStorage.removeItem('catalog-scroll');
+        }, 100);
       }
-    };
-    fetchProducts();
-    return () => { ignore = true; };
-  }, []);
+    }
+  });
 
   // Save state on change
   useEffect(() => {
@@ -90,7 +81,7 @@ const Products = () => {
   return (
     <div className="pt-16 pb-10 md:pt-20 md:pb-14 custom-container">
       <SEO
-        title="Boutique — Cosmétiques & Soins Beauté"
+        title="Boutique — Cosmétiques et Soins Beauté"
         description="Découvrez toute notre collection de cosmétiques, soins visage, cheveux et parfums. Livraison rapide à Dakar et partout au Sénégal."
         url="/products"
         keywords="acheter cosmétiques Dakar, boutique beauté sénégal, soins visage naturels, parfums africains, produits capillaires Dakar"

@@ -80,7 +80,7 @@ const Cart = () => {
 	if (orderComplete && lastOrder) {
 		return (
 			<div className="pt-16 pb-10 md:pt-20 md:pb-14 custom-container">
-				<div className="bg-white/10 p-12 rounded-[40px] shadow-2xl max-w-2xl mx-auto text-center">
+			<div className="bg-[#0a0a0a] p-12 rounded-[40px] shadow-2xl max-w-2xl mx-auto text-center border border-white/5">
 					<div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-8 text-3xl">
 						✓
 					</div>
@@ -173,12 +173,12 @@ const Cart = () => {
 						</p>
 					</motion.div>
 				: orderComplete && lastOrder ?
-					<motion.div
-						key="success"
-						initial={{ opacity: 0, y: 50 }}
-						animate={{ opacity: 1, y: 0 }}
-						className="bg-white p-12 rounded-[40px] shadow-2xl max-w-2xl mx-auto text-center"
-					>
+						<motion.div
+							key="success"
+							initial={{ opacity: 0, y: 50 }}
+							animate={{ opacity: 1, y: 0 }}
+							className="bg-[#0a0a0a] p-12 rounded-[40px] shadow-2xl max-w-2xl mx-auto text-center border border-white/5"
+						>
 						<motion.div
 							initial={{ scale: 0 }}
 							animate={{ scale: 1 }}
@@ -268,7 +268,7 @@ const Cart = () => {
 								className={cart.length === 0 ? "" : "lg:col-span-2 space-y-8"}
 							>
 								{cart.length === 0 ?
-									<div className="bg-white/10 p-16 rounded-[40px] text-center shadow-sm border border-gray-50">
+									<div className="bg-[#0f0f0f] p-16 rounded-[40px] text-center shadow-sm border border-white/5">
 										<p className="text-xl text-white mb-8">
 											Votre panier est désolément vide.
 										</p>
@@ -347,7 +347,7 @@ const Cart = () => {
 												À la charge du client
 											</span>
 										</div>
-										<div className="flex justify-between font-bold text-xl pt-4 border-t border-gray-100">
+										<div className="flex justify-between font-bold text-xl pt-4 border-t border-white/5">
 											<span>Total</span>
 											<span className="text-primary">
 												{cartTotal.toLocaleString()} FCFA

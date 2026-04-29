@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import orderService from '../services/orderService';
 import Button from '../components/common/Button';
@@ -7,11 +7,10 @@ import { Package, User, MapPin, Phone, LogOut, ChevronRight, Clock, ShoppingBag,
 import { generateInvoice } from '../utils/invoiceGenerator';
 import { Link } from 'react-router-dom';
 import { productSlug } from '../utils/slug';
+import { useQuery } from '@tanstack/react-query';
 
 const UserDashboard = () => {
   const { user, updateProfile, logout } = useAuth();
-  const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('orders');
   const [formData, setFormData] = useState({
     name: user?.name || '',
@@ -21,19 +20,15 @@ const UserDashboard = () => {
   const [updateLoading, setUpdateLoading] = useState(false);
   const [updateSuccess, setUpdateSuccess] = useState(false);
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const response = await orderService.getMyOrders();
-        setOrders(response.data);
-      } catch (err) {
-        console.error("Error fetching orders:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchOrders();
-  }, []);
+  // Fetch user orders with caching
+  const { data: orders = [], isLoading: loading } = useQuery({
+    queryKey: ['user-orders', user?._id],
+    queryFn: async () => {
+      const response = await orderService.getMyOrders();
+      return response.data;
+    },
+    enabled: !!user,
+  });
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
@@ -52,10 +47,10 @@ const UserDashboard = () => {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'Delivered': return 'bg-green-100 text-green-600';
-      case 'Validated': return 'bg-blue-100 text-blue-600';
-      case 'Cancelled': return 'bg-red-100 text-red-600';
-      default: return 'bg-yellow-100 text-yellow-600';
+      case 'Delivered': return 'bg-green-500/10 text-green-500';
+      case 'Validated': return 'bg-blue-500/10 text-blue-500';
+      case 'Cancelled': return 'bg-red-500/10 text-red-500';
+      default: return 'bg-yellow-500/10 text-yellow-500';
     }
   };
 
@@ -65,7 +60,7 @@ const UserDashboard = () => {
 
         {/* Sidebar — desktop only */}
         <div className="hidden lg:block lg:col-span-1 space-y-4">
-          <div className="bg-white p-6 rounded-[30px] shadow-sm border border-gray-100">
+          <div className="bg-[#0f0f0f] p-6 rounded-[30px] shadow-sm border border-white/5">
             <div className="flex items-center gap-4 mb-8">
               <div className="w-12 h-12 bg-primary/10 text-primary rounded-2xl flex items-center justify-center font-bold text-xl">
                 {user?.name?.charAt(0)}
@@ -106,20 +101,20 @@ const UserDashboard = () => {
           {activeTab === 'orders' ? (
             <div className="space-y-6">
               <div className="flex items-center justify-between">
-                <h1 className="text-3xl font-serif">Mes Commandes</h1>
-                <span className="text-sm text-gray-400 bg-white px-4 py-2 rounded-full border border-gray-100">
+                <h1 className="text-3xl font-serif text-white">Mes Commandes</h1>
+                <span className="text-sm text-gray-500 bg-white/5 px-4 py-2 rounded-full border border-white/5">
                   {orders.length} commande(s)
                 </span>
               </div>
 
               {loading ? (
-                <div className="bg-white p-20 rounded-[30px] flex flex-col items-center justify-center border border-gray-100">
+                <div className="bg-[#0f0f0f] p-20 rounded-[30px] flex flex-col items-center justify-center border border-white/5">
                   <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary"></div>
                   <p className="mt-4 text-gray-400">Chargement de vos commandes...</p>
                 </div>
               ) : orders.length === 0 ? (
-                <div className="bg-white p-10 sm:p-20 rounded-[30px] text-center border border-gray-100">
-                  <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6 text-gray-300">
+                <div className="bg-[#0f0f0f] p-10 sm:p-20 rounded-[30px] text-center border border-white/5">
+                  <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6 text-gray-700">
                     <Package size={40} />
                   </div>
                   <h3 className="text-xl font-bold mb-2">Aucune commande pour le moment</h3>
@@ -131,7 +126,7 @@ const UserDashboard = () => {
               ) : (
                 <div className="grid gap-4">
                   {orders.map(order => (
-                    <div key={order._id} className="bg-white p-6 rounded-[30px] border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                    <div key={order._id} className="bg-[#0f0f0f] p-6 rounded-[30px] border border-white/5 shadow-sm hover:shadow-md transition-shadow">
                       <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
                         <div className="flex items-center gap-3">
                           <div className="p-3 bg-gray-50 rounded-2xl text-gray-400">
@@ -151,7 +146,7 @@ const UserDashboard = () => {
 
                       <div className="flex items-center gap-4 overflow-x-auto pb-4 mb-4 border-b border-gray-50">
                         {order.items.slice(0, 4).map((item, idx) => (
-                          <div key={idx} className="w-16 h-16 rounded-xl bg-gray-50 overflow-hidden flex-shrink-0 border border-gray-100">
+                          <div key={idx} className="w-16 h-16 rounded-xl bg-white/5 overflow-hidden flex-shrink-0 border border-white/5">
                             {item.productId?.mainImage ? (
                               <img src={item.productId.mainImage} alt={item.productId.name} className="w-full h-full object-cover" />
                             ) : (
@@ -197,9 +192,9 @@ const UserDashboard = () => {
             </div>
           ) : (
             <div className="space-y-6">
-              <h1 className="text-3xl font-serif">Mon Profil</h1>
+              <h1 className="text-3xl font-serif text-white">Mon Profil</h1>
 
-              <div className="bg-white p-8 rounded-[30px] border border-gray-100 shadow-sm">
+              <div className="bg-[#0f0f0f] p-8 rounded-[30px] border border-white/5 shadow-sm">
                 <form onSubmit={handleUpdateProfile} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-2">
@@ -249,12 +244,12 @@ const UserDashboard = () => {
                 </form>
               </div>
 
-              <div className="bg-red-50 p-6 rounded-[30px] border border-red-100">
-                <h3 className="text-red-800 font-bold mb-2">Zone de danger</h3>
-                <p className="text-red-600/70 text-sm mb-4">
+              <div className="bg-red-500/10 p-6 rounded-[30px] border border-red-500/20">
+                <h3 className="text-red-500 font-bold mb-2">Zone de danger</h3>
+                <p className="text-red-500/60 text-sm mb-4">
                   Une fois que vous supprimez votre compte, il n'y a pas de retour en arrière. S'il vous plaît soyez certain.
                 </p>
-                <button className="text-red-700 font-bold text-sm underline hover:text-red-900 transition-colors">
+                <button className="text-red-500 font-bold text-sm underline hover:text-red-400 transition-colors">
                   Supprimer mon compte
                 </button>
               </div>
@@ -264,7 +259,7 @@ const UserDashboard = () => {
       </div>
 
       {/* Mobile Bottom Navigation — lg:hidden */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-xl border-t border-gray-100 shadow-2xl shadow-black/10">
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#0a0a0a]/90 backdrop-blur-xl border-t border-white/5 shadow-2xl shadow-black/10">
         <div className="flex items-center justify-around px-2 py-2">
 
           <Link

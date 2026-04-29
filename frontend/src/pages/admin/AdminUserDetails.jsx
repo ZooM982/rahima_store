@@ -52,24 +52,24 @@ const AdminUserDetails = () => {
         <Link to="/admin/users" className="text-xs font-bold text-gray-400 hover:text-primary flex items-center gap-1 mb-2">
           <ArrowLeft size={14} /> Retour à la liste
         </Link>
-        <h1 className="text-3xl font-serif">Détails Client</h1>
+        <h1 className="text-3xl font-serif text-white">Détails Client</h1>
       </header>
 
       <div className="grid lg:grid-cols-3 gap-8">
         {/* Customer Profile Card */}
         <div className="lg:col-span-1 space-y-6">
-          <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-50">
+          <div className="bg-[#0f0f0f] p-8 rounded-3xl shadow-sm border border-white/5">
             <div className="flex flex-col items-center text-center mb-8">
-              <div className="w-24 h-24 rounded-3xl bg-bg-soft text-primary flex items-center justify-center text-3xl font-bold mb-4 shadow-sm border border-gray-100">
+              <div className="w-24 h-24 rounded-3xl bg-white/5 text-primary flex items-center justify-center text-3xl font-bold mb-4 shadow-sm border border-white/10">
                 {customer.name?.charAt(0).toUpperCase()}
               </div>
-              <h2 className="text-xl font-bold text-gray-800">{customer.name}</h2>
+              <h2 className="text-xl font-bold text-white">{customer.name}</h2>
               {customer.isGuest && (
-                <span className="text-[10px] bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full mt-2 font-bold uppercase tracking-widest">Compte Invité</span>
+                <span className="text-[10px] bg-white/5 text-gray-500 px-2 py-0.5 rounded-full mt-2 font-bold uppercase tracking-widest">Compte Invité</span>
               )}
             </div>
 
-            <div className="space-y-4 pt-6 border-t border-gray-50">
+            <div className="space-y-4 pt-6 border-t border-white/5">
               <div className="flex items-center gap-4">
                 <div className="w-8 h-8 rounded-lg bg-primary/5 flex items-center justify-center text-primary">
                   <Mail size={16} />
@@ -121,35 +121,35 @@ const AdminUserDetails = () => {
 
         {/* Order History */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="bg-white rounded-3xl shadow-sm border border-gray-50 overflow-hidden">
-            <div className="p-6 border-b border-gray-50 flex items-center justify-between">
-              <h2 className="font-bold text-lg">Historique des Commandes</h2>
+          <div className="bg-[#0f0f0f] rounded-3xl shadow-sm border border-white/5 overflow-hidden">
+            <div className="p-6 border-b border-white/5 flex items-center justify-between">
+              <h2 className="font-bold text-lg text-white">Historique des Commandes</h2>
               <span className="text-xs text-gray-400">{orders.length} commandes trouvées</span>
             </div>
             
-            <div className="divide-y divide-gray-50">
+            <div className="divide-y divide-white/5">
               {orders.map((order) => (
                 <Link 
                   key={order._id} 
                   to={`/admin/orders/${order._id}`}
-                  className="block p-6 hover:bg-gray-50/80 transition-colors group"
+                  className="block p-6 hover:bg-white/5 transition-colors group"
                 >
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-bg-soft flex items-center justify-center text-primary group-hover:bg-white transition-colors shadow-sm">
+                      <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-black transition-colors shadow-sm">
                         <Package size={20} />
                       </div>
                       <div>
-                        <p className="text-sm font-bold">Commande #{order._id.slice(-6).toUpperCase()}</p>
+                        <p className="text-sm font-bold text-white">Commande #{order._id.slice(-6).toUpperCase()}</p>
                         <p className="text-[10px] text-gray-400 flex items-center gap-1 uppercase tracking-widest font-bold">
                           <Calendar size={10} /> {new Date(order.createdAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
                         </p>
                       </div>
                     </div>
                     <div className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border ${
-                      order.status === 'Delivered' ? 'bg-green-50 text-green-600 border-green-100' : 
-                      order.status === 'Cancelled' ? 'bg-red-50 text-red-600 border-red-100' : 
-                      'bg-orange-50 text-orange-600 border-orange-100'
+                      order.status === 'Delivered' ? 'bg-green-500/10 text-green-500 border-green-500/20' : 
+                      order.status === 'Cancelled' ? 'bg-red-500/10 text-red-600 border-red-500/20' : 
+                      'bg-orange-500/10 text-orange-500 border-orange-500/20'
                     }`}>
                       {order.status === 'Pending' ? 'En attente' : 
                        order.status === 'Validated' ? 'Validée' :
