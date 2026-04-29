@@ -22,7 +22,7 @@ export default {
         }
       },
       fontFamily: {
-        serif: ["Playfair Display", "serif"],
+        serif: ["Candide", "serif"],
         sans: ["Outfit", "sans-serif"],
       },
       animation: {

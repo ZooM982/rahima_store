@@ -23,7 +23,7 @@ const About = () => {
         </div>
         <div>
           <span className="text-primary font-bold tracking-[0.2em] uppercase text-sm mb-4 block">Notre Essence</span>
-          <h2 className="text-4xl md:text-6xl mb-8 font-serif text-white">L'histoire de <span className="italic text-gold-gradient">Rahima</span></h2>
+          <h2 className="text-4xl md:text-6xl mb-8 font-serif text-white">L'histoire de <span className="italic text-gold-gradient px-2">Rahima</span></h2>
           <p className="text-white text-lg leading-relaxed mb-10">
             Rahima Store est née d'une passion pour la beauté authentique et naturelle. Nous croyons que chaque femme possède un éclat unique qui ne demande qu'à être révélé par des soins d'exception.
             <br /><br />

@@ -42,11 +42,11 @@ const Navbar = () => {
   return (
     <nav className={`fixed z-50 transition-all duration-500 ${scrolled ? 'glass-effect py-3 shadow-sm rounded-[30px] top-4 right-0 left-0 w-[80%] mx-auto' : 'py-4 w-full top-0 left-0'}`}>
       <div className="custom-container flex justify-between items-center">
-        <Link to="/" onClick={scrollToTop} className="text-2xl font-bold tracking-tighter flex items-center gap-2 group">
+        <Link to="/" onClick={scrollToTop} className="text-2xl font-bold flex items-center gap-3 group">
           <div className="w-10 h-10 rounded-full bg-gold-gradient p-[1px]">
             <img src={logo} alt="Rahima Store" className="w-full h-full object-cover rounded-full bg-black shadow-sm group-hover:scale-110 transition-transform duration-300" />
           </div>
-          <span className="font-serif italic text-gold-gradient whitespace-nowrap">Rahima Store</span>
+          <span className="font-serif italic text-gold-gradient whitespace-nowrap pr-1">Rahima Store</span>
         </Link>
         
         <div className="hidden md:flex gap-10 text-sm font-medium uppercase tracking-widest mx-auto">
