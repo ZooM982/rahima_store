@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Printer, Truck, CheckCircle, Package, Loader2, Phone } from 'lucide-react';
@@ -6,35 +6,37 @@ import Button from '../../components/common/Button';
 import orderService from '../../services/orderService';
 import { generateInvoice } from '../../utils/invoiceGenerator';
 import { FileText } from 'lucide-react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 const AdminOrderDetails = () => {
   const { id } = useParams();
-  const [order, setOrder] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    let ignore = false;
-    const fetchOrder = async () => {
-      try {
-        const { data } = await orderService.getOrderById(id);
-        if (!ignore) setOrder(data);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        if (!ignore) setLoading(false);
-      }
-    };
-    fetchOrder();
-    return () => { ignore = true; };
-  }, [id]);
+  // Fetch order with caching
+  const { data: order, isLoading: loading } = useQuery({
+    queryKey: ['admin-order', id],
+    queryFn: async () => {
+      const { data } = await orderService.getOrderById(id);
+      return data;
+    },
+  });
 
-  const handleStatusChange = async (newStatus) => {
-    try {
-      await orderService.updateOrderStatus(id, newStatus);
-      setOrder({ ...order, status: newStatus });
-    } catch (err) {
-      console.error(err);
+  // Mutation for status change
+  const statusMutation = useMutation({
+    mutationFn: (newStatus) => orderService.updateOrderStatus(id, newStatus),
+    onSuccess: () => {
+      // Invalidate both the single order and the full list
+      queryClient.invalidateQueries({ queryKey: ['admin-order', id] });
+      queryClient.invalidateQueries({ queryKey: ['admin-orders'] });
+    },
+    onError: (error) => {
+      console.error("Erreur de mise à jour du statut:", error);
+      alert("Impossible de mettre à jour le statut.");
     }
+  });
+
+  const handleStatusChange = (newStatus) => {
+    statusMutation.mutate(newStatus);
   };
 
   if (loading) return (
@@ -57,7 +59,7 @@ const AdminOrderDetails = () => {
 
   return (
     <AdminLayout>
-      <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+      <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div className="flex items-center gap-4">
           <Link to="/admin/orders" className="p-2 hover:bg-bg-soft rounded-full text-gray-400 hover:text-primary transition-all">
             <ArrowLeft size={20} />
@@ -67,19 +69,21 @@ const AdminOrderDetails = () => {
             <p className="text-gray-400 text-sm">Passée le {new Date(order.createdAt).toLocaleDateString()}</p>
           </div>
         </div>
-        <div className="flex gap-2 w-full sm:w-auto">
+        <div className="flex flex-wrap justify-between gap-2 w-full md:w-auto">
           <Button 
             variant="secondary" 
-            className="flex-1 sm:flex-none py-2 px-4 text-xs"
+            className="flex-1 md:flex-none py-2 px-4 text-xs"
             onClick={() => generateInvoice(order)}
           >
             <FileText size={16} /> Facture PDF
           </Button>
           <Button 
-            className="flex-1 sm:flex-none py-2 px-4 text-xs"
+            className={`flex-1 md:flex-none py-2 px-4 text-xs ${statusMutation.isPending ? 'opacity-50 cursor-not-allowed' : ''}`}
             onClick={() => handleStatusChange('Validated')}
+            disabled={statusMutation.isPending || order.status === 'Validated'}
           >
-            <CheckCircle size={16} /> Valider l'envoi
+            {statusMutation.isPending ? <Loader2 size={16} className="animate-spin" /> : <CheckCircle size={16} />} 
+            {order.status === 'Validated' ? 'Déjà validé' : "Valider l'envoi"}
           </Button>
         </div>
       </header>
@@ -159,9 +163,10 @@ const AdminOrderDetails = () => {
               </div>
             </div>
             <select 
-              className="w-full px-4 py-2 bg-white/5 rounded-xl text-xs font-bold outline-none border border-white/10 text-white"
+              className={`w-full px-4 py-2 bg-black rounded-xl text-xs font-bold outline-none border border-white/10 text-primary ${statusMutation.isPending ? 'opacity-50' : ''}`}
               value={order.status}
               onChange={(e) => handleStatusChange(e.target.value)}
+              disabled={statusMutation.isPending}
             >
                <option value="Pending">En attente</option>
                <option value="Validated">Validée</option>

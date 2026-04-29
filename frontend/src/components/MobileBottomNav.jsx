@@ -23,7 +23,7 @@ const MobileBottomNav = () => {
     ];
 
     return (
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-xl border-t border-gray-100 px-4 py-3 z-50 flex justify-between items-center shadow-[0_-10px_30px_rgba(0,0,0,0.05)] rounded-t-[30px]">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-black backdrop-blur-xl border-t border-white/10 px-4 py-3 z-50 flex justify-between items-center shadow-[0_-10px_30px_rgba(0,0,0,0.05)] rounded-t-[30px]">
         {adminLinks.map((link) => {
           const Icon = link.icon;
           const active = isActive(link.path);

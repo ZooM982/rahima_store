@@ -47,6 +47,10 @@ export const subscribeToPushNotifications = async () => {
     });
 
   } catch (error) {
-    console.error('Push notification subscription error:', error);
+    if (import.meta.env.DEV) {
+      console.debug('Push notification subscription skipped or failed in DEV:', error.message);
+    } else {
+      console.error('Push notification subscription error:', error);
+    }
   }
 };
