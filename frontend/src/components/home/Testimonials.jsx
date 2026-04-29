@@ -7,6 +7,8 @@ const Testimonials = () => {
     { name: "Sarah B.", text: "Le sérum éclat est devenu un indispensable de ma routine. Ma peau n'a jamais été aussi lumineuse !", rating: 5 },
     { name: "Léa M.", text: "La palette rose gold a des pigments incroyables. Très satisfaite de la qualité des produits.", rating: 5 },
     { name: "Aminata D.", text: "Service client au top et livraison ultra rapide. Je recommande Rahima Store à 100%.", rating: 5 },
+    { name: "Awa C.", text: "Service client au top et livraison ultra rapide. Je recommande Rahima Store à 100%.", rating: 5 },
+    
   ];
 
   return (
@@ -23,9 +25,9 @@ const Testimonials = () => {
       
       <div className="custom-container">
         <SectionHeader subtitle="Avis Clientes" title="Elles nous font confiance" alignment="center" />
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="flex flex-1 gap-2 md:gap-8 overflow-x-scroll no-scrollbar">
           {reviews.map((r, i) => (
-            <div key={i} className="glass-effect p-10 rounded-[40px] relative group hover:border-primary/30 transition-all duration-500">
+            <div key={i} className="glass-effect p-5  min-w-[300px] rounded-[40px] relative group hover:border-primary/30 transition-all duration-500">
               <Quote className="absolute top-8 right-10 text-primary w-10 h-10 opacity-20 group-hover:scale-110 group-hover:opacity-40 transition-all" />
               <div className="flex gap-1 mb-6">
                 {[...Array(r.rating)].map((_, i) => (
