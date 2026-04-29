@@ -32,6 +32,7 @@ const ProductDetails = () => {
 
   useEffect(() => {
     let ignore = false;
+
     const fetchProduct = async () => {
       try {
         const { data } = await productService.getProductById(slug);
@@ -183,7 +184,7 @@ const ProductDetails = () => {
             {isAdded && (
               <div className="fixed bottom-20 left-1/2 -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-full shadow-2xl z-[100] flex items-center gap-2 animate-bounce">
                 <Check size={18} />
-                <span className="font-bold text-sm">{product.name} ajouté au panier</span>
+                <span className="font-bold whitespace-nowrap text-sm">{product.name} ajouté au panier</span>
               </div>
             )}
 
