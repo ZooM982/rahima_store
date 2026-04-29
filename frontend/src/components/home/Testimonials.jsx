@@ -27,7 +27,7 @@ const Testimonials = () => {
         <SectionHeader subtitle="Avis Clientes" title="Elles nous font confiance" alignment="center" />
         <div className="flex flex-1 gap-2 md:gap-8 overflow-x-scroll no-scrollbar">
           {reviews.map((r, i) => (
-            <div key={i} className="glass-effect p-5  min-w-[300px] rounded-[40px] relative group hover:border-primary/30 transition-all duration-500">
+            <div key={i} className="glass-effect p-5 min-w-[300px] rounded-[40px] relative group hover:border-primary/30 transition-all duration-500">
               <Quote className="absolute top-8 right-10 text-primary w-10 h-10 opacity-20 group-hover:scale-110 group-hover:opacity-40 transition-all" />
               <div className="flex gap-1 mb-6">
                 {[...Array(r.rating)].map((_, i) => (
