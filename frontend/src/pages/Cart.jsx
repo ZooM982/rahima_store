@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useCart } from '../hooks/useCart';
 import { useAuth } from '../hooks/useAuth';
-import { Trash2, Plus, Minus, CreditCard, ChevronLeft, ShoppingBag, FileText } from 'lucide-react';
+import { Trash2, Plus, Minus, CreditCard, ChevronLeft, ShoppingBag, FileText, Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Button from '../components/common/Button';
@@ -68,15 +68,15 @@ const Cart = () => {
   if (orderComplete && lastOrder) {
     return (
       <div className="pt-16 pb-10 md:pt-20 md:pb-14 custom-container">
-        <div className="bg-white p-12 rounded-[40px] shadow-2xl max-w-2xl mx-auto text-center">
+        <div className="bg-white/20 p-12 rounded-[40px] shadow-2xl max-w-2xl mx-auto text-center">
           <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-8 text-3xl">✓</div>
           <h1 className="text-4xl font-serif mb-4">Merci pour votre commande !</h1>
-          <p className="text-gray-500 mb-12">Une facture détaillée a été envoyée à {formData.email}.</p>
+          <p className="text-white mb-12">Une facture détaillée a été envoyée à {formData.email}.</p>
           
           <div className="border-t border-b border-gray-100 py-8 mb-12 text-left">
             <h2 className="text-xl font-bold mb-6 uppercase tracking-widest text-[10px]">Détails de la facturation</h2>
             <p className="font-bold mb-1">{formData.name}</p>
-            <p className="text-gray-500 text-sm mb-6">{formData.address}</p>
+            <p className="text-white text-sm mb-6">{formData.address}</p>
             
             <div className="space-y-4">
               {lastOrder.items.map(item => (
@@ -93,7 +93,7 @@ const Cart = () => {
           </div>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/">
+            <Link to="/products">
               <Button variant="secondary">Retour à la boutique</Button>
             </Link>
             <Button 
@@ -152,12 +152,12 @@ const Cart = () => {
               ✓
             </motion.div>
             <h1 className="text-4xl font-serif mb-4">Merci pour votre commande !</h1>
-            <p className="text-gray-500 mb-12">Une facture détaillée a été générée pour vous.</p>
+            <p className="text-white mb-12">Une facture détaillée a été générée pour vous.</p>
             
             <div className="border-t border-b border-gray-100 py-8 mb-12 text-left">
               <h2 className="text-xl font-bold mb-6 uppercase tracking-widest text-[10px]">Détails de la facturation</h2>
               <p className="font-bold mb-1">{formData.name}</p>
-              <p className="text-gray-500 text-sm mb-6">{formData.address}</p>
+              <p className="text-white text-sm mb-6">{formData.address}</p>
               
               <div className="space-y-4">
                 {lastOrder.items.map(item => (
@@ -207,12 +207,12 @@ const Cart = () => {
               <div className={cart.length === 0 ? '' : 'lg:col-span-2 space-y-8'}>
                 {cart.length === 0 ? (
                   <div className="bg-white p-16 rounded-[40px] text-center shadow-sm border border-gray-50">
-                    <p className="text-xl text-gray-500 mb-8">Votre panier est désolément vide.</p>
+                    <p className="text-xl text-white mb-8">Votre panier est désolément vide.</p>
                     <Link to="/" className="inline-block"><Button>Continuer mes achats</Button></Link>
                   </div>
                 ) : (
                   cart.map(item => (
-                    <div key={item._id} className="bg-white p-3 rounded-[20px] flex flex-wrap md:flex-row items-center gap-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div key={item._id} className="bg-white/20 p-3 rounded-[20px] flex flex-wrap md:flex-row items-center gap-6 shadow-sm hover:shadow-md transition-shadow">
                       <div className="w-24 h-24 rounded-2xl overflow-hidden flex-shrink-0 bg-gray-100">
                         <img src={item.img} alt={item.name} className="w-full h-full object-cover" />
                       </div>
@@ -236,14 +236,14 @@ const Cart = () => {
               </div>
               
               {cart.length > 0 && (
-                <div className="bg-white p-6 rounded-[20px] shadow-xl h-fit sticky top-32">
+                <div className="bg-white/20 p-6 rounded-[20px] shadow-xl h-fit sticky top-32">
                   <h2 className="text-2xl font-serif mb-8 border-b border-gray-100 pb-4">Résumé</h2>
                   <div className="space-y-4 mb-8">
-                    <div className="flex justify-between text-gray-500">
+                    <div className="flex justify-between text-white">
                       <span>Sous-total</span>
                       <span>{cartTotal.toLocaleString()} FCFA</span>
                     </div>
-                    <div className="flex justify-between text-gray-500">
+                    <div className="flex justify-between text-white">
                       <span>Livraison</span>
                       <span className="text-green-500 font-medium">À la charge du client</span>
                     </div>
@@ -289,17 +289,36 @@ const Cart = () => {
                     />
       
                     {!user && (
-                      <div className="flex items-center gap-3 py-2 px-4 bg-primary/5 rounded-xl border border-primary/10">
-                        <input 
-                          type="checkbox" 
-                          id="autoCreate" 
-                          className="w-4 h-4 rounded text-primary focus:ring-primary"
-                          checked={autoCreateAccount}
-                          onChange={(e) => setAutoCreateAccount(e.target.checked)}
-                        />
-                        <label htmlFor="autoCreate" className="text-sm text-gray-600 cursor-pointer">
-                          Créer un compte automatiquement
-                        </label>
+                      <div 
+                        className="flex items-center gap-4 py-4 px-6 bg-white/5 backdrop-blur-xl rounded-[24px] border border-white/10 hover:border-primary/50 transition-all cursor-pointer group shadow-xl shadow-black/20"
+                        onClick={() => setAutoCreateAccount(!autoCreateAccount)}
+                      >
+                        <div className="relative flex items-center justify-center shrink-0">
+                          <input 
+                            type="checkbox" 
+                            id="autoCreate" 
+                            className="peer appearance-none w-6 h-6 rounded-[8px] border-2 border-white/20 checked:bg-gold-gradient checked:border-transparent transition-all cursor-pointer shadow-inner"
+                            checked={autoCreateAccount}
+                            onChange={(e) => {
+                              e.stopPropagation();
+                              setAutoCreateAccount(e.target.checked);
+                            }}
+                          />
+                          <Check 
+                            size={14} 
+                            className="absolute text-black opacity-0 peer-checked:opacity-100 pointer-events-none transition-all scale-50 peer-checked:scale-100" 
+                          />
+                        </div>
+                        <div className="flex flex-col">
+                          <label 
+                            htmlFor="autoCreate" 
+                            className="text-sm font-bold text-white group-hover:text-primary transition-colors cursor-pointer select-none"
+                            onClick={(e) => e.preventDefault()}
+                          >
+                            Créer mon compte
+                          </label>
+                          <p className="text-[10px] text-white/40 uppercase tracking-widest mt-0.5">Pour un suivi privilégié</p>
+                        </div>
                       </div>
                     )}
       

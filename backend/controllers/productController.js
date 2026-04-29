@@ -36,7 +36,18 @@ const getProductById = async (req, res) => {
     }
 
     if (!product) return res.status(404).json({ message: 'Produit non trouvé' });
-    res.json(product);
+
+    // Find similar products in the same category
+    const similarProducts = await Product.find({
+      category: product.category,
+      _id: { $ne: product._id }
+    }).limit(4);
+
+    // Return the product combined with similar products
+    res.json({
+      ...product.toObject(),
+      similarProducts
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

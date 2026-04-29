@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useCart } from '../hooks/useCart';
 import ProductCard from '../components/ui/ProductCard';
 import ProductSkeleton from '../components/ui/ProductSkeleton';
@@ -9,16 +9,29 @@ import SEO, { buildBreadcrumbSchema } from '../components/SEO';
 
 const Products = () => {
   const { addToCart } = useCart();
-  const [activeCategory, setActiveCategory] = useState('Tous');
+  const [activeCategory, setActiveCategory] = useState(sessionStorage.getItem('catalog-category') || 'Tous');
   const [allProducts, setAllProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [visibleCount, setVisibleCount] = useState(parseInt(sessionStorage.getItem('catalog-visible-count')) || 30);
+  const loaderRef = useRef(null);
 
   useEffect(() => {
     let ignore = false;
     const fetchProducts = async () => {
       try {
         const { data } = await productService.getProducts();
-        if (!ignore && Array.isArray(data)) setAllProducts(data);
+        if (!ignore && Array.isArray(data)) {
+          setAllProducts(data);
+          
+          // Restore scroll position after a short delay to ensure rendering is complete
+          const savedScroll = sessionStorage.getItem('catalog-scroll');
+          if (savedScroll) {
+            setTimeout(() => {
+              window.scrollTo(0, parseInt(savedScroll));
+              sessionStorage.removeItem('catalog-scroll'); // Optional: clear after restore
+            }, 100);
+          }
+        }
       } catch (err) {
         console.error(err);
       } finally {
@@ -28,6 +41,34 @@ const Products = () => {
     fetchProducts();
     return () => { ignore = true; };
   }, []);
+
+  // Save state on change
+  useEffect(() => {
+    sessionStorage.setItem('catalog-category', activeCategory);
+  }, [activeCategory]);
+
+  useEffect(() => {
+    sessionStorage.setItem('catalog-visible-count', visibleCount);
+  }, [visibleCount]);
+
+  // Infinite Scroll Observer
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && !loading) {
+        setVisibleCount(prev => prev + 20);
+      }
+    }, { threshold: 1.0 });
+
+    if (loaderRef.current) {
+      observer.observe(loaderRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [loading]);
+
+  const handleProductClick = () => {
+    sessionStorage.setItem('catalog-scroll', window.scrollY);
+  };
 
   const safeProducts = Array.isArray(allProducts) ? allProducts : [];
   const categories = ['Tous', ...new Set(safeProducts.map(p => p.category))];
@@ -44,6 +85,8 @@ const Products = () => {
     ? safeProducts
     : safeProducts.filter(p => p.category === activeCategory);
 
+  const paginatedProducts = filteredProducts.slice(0, visibleCount);
+
   return (
     <div className="pt-16 pb-10 md:pt-20 md:pb-14 custom-container">
       <SEO
@@ -59,7 +102,7 @@ const Products = () => {
       <SectionHeader subtitle="Notre Catalogue" title="Tous les produits" />
       
       <div className="flex items-center gap-4 mb-8 overflow-x-auto no-scrollbar pb-4 md:flex-wrap md:overflow-visible">
-        <div className="p-2 bg-primary/5 text-primary rounded-xl shrink-0">
+        <div className="p-2 bg-white/5 text-primary rounded-xl shrink-0 border border-white/10">
           <Filter size={18} />
         </div>
         <div className="flex gap-3 flex-nowrap md:flex-wrap">
@@ -69,8 +112,8 @@ const Products = () => {
               onClick={() => setActiveCategory(cat)}
               className={`px-6 py-2.5 rounded-full text-xs font-bold transition-all border whitespace-nowrap ${
                 activeCategory === cat 
-                ? 'bg-primary text-white border-primary shadow-md shadow-primary/20' 
-                : 'bg-white text-gray-400 border-gray-100 hover:border-primary hover:text-primary'
+                ? 'bg-primary text-black border-primary shadow-md shadow-primary/20' 
+                : 'bg-white/5 text-white/40 border-white/10 hover:border-primary hover:text-primary'
               }`}
             >
               {cat}
@@ -86,15 +129,24 @@ const Products = () => {
             <ProductSkeleton key={i} />
           ))
         ) : (
-          filteredProducts.map((p, i) => (
-            <ProductCard key={i} product={p} onAddToCart={addToCart} isNew={newProductIds.has(p._id)} />
+          paginatedProducts.map((p) => (
+            <div key={p._id} onClick={handleProductClick}>
+              <ProductCard product={p} onAddToCart={addToCart} isNew={newProductIds.has(p._id)} />
+            </div>
           ))
         )}
       </div>
 
+      {/* Infinite Scroll Loader Target */}
+      {!loading && filteredProducts.length > visibleCount && (
+        <div ref={loaderRef} className="py-10 flex justify-center">
+          <Loader2 className="animate-spin text-primary" size={32} />
+        </div>
+      )}
+
       {filteredProducts.length === 0 && !loading && (
-        <div className="text-center py-20 bg-white rounded-[40px]">
-          <p className="text-xl text-gray-400">Aucun produit trouvé dans cette catégorie.</p>
+        <div className="text-center py-20 bg-white/5 rounded-[40px] border border-white/10">
+          <p className="text-xl text-white/40 font-serif">Aucun produit trouvé dans cette catégorie.</p>
         </div>
       )}
     </div>

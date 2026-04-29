@@ -42,15 +42,17 @@ const Navbar = () => {
   return (
     <nav className={`fixed z-50 transition-all duration-500 ${scrolled ? 'glass-effect py-3 shadow-sm rounded-[30px] top-4 right-0 left-0 w-[80%] mx-auto' : 'py-4 w-full top-0 left-0'}`}>
       <div className="custom-container flex justify-between items-center">
-        <Link to="/" onClick={scrollToTop} className="text-2xl font-bold tracking-tighter flex items-center gap-2">
-          <img src={logo} alt="Rahima Store" className="w-10 h-10 object-cover rounded-full border border-gray-100 shadow-sm" />
-          <span className="font-serif italic text-primary">Rahima Store</span>
+        <Link to="/" onClick={scrollToTop} className="text-2xl font-bold tracking-tighter flex items-center gap-2 group">
+          <div className="w-10 h-10 rounded-full bg-gold-gradient p-[1px]">
+            <img src={logo} alt="Rahima Store" className="w-full h-full object-cover rounded-full bg-black shadow-sm group-hover:scale-110 transition-transform duration-300" />
+          </div>
+          <span className="font-serif italic text-gold-gradient whitespace-nowrap">Rahima Store</span>
         </Link>
         
         <div className="hidden md:flex gap-10 text-sm font-medium uppercase tracking-widest mx-auto">
-          <Link to="/products" className="hover:text-primary transition-colors">Boutique</Link>
-          <a href="/#about" onClick={navigateToSection('about')} className="hover:text-primary transition-colors">À Propos</a>
-          <a href="/#testimonials" onClick={navigateToSection('testimonials')} className="hover:text-primary transition-colors">Avis</a>
+          <Link to="/products" className="hover:text-primary transition-colors text-white/80">Boutique</Link>
+          <a href="/#about" onClick={navigateToSection('about')} className="hover:text-primary transition-colors text-white/80">À Propos</a>
+          <a href="/#testimonials" onClick={navigateToSection('testimonials')} className="hover:text-primary transition-colors text-white/80">Avis</a>
         </div>
 
         <div className="flex items-center gap-1 sm:gap-2">
@@ -59,8 +61,8 @@ const Navbar = () => {
             <LayoutGrid size={22} />
           </Link>
 
-          <Link to="/cart" className="relative p-2 hover:bg-bg-soft rounded-full transition-colors">
-            <ShoppingBag size={22} className={cartCount > 0 ? "text-primary" : ""} />
+          <Link to="/cart" className="relative p-2 hover:bg-white/5 rounded-full transition-colors group">
+            <ShoppingBag size={22} className={cartCount > 0 ? "text-primary" : "text-white/70 group-hover:text-primary"} />
             {cartCount > 0 && (
               <span className="absolute top-0 right-0 bg-primary text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center border-2 border-white font-bold">
                 {cartCount}
@@ -96,7 +98,7 @@ const Navbar = () => {
               </button>
             </div>
           ) : (
-            <Link to="/login" className="p-2 text-gray-400 hover:text-primary hover:bg-bg-soft rounded-full transition-all">
+            <Link to="/login" className="p-2 text-white/70 hover:text-primary hover:bg-white/5 rounded-full transition-all">
               <User size={22} />
             </Link>
           )}

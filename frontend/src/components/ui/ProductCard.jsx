@@ -16,33 +16,33 @@ const ProductCard = ({ product, onAddToCart, isNew }) => {
 
   return (
     <div className="group">
-      <div className="relative h-[220px] md:h-[320px] rounded-3xl overflow-hidden mb-6 bg-gray-100">
+      <div className="relative h-[220px] md:h-[320px] rounded-3xl overflow-hidden mb-6 bg-white/5 border border-white/5 group-hover:border-primary/20 transition-colors">
         <Link to={`/products/${productSlug(product)}`}>
           <img 
             src={product.mainImage || product.img} 
             alt={product.name} 
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
           />
-          <div className="absolute inset-0 bg-black/5 group-hover:bg-black/10 transition-colors"></div>
+          <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors"></div>
         </Link>
         <button 
           onClick={handleAddToCart}
           className={`absolute cursor-pointer bottom-6 left-1/2 -translate-x-1/2 w-[80%] py-4 rounded-full font-bold shadow-xl hidden md:flex items-center justify-center gap-2 transition-all duration-300 ${
             isAdded 
               ? 'bg-green-500 text-white opacity-100 scale-95 translate-y-0' 
-              : 'bg-white text-gray-900 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0'
+              : 'bg-gold-gradient text-black opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0'
           }`}
         >
           {isAdded ? <Check size={18} /> : <ShoppingBag size={18} />}
           {isAdded ? 'Ajouté' : 'Ajouter'}
         </button>
         {isNew && (
-          <div className="absolute top-4 left-4 bg-primary text-white text-[10px] font-bold uppercase px-3 py-1 rounded-full">New</div>
+          <div className="absolute top-4 left-4 bg-gold-gradient text-black text-[10px] font-bold uppercase px-3 py-1 rounded-full shadow-lg">New</div>
         )}
       </div>
       <Link to={`/products/${productSlug(product)}`}>
-        <p className="text-xs text-text-muted uppercase tracking-widest mb-2">{product.category}</p>
-        <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">{product.name}</h3>
+        <p className="text-[10px] text-white/40 uppercase tracking-[0.2em] mb-2">{product.category}</p>
+        <h3 className="text-xl font-bold mb-2 text-white group-hover:text-primary transition-colors">{product.name}</h3>
         <p className="font-serif text-primary italic text-lg">{product.price} FCFA</p>
       </Link>
       

@@ -1,0 +1,7 @@
+ primary: "#FF4D8D",
+        "primary-dark": "#E91E63",
+        secondary: "#B76E79",
+        accent: "#FFD1DC",
+        "bg-soft": "#FFF9FB",
+        "text-main": "#2D3436",
+        "text-muted": "#636E72",

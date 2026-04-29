@@ -1,4 +1,4 @@
-import logo from '../assets/logo.jpeg';
+import logo from '../assets/logo.png';
 
 export const generateInvoice = async (order) => {
   // Dynamic imports for heavy PDF libraries

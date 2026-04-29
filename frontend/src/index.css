@@ -2,26 +2,40 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Outfit:wght@100..900&display=swap');
 
 @theme {
-  --color-primary: #FF4D8D;
-  --color-primary-dark: #E91E63;
-  --color-secondary: #B76E79;
-  --color-accent: #FFD1DC;
-  --color-bg-soft: #FFF9FB;
-  --color-text-main: #2D3436;
-  --color-text-muted: #636E72;
+  --color-gold-0: #E8AA18;
+  --color-gold-32: #F5C219;
+  --color-gold-68: #F9F093;
+  --color-gold-100: #FDF07F;
+  
+  --color-primary: #E8AA18;
+  --color-primary-dark: #F5C219;
+  --color-secondary: #F9F093;
+  --color-accent: #FDF07F;
+  --color-bg-soft: #080808;
+  --color-text-main: #FDF07F;
+  --color-text-muted: #A0A0A0;
   
   --font-serif: "Playfair Display", serif;
   --font-sans: "Outfit", sans-serif;
+
+  --background-image-gold-gradient: linear-gradient(to right, #E8AA18 0%, #F5C219 32%, #F9F093 68%, #FDF07F 100%);
+
+  @keyframes pulse-slow {
+    0%, 100% { opacity: 0.1; transform: scale(1); }
+    50% { opacity: 0.15; transform: scale(1.05); }
+  }
+
+  --animate-pulse-slow: pulse-slow 8s ease-in-out infinite;
 }
 
 :root {
-  --primary: #FF4D8D;
-  --primary-dark: #E91E63;
-  --secondary: #B76E79;
-  --accent: #FFD1DC;
-  --bg-soft: #FFF9FB;
-  --text-main: #2D3436;
-  --text-muted: #636E72;
+  --primary: #E8AA18;
+  --primary-dark: #F5C219;
+  --secondary: #F9F093;
+  --accent: #FDF07F;
+  --bg-soft: #080808;
+  --text-main: #FFFFFF;
+  --text-muted: #A0A0A0;
 }
 
 @layer base {
@@ -36,7 +50,16 @@
 
 @layer components {
   .glass-effect {
-    @apply bg-white/70 backdrop-blur-xl;
+    @apply bg-white/5 backdrop-blur-xl border border-white/10;
+  }
+
+  .bg-gold-gradient {
+    background-image: var(--background-image-gold-gradient);
+  }
+  
+  .text-gold-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--background-image-gold-gradient);
   }
   
   .custom-container {
@@ -44,11 +67,12 @@
   }
 
   .btn-primary {
-    @apply bg-primary text-white px-10 py-5 rounded-full font-bold text-lg hover:shadow-lg hover:scale-105 transition-all duration-300;
+    @apply text-black px-10 py-5 rounded-full font-bold text-lg hover:shadow-[0_0_20px_rgba(232,170,24,0.4)] hover:scale-105 transition-all duration-300 border-none;
+    background-image: var(--background-image-gold-gradient);
   }
 
   .btn-secondary {
-    @apply border-2 border-text-main px-10 py-5 rounded-full font-bold text-lg hover:bg-text-main hover:text-white transition-all duration-300;
+    @apply border-2 border-primary text-primary px-10 py-5 rounded-full font-bold text-lg hover:bg-primary hover:text-black transition-all duration-300;
   }
 }
 
@@ -62,12 +86,12 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--accent);
+  background: var(--primary);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--primary);
+  background: var(--accent);
 }
 
 .no-scrollbar::-webkit-scrollbar {

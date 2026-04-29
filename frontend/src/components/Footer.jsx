@@ -20,20 +20,22 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-white border-t border-gray-50 pt-20 pb-10">
+    <footer className="bg-black border-t border-white/5 pt-20 pb-10">
       <div className="custom-container">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           <div className="space-y-6">
-            <Link to="/" className="text-2xl font-bold tracking-tighter flex items-center gap-2">
-              <img src={logo} alt="Rahima Store" className="w-10 h-10 object-cover rounded-full border border-gray-100 shadow-sm" />
-              <span className="font-serif italic text-primary">Rahima Store</span>
+            <Link to="/" className="text-2xl font-bold tracking-tighter flex items-center gap-2 group">
+              <div className="w-10 h-10 rounded-full bg-gold-gradient p-[1px]">
+                <img src={logo} alt="Rahima Store" className="w-full h-full object-cover rounded-full bg-black shadow-sm group-hover:scale-110 transition-transform duration-300" />
+              </div>
+              <span className="font-serif italic text-gold-gradient">Rahima Store</span>
             </Link>
-            <p className="text-gray-400 text-sm leading-relaxed">
+            <p className="text-white/50 text-sm leading-relaxed">
               L'excellence de la beauté africaine et internationale. Nous sélectionnons le meilleur pour votre éclat naturel.
             </p>
             <div className="flex gap-4">
               {[Globe, Send, Share2].map((Icon, i) => (
-                <a key={i} href="#" className="w-10 h-10 rounded-full bg-bg-soft flex items-center justify-center text-gray-400 hover:bg-primary hover:text-white transition-all">
+                <a key={i} href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/40 hover:bg-gold-gradient hover:text-black transition-all">
                   <Icon size={18} />
                 </a>
               ))}
@@ -41,8 +43,8 @@ const Footer = () => {
           </div>
 
           <div>
-            <h4 className="font-serif italic text-lg mb-6">Navigation</h4>
-            <ul className="space-y-4 text-sm text-gray-400">
+            <h4 className="font-serif italic text-lg mb-6 text-white">Navigation</h4>
+            <ul className="space-y-4 text-sm text-white/50">
               <li><Link to="/products" className="hover:text-primary transition-colors">Boutique</Link></li>
               <li>
                 <a href="/#about" onClick={navigateToSection('about')} className="hover:text-primary transition-colors">
@@ -59,8 +61,8 @@ const Footer = () => {
           </div>
 
           <div>
-            <h4 className="font-serif italic text-lg mb-6">Service Client</h4>
-            <ul className="space-y-4 text-sm text-gray-400">
+            <h4 className="font-serif italic text-lg mb-6 text-white">Service Client</h4>
+            <ul className="space-y-4 text-sm text-white/50">
               <li><Link to="/livraison-retours" className="hover:text-primary transition-colors">Livraison &amp; Retours</Link></li>
               <li><Link to="/conditions-generales" className="hover:text-primary transition-colors">Conditions Générales</Link></li>
               <li><Link to="/politique-confidentialite" className="hover:text-primary transition-colors">Politique de Confidentialité</Link></li>
@@ -69,8 +71,8 @@ const Footer = () => {
           </div>
 
           <div>
-            <h4 className="font-serif italic text-lg mb-6">Contact</h4>
-            <ul className="space-y-4 text-sm text-gray-400">
+            <h4 className="font-serif italic text-lg mb-6 text-white">Contact</h4>
+            <ul className="space-y-4 text-sm text-white/50">
               <li className="flex items-start gap-3">
                 <MapPin size={18} className="text-primary flex-shrink-0" />
                 <span>Dakar, Sénégal - Plateau, Rue Félix Faure</span>
@@ -87,7 +89,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="pt-8 border-t border-gray-50 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-widest text-gray-300 font-bold">
+        <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-widest text-white/30 font-bold">
           <p>© {new Date().getFullYear()} Rahima Store. Tous droits réservés.</p>
           {/* <div className="flex gap-6">
             <Link to="/conditions-generales" className="hover:text-gray-500 transition-colors">CGV</Link>

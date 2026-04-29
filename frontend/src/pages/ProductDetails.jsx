@@ -7,6 +7,7 @@ import productService from '../services/productService';
 import DetailsSkeleton from '../components/ui/DetailsSkeleton';
 import SEO, { buildProductSchema, buildBreadcrumbSchema } from '../components/SEO';
 import { productSlug } from '../utils/slug';
+import ProductCard from '../components/ui/ProductCard'
 
 const ProductDetails = () => {
   const { slug } = useParams();
@@ -54,8 +55,8 @@ const ProductDetails = () => {
   if (loading) return <DetailsSkeleton />;
 
   if (!product) return (
-    <div className="pt-40 pb-20 text-center">
-      <h2 className="text-2xl font-serif mb-4">Produit non trouvé</h2>
+    <div className="pt-40 pb-20 text-center bg-black min-h-screen">
+      <h2 className="text-2xl font-serif mb-4 text-white">Produit non trouvé</h2>
       <Link to="/products" className="text-primary font-bold">Retour à la boutique</Link>
     </div>
   );
@@ -81,32 +82,32 @@ const ProductDetails = () => {
         ]}
       />
       <div className="custom-container">
-        <Link to="/products" className="flex items-center gap-2 text-gray-400 hover:text-primary mb-8 transition-colors group">
+        <Link to="/products" className="flex items-center gap-2 text-white/40 hover:text-primary mb-8 transition-colors group">
           <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform" /> Retour à la boutique
         </Link>
 
         <div className="grid lg:grid-cols-2 gap-10 items-start">
           {/* Images Section */}
           <div className="space-y-6">
-            <div className="aspect-square rounded-[60px] overflow-hidden bg-white shadow-2xl relative group">
+            <div className="aspect-9/16 md:aspect-square rounded-[30px] overflow-hidden bg-white/5 border border-white/10 shadow-2xl relative group">
               <img 
                 src={currentDisplayImage} 
                 alt={product.name} 
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
               />
               <div className="absolute top-6 left-6 flex gap-2">
-                <span className="bg-white/80 backdrop-blur-md px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest text-primary shadow-sm border border-white/50">
+                <span className="bg-gold-gradient text-black px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-sm">
                    Incontournable
                 </span>
               </div>
             </div>
             
             {/* Thumbnails / Variants */}
-            <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+            <div className="flex gap-4 p-2 overflow-x-auto pb-4 scrollbar-hide">
               {/* Main Image Thumbnail */}
               <button 
                 onClick={() => setSelectedImage(product.mainImage)}
-                className={`w-24 h-24 rounded-2xl overflow-hidden flex-shrink-0 border-2 transition-all ${selectedImage === product.mainImage ? 'border-primary ring-4 ring-primary/10 scale-105' : 'border-transparent opacity-60 hover:opacity-100'}`}
+                className={`w-24 h-24 rounded-xl overflow-hidden flex-shrink-0 border-2 transition-all ${selectedImage === product.mainImage ? 'border-primary ring-4 ring-primary/10 scale-105' : 'border-transparent opacity-60 hover:opacity-100'}`}
               >
                 <img src={product.mainImage} className="w-full h-full object-cover" alt="Main view" />
               </button>
@@ -134,21 +135,21 @@ const ProductDetails = () => {
               <span>{product.category}</span>
             </div>
             
-            <h1 className="text-4xl md:text-6xl font-serif mb-6 leading-tight">{product.name}</h1>
+            <h1 className="text-4xl md:text-6xl font-serif mb-6 leading-tight text-white">{product.name}</h1>
             
             <div className="flex items-baseline gap-4 mb-8">
               <span className="text-3xl font-serif text-primary">{product.price.toLocaleString()} FCFA</span>
-              <span className="text-gray-300 line-through text-lg">{(product.price * 1.2).toLocaleString()} FCFA</span>
+              <span className="text-white/20 line-through text-lg">{(product.price * 1.2).toLocaleString()} FCFA</span>
             </div>
 
-            <p className="text-gray-500 text-lg leading-relaxed mb-10 border-l-2 border-primary/20 pl-6 italic">
+            <p className="text-white/60 text-lg leading-relaxed mb-10 border-l-2 border-primary/20 pl-6 italic">
               {product.description || "Une expérience sensorielle unique, formulée avec soin pour sublimer votre éclat naturel au quotidien."}
             </p>
 
             {/* Variant Selector Labels */}
             {product.variants.length > 0 && (
               <div className="mb-10">
-                <h3 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-4">Teinte / Couleur : <span className="text-text-main">{product.variants[selectedVariant].color}</span></h3>
+                <h3 className="text-xs font-bold uppercase tracking-widest text-white/40 mb-4">Teinte / Couleur : <span className="text-primary">{product.variants[selectedVariant].color}</span></h3>
                 <div className="flex flex-wrap gap-3">
                   {product.variants.map((v, i) => (
                     <button 
@@ -157,7 +158,7 @@ const ProductDetails = () => {
                         setSelectedVariant(i);
                         setSelectedImage(v.image);
                       }}
-                      className={`px-6 py-3 rounded-2xl text-xs font-bold transition-all border ${selectedVariant === i ? 'bg-primary text-white border-primary shadow-lg shadow-primary/20' : 'bg-white text-gray-400 border-gray-100 hover:border-primary'}`}
+                      className={`px-6 py-3 rounded-2xl text-xs font-bold transition-all border ${selectedVariant === i ? 'bg-primary text-black border-primary shadow-lg shadow-primary/20' : 'bg-white/5 text-white/40 border-white/10 hover:border-primary'}`}
                     >
                       {v.color}
                     </button>
@@ -187,32 +188,43 @@ const ProductDetails = () => {
             )}
 
             {/* Trust Badges */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-10 border-t border-gray-100">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-10 border-t border-white/10">
               <div className="flex items-center gap-3">
-                <div className="p-3 bg-green-50 text-green-600 rounded-2xl"><ShieldCheck size={20} /></div>
+                <div className="p-3 bg-white/5 text-primary rounded-2xl border border-white/5"><ShieldCheck size={20} /></div>
                 <div>
-                  <h4 className="text-xs font-bold font-sans uppercase">Qualité Supérieure</h4>
-                  <p className="text-[10px] text-gray-400">Testé & Approuvé</p>
+                  <h4 className="text-xs font-bold font-sans uppercase text-white">Qualité Supérieure</h4>
+                  <p className="text-[10px] text-white/40">Testé & Approuvé</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl"><Truck size={20} /></div>
+                <div className="p-3 bg-white/5 text-primary rounded-2xl border border-white/5"><Truck size={20} /></div>
                 <div>
-                  <h4 className="text-xs font-bold font-sans uppercase">Livraison Dakar</h4>
-                  <p className="text-[10px] text-gray-400">Gratuite dès 50k</p>
+                  <h4 className="text-xs font-bold font-sans uppercase text-white">Livraison Dakar</h4>
+                  <p className="text-[10px] text-white/40">Gratuite dès 50k</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <div className="p-3 bg-orange-50 text-orange-600 rounded-2xl"><RotateCcw size={20} /></div>
+                <div className="p-3 bg-white/5 text-primary rounded-2xl border border-white/5"><RotateCcw size={20} /></div>
                 <div>
-                  <h4 className="text-xs font-bold font-sans uppercase">Satisfait ou remboursé</h4>
-                  <p className="text-[10px] text-gray-400">Sous 14 jours</p>
+                  <h4 className="text-xs font-bold font-sans uppercase text-white">Satisfait ou remboursé</h4>
+                  <p className="text-[10px] text-white/40">Sous 14 jours</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      {/* Section Produits Similaires */}
+      {product.similarProducts && product.similarProducts.length > 0 && (
+        <div className="custom-container mt-20 pt-20 border-t border-primary">
+          <h2 className="text-3xl font-serif mb-12 text-white">Vous aimerez aussi</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {product.similarProducts.map((p) => (
+              <ProductCard key={p._id} product={p} onAddToCart={addToCart} />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

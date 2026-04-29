@@ -7,13 +7,19 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#FF4D8D",
-        "primary-dark": "#E91E63",
-        secondary: "#B76E79",
-        accent: "#FFD1DC",
-        "bg-soft": "#FFF9FB",
-        "text-main": "#2D3436",
-        "text-muted": "#636E72",
+        primary: "#E8AA18",
+        "primary-dark": "#F5C219",
+        secondary: "#F9F093",
+        accent: "#FDF07F",
+        "bg-soft": "#080808",
+        "text-main": "#FFFFFF",
+        "text-muted": "#A0A0A0",
+        gold: {
+          0: "#E8AA18",
+          32: "#F5C219",
+          68: "#F9F093",
+          100: "#FDF07F",
+        }
       },
       fontFamily: {
         serif: ["Playfair Display", "serif"],
