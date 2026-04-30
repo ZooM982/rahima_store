@@ -5,7 +5,7 @@ import { ShoppingBag, User, LogOut, LayoutDashboard, LayoutGrid, Menu, X } from 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../hooks/useCart';
 import { useAuth } from '../hooks/useAuth';
-import logo from '../assets/logo2.png';
+import logo from '../assets/pictogram.svg';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -55,7 +55,7 @@ const Navbar = () => {
       <div className="custom-container flex justify-between items-center">
         <Link to="/" onClick={scrollToTop} className="text-2xl font-bold flex items-center gap-3 group">
           <div className="w-10 h-10 rounded-full bg-gold-gradient p-[1px]">
-            <img src={logo} alt="Rahima Store" className="w-full h-full object-cover rounded-full bg-black shadow-sm group-hover:scale-110 transition-transform duration-300" />
+            <img src={logo} alt="Rahima Store" className="w-full h-full object-contain p-1 rounded-full bg-black shadow-sm group-hover:scale-110 transition-transform duration-300" />
           </div>
           <span className="font-serif italic text-gold-gradient whitespace-nowrap pr-1">Rahima Store</span>
         </Link>
