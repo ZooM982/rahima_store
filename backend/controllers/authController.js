@@ -61,6 +61,8 @@ const updateProfile = async (req, res) => {
   }
 };
 
+const Order = require('../models/Order');
+
 const deleteMyAccount = async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
@@ -68,6 +70,18 @@ const deleteMyAccount = async (req, res) => {
     
     if (user.role === 'admin') {
       return res.status(403).json({ message: 'Un compte administrateur ne peut pas être supprimé par cette méthode.' });
+    }
+
+    // Vérifier s'il y a des commandes en cours
+    const activeOrders = await Order.findOne({ 
+      userId: req.user.id, 
+      status: { $in: ['Pending', 'Validated', 'Processing'] } 
+    });
+
+    if (activeOrders) {
+      return res.status(400).json({ 
+        message: 'Vous ne pouvez pas supprimer votre compte tant que vous avez des commandes en cours de traitement.' 
+      });
     }
 
     await User.findByIdAndDelete(req.user.id);

@@ -31,7 +31,7 @@ const UserDashboard = () => {
         window.location.href = '/';
       } catch (err) {
         console.error("Delete account error:", err);
-        alert("Erreur lors de la suppression du compte.");
+        alert(err.response?.data?.message || "Erreur lors de la suppression du compte.");
         setDeleteLoading(false);
       }
     }
