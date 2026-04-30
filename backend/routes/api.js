@@ -1,5 +1,5 @@
 const express = require('express');
-const { login, register, getMe, updateProfile, deleteMyAccount } = require('../controllers/authController');
+const { login, register, getMe, updateProfile, deleteMyAccount, forgotPassword, resetPassword } = require('../controllers/authController');
 const { getProducts, getProductById, createProduct, updateProduct, deleteProduct } = require('../controllers/productController');
 const { createOrder, getOrders, getMyOrders, getOrderById, updateOrderStatus, getOrderInvoice } = require('../controllers/orderController');
 const { getUsers, deleteUser, getCustomerDetails } = require('../controllers/userController');
