@@ -87,6 +87,10 @@ app.use("/api", apiRoutes);
 app.use("/", apiRoutes); // Support pour les requêtes où Vercel retire le préfixe /api
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
+app.get("/api/health", (req, res) => {
+	res.json({ status: "ok", message: "Rahima Store API is alive", timestamp: new Date() });
+});
+
 app.get("/", (req, res) => {
 	res.send("Rahima Store API is running...");
 });
