@@ -2,11 +2,14 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ChevronLeft, FileText } from 'lucide-react';
 import SEO from '../SEO';
+import DecorativePictogram from '../ui/DecorativePictogram';
 
 const LegalLayout = ({ title, lastUpdated, children }) => {
   const location = useLocation();
   return (
-    <div className="pt-24 pb-20 md:pt-32 custom-container">
+    <div className="pt-24 pb-20 md:pt-32 custom-container relative overflow-hidden min-h-screen">
+      <DecorativePictogram className="top-40 -left-20 rotate-12 opacity-[0.02]" size="w-[600px] h-[600px]" />
+      <DecorativePictogram className="bottom-0 -right-20 -rotate-45" size="w-80 h-80" />
       <SEO
         title={title}
         description={`${title} de Rahima Store. Informations légales et conditions d'utilisation pour nos clients au Sénégal.`}

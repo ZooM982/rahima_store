@@ -1,13 +1,16 @@
 import React from 'react';
 import Button from '../common/Button';
 import aboutimg from "../../assets/about.png"
+import DecorativePictogram from '../ui/DecorativePictogram';
 const About = () => {
   return (
     <section id="about" className="bg-black overflow-hidden relative py-14 md:py-32">
       {/* Decorative background element */}
       <div className="absolute top-0 right-0 w-1/3 h-full bg-gold-gradient opacity-5 blur-[120px] -z-10"></div>
       
-      {/* Floral Element */}
+      {/* Pictogram & Floral Elements */}
+      <DecorativePictogram className="top-10 -left-20 rotate-12 opacity-[0.03]" size="w-[500px] h-[500px]" />
+      
       <div className="absolute -bottom-16 -right-10 w-[500px] h-[500px] opacity-15 pointer-events-none z-0">
         <img src="/flowers-bg.png" alt="" className="w-full h-full object-contain rotate-90 scale-125 mix-blend-lighten" />
       </div>
