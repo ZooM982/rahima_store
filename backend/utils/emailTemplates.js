@@ -113,8 +113,26 @@ const orderStatusUpdateTemplate = (order, status, message) => baseLayout(`
   <p>Vous recevrez une nouvelle notification dès que votre colis sera entre les mains de notre livreur.</p>
 `);
 
+const newAccountTemplate = (user, tempPassword) => baseLayout(`
+  <h2 style="color: #000000; font-family: 'Playfair Display', serif; margin-bottom: 20px;">Bienvenue chez Rahima Store, ${user.name} !</h2>
+  <p>Votre compte a été créé automatiquement suite à votre commande. Vous pouvez désormais suivre vos colis et gérer vos informations en toute simplicité.</p>
+  
+  <div style="background-color: #000000; color: #ffffff; padding: 30px; border-radius: 15px; margin: 30px 0; text-align: center; border: 1px solid #D4AF37;">
+    <p style="margin: 0 0 10px 0; font-size: 14px; color: #D4AF37; font-weight: bold; text-transform: uppercase;">Vos identifiants de connexion</p>
+    <p style="margin: 5px 0; font-size: 16px;"><strong>Email :</strong> ${user.email}</p>
+    <p style="margin: 5px 0; font-size: 16px;"><strong>Mot de passe :</strong> <span style="background-color: #D4AF37; color: #000; padding: 2px 8px; border-radius: 4px;">${tempPassword}</span></p>
+  </div>
+
+  <p style="font-size: 14px; color: #666; font-style: italic;">Note : Pour votre sécurité, nous vous conseillons de changer votre mot de passe dès votre première connexion dans votre espace client.</p>
+
+  <div style="text-align: center; margin-top: 40px;">
+    <a href="https://rahima.store/login" style="background-color: #D4AF37; color: #000000; padding: 15px 30px; text-decoration: none; border-radius: 50px; font-weight: bold; display: inline-block;">Me connecter à mon espace</a>
+  </div>
+`);
+
 module.exports = {
   orderConfirmationTemplate,
   paymentSuccessTemplate,
-  orderStatusUpdateTemplate
+  orderStatusUpdateTemplate,
+  newAccountTemplate
 };

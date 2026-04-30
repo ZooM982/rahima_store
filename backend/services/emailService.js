@@ -60,8 +60,24 @@ const sendStatusUpdate = async (order, status, message, toEmail) => {
   }
 };
 
+const sendNewAccountEmail = async (user, tempPassword) => {
+  try {
+    const html = newAccountTemplate(user, tempPassword);
+    await transporter.sendMail({
+      from: `"Rahima Store" <${process.env.EMAIL_USER}>`,
+      to: user.email,
+      subject: 'Bienvenue chez Rahima Store - Vos identifiants',
+      html,
+    });
+    console.log('Welcome email sent');
+  } catch (error) {
+    console.error('Error sending welcome email:', error);
+  }
+};
+
 module.exports = {
   sendOrderConfirmation,
   sendPaymentSuccess,
-  sendStatusUpdate
+  sendStatusUpdate,
+  sendNewAccountEmail
 };

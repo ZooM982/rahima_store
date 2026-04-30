@@ -2,7 +2,7 @@ const User = require('../models/User');
 const Order = require('../models/Order');
 const bcrypt = require('bcryptjs');
 const { sendNotificationToAdmins } = require('./notificationController');
-const { sendOrderConfirmation, sendStatusUpdate } = require('../services/emailService');
+const { sendOrderConfirmation, sendStatusUpdate, sendNewAccountEmail } = require('../services/emailService');
 
 const createOrder = async (req, res) => {
   try {
@@ -27,7 +27,8 @@ const createOrder = async (req, res) => {
           password: hashedPassword
         });
         finalUserId = newUser._id;
-        // In a real app, we'd send an email with the tempPassword here
+        // Send email with credentials
+        sendNewAccountEmail(newUser, tempPassword);
       }
     }
 

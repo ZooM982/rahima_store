@@ -25,6 +25,7 @@ const Cart = () => {
 	const { user } = useAuth();
 	const [isProcessing, setIsProcessing] = useState(false);
 	const [autoCreateAccount, setAutoCreateAccount] = useState(false);
+	const [isEditingInfo, setIsEditingInfo] = useState(false);
 	const [formData, setFormData] = useState({
 		name: user?.name || "",
 		email: user?.email || "",
@@ -234,77 +235,114 @@ const Cart = () => {
 										onSubmit={handleCheckout}
 										className="space-y-4"
 									>
-										<Input
-											required
-											placeholder="Nom complet"
-											value={formData.name}
-											onChange={(e) =>
-												setFormData({ ...formData, name: e.target.value })
-											}
-										/>
-										<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-											<Input
-												required
-												type="email"
-												placeholder="Email"
-												value={formData.email}
-												onChange={(e) =>
-													setFormData({ ...formData, email: e.target.value })
-												}
-											/>
-											<Input
-												required
-												type="tel"
-												placeholder="Téléphone"
-												value={formData.phone}
-												onChange={(e) =>
-													setFormData({ ...formData, phone: e.target.value })
-												}
-											/>
-										</div>
-										<Input
-											required
-											textarea
-											placeholder="Adresse de livraison"
-											value={formData.address}
-											onChange={(e) =>
-												setFormData({ ...formData, address: e.target.value })
-											}
-										/>
-
-										{!user && (
-											<div
-												className="flex items-center gap-4 py-4 px-6 bg-white/1 backdrop-blur-xl rounded-[24px] border border-white/10 hover:border-primary/50 transition-all cursor-pointer group shadow-xl shadow-black/20"
-												onClick={() => setAutoCreateAccount(!autoCreateAccount)}
-											>
-												<div className="relative flex items-center justify-center shrink-0">
-													<input
-														type="checkbox"
-														id="autoCreate"
-														className="peer appearance-none w-6 h-6 rounded-[8px] border-2 border-white/20 checked:bg-gold-gradient checked:border-transparent transition-all cursor-pointer shadow-inner"
-														checked={autoCreateAccount}
-														onChange={(e) => {
-															e.stopPropagation();
-															setAutoCreateAccount(e.target.checked);
-														}}
-													/>
-													<Check
-														size={14}
-														className="absolute text-black opacity-0 peer-checked:opacity-100 pointer-events-none transition-all scale-50 peer-checked:scale-100"
-													/>
-												</div>
-												<div className="flex flex-col">
-													<label
-														htmlFor="autoCreate"
-														className="text-sm font-bold text-white group-hover:text-primary transition-colors cursor-pointer select-none"
-														onClick={(e) => e.preventDefault()}
+										{user && !isEditingInfo ? (
+											<div className="p-5 bg-white/5 rounded-3xl border border-white/10 space-y-3 relative group">
+												<div className="flex items-center justify-between">
+													<h3 className="text-[10px] font-bold uppercase tracking-widest text-primary">Informations de livraison</h3>
+													<button 
+														type="button"
+														onClick={() => setIsEditingInfo(true)}
+														className="text-[10px] font-bold uppercase tracking-widest text-white/40 hover:text-primary transition-colors"
 													>
-														Créer mon compte
-													</label>
-													<p className="text-[10px] text-white/40 uppercase tracking-widest mt-0.5">
-														Pour un suivi privilégié
-													</p>
+														Modifier
+													</button>
 												</div>
+												<div className="space-y-1">
+													<p className="font-bold text-white text-sm">{formData.name}</p>
+													<p className="text-gray-400 text-xs">{formData.phone}</p>
+													<p className="text-gray-400 text-xs leading-relaxed">{formData.address}</p>
+												</div>
+												<div className="pt-2 flex items-center gap-2 text-[9px] text-green-500/60 font-bold uppercase tracking-tighter">
+													<Check size={12} /> Prêt pour expédition
+												</div>
+											</div>
+										) : (
+											<div className="space-y-4 animate-fade-in">
+												<div className="flex items-center justify-between mb-2">
+													<h3 className="text-[10px] font-bold uppercase tracking-widest text-primary px-2">Vos Coordonnées</h3>
+													{user && (
+														<button 
+															type="button"
+															onClick={() => setIsEditingInfo(false)}
+															className="text-[10px] font-bold uppercase tracking-widest text-white/40 hover:text-white transition-colors"
+														>
+															Annuler
+														</button>
+													)}
+												</div>
+												<Input
+													required
+													placeholder="Nom complet"
+													value={formData.name}
+													onChange={(e) =>
+														setFormData({ ...formData, name: e.target.value })
+													}
+												/>
+												<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+													<Input
+														required
+														type="email"
+														placeholder="Email"
+														value={formData.email}
+														onChange={(e) =>
+															setFormData({ ...formData, email: e.target.value })
+														}
+													/>
+													<Input
+														required
+														type="tel"
+														placeholder="Téléphone"
+														value={formData.phone}
+														onChange={(e) =>
+															setFormData({ ...formData, phone: e.target.value })
+														}
+													/>
+												</div>
+												<Input
+													required
+													textarea
+													placeholder="Adresse de livraison"
+													value={formData.address}
+													onChange={(e) =>
+														setFormData({ ...formData, address: e.target.value })
+													}
+												/>
+
+												{!user && (
+													<div
+														className="flex items-center gap-4 py-4 px-6 bg-white/1 backdrop-blur-xl rounded-[24px] border border-white/10 hover:border-primary/50 transition-all cursor-pointer group shadow-xl shadow-black/20"
+														onClick={() => setAutoCreateAccount(!autoCreateAccount)}
+													>
+														<div className="relative flex items-center justify-center shrink-0">
+															<input
+																type="checkbox"
+																id="autoCreate"
+																className="peer appearance-none w-6 h-6 rounded-[8px] border-2 border-white/20 checked:bg-gold-gradient checked:border-transparent transition-all cursor-pointer shadow-inner"
+																checked={autoCreateAccount}
+																onChange={(e) => {
+																	e.stopPropagation();
+																	setAutoCreateAccount(e.target.checked);
+																}}
+															/>
+															<Check
+																size={14}
+																className="absolute text-black opacity-0 peer-checked:opacity-100 pointer-events-none transition-all scale-50 peer-checked:scale-100"
+															/>
+														</div>
+														<div className="flex flex-col">
+															<label
+																htmlFor="autoCreate"
+																className="text-sm font-bold text-white group-hover:text-primary transition-colors cursor-pointer select-none"
+																onClick={(e) => e.preventDefault()}
+															>
+																Créer mon compte
+															</label>
+															<p className="text-[10px] text-white/40 uppercase tracking-widest mt-0.5">
+																Pour un suivi privilégié
+															</p>
+														</div>
+													</div>
+												)}
 											</div>
 										)}
 
