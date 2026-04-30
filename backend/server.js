@@ -91,6 +91,10 @@ app.get("/api/health", (req, res) => {
 	res.json({ status: "ok", message: "Rahima Store API is alive", timestamp: new Date() });
 });
 
+app.get("/health", (req, res) => {
+	res.json({ status: "ok", message: "Rahima Store API is alive (root)", timestamp: new Date() });
+});
+
 app.get("/", (req, res) => {
 	res.send("Rahima Store API is running...");
 });
