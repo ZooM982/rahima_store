@@ -23,7 +23,7 @@ const Features = () => {
 
   return (
     <section className="bg-black py-12 md:py-24 border-t border-white/5 mt-10 relative overflow-hidden">
-      <DecorativePictogram className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.04]" size="w-[600px] h-[600px]" />
+      <DecorativePictogram className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.12]" size="w-[600px] h-[600px]" />
       <div className="custom-container">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-24">
           {features.map((f, i) => (

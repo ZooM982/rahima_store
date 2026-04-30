@@ -97,8 +97,8 @@ const Cart = () => {
 
 	return (
 		<div className="pt-16 pb-10 md:pt-20 md:pb-14 custom-container relative overflow-hidden">
-			<DecorativePictogram className="top-40 -left-20 rotate-45 opacity-[0.02]" size="w-[500px] h-[500px]" />
-			<DecorativePictogram className="bottom-0 -right-20 -rotate-12" size="w-96 h-96" />
+			<DecorativePictogram className="top-40 -left-20 rotate-45 opacity-[0.05]" size="w-[500px] h-[500px]" />
+			<DecorativePictogram className="bottom-0 -right-20 -rotate-12 opacity-[0.1]" size="w-96 h-96" />
 			<AnimatePresence mode="wait">
 				{isProcessing ?
 					<motion.div

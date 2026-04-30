@@ -48,8 +48,8 @@ const ProductDetails = () => {
 
   return (
     <div className="pt-16 pb-10 md:pt-20 md:pb-14 relative overflow-hidden">
-      <DecorativePictogram className="top-40 -right-20 rotate-12" size="w-96 h-96" />
-      <DecorativePictogram className="bottom-0 -left-20 -rotate-12 opacity-[0.02]" size="w-80 h-80" />
+      <DecorativePictogram className="top-40 -right-20 rotate-12 opacity-[0.12]" size="w-96 h-96" />
+      <DecorativePictogram className="bottom-0 -left-20 -rotate-12 opacity-[0.06]" size="w-80 h-80" />
       <SEO
         title={product.name}
         description={product.description || `Découvrez ${product.name} — ${product.category}. Livraison rapide à Dakar.`}
