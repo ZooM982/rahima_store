@@ -54,8 +54,10 @@ const Cart = () => {
 			const orderData = {
 				items: cart.map((item) => ({
 					productId: item._id.split("-")[0],
+					name: item.name,
 					quantity: item.quantity,
 					price: item.price,
+					selectedColor: item.selectedColor
 				})),
 				totalAmount: cartTotal,
 				customer: formData,

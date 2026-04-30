@@ -45,19 +45,26 @@ const initiatePayment = async (req, res) => {
 
       // Add Autofill and Auto-submit parameters if a specific method is used
       if (paymentMethod && !paymentMethod.includes(',')) {
-        const phone = order.customer.phone.replace(/\s+/g, '');
-        // Clean phone number (remove +221 or 00221 for 'nn' param)
-        const cleanPhone = phone.replace(/^(\+221|00221|221)/, '');
+        // Normalize phone: remove spaces and handle prefixes
+        const phone = order.customer.phone.replace(/[\s\.\-\(\)]/g, '');
+        
+        // Extract 9 digits for nn (Senegal format: 771234567, 781234567, etc.)
+        const nn = phone.slice(-9);
+        // Ensure +221 format for pn
+        const pn = `+221${nn}`;
         
         const params = new URLSearchParams({
-          pn: phone.startsWith('+') ? phone : `+221${phone.replace(/^0/, '')}`, // Ensure +221 format
-          nn: cleanPhone,
+          pn: pn,
+          nn: nn,
           fn: order.customer.name,
           tp: paymentMethod,
-          nac: paymentMethod === 'Carte Bancaire' ? '0' : '1' // 1 for auto-submit
+          nac: '1' // Always 1 for auto-submit if method is targeted
         });
         
-        redirect_url += `?${params.toString()}`;
+        const separator = redirect_url.includes('?') ? '&' : '?';
+        redirect_url += `${separator}${params.toString()}`;
+        
+        console.log(`[PayTech] Redirect URL optimized for ${paymentMethod}: ${redirect_url}`);
       }
 
       res.json({
