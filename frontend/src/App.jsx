@@ -32,11 +32,7 @@ import Footer from './components/Footer';
 import MobileBottomNav from './components/MobileBottomNav';
 import ScrollToTop from './components/common/ScrollToTop';
 
-const PageLoader = () => (
-  <div className="h-screen w-full flex items-center justify-center bg-bg-soft">
-    <Loader2 className="animate-spin text-primary" size={32} />
-  </div>
-);
+const PageLoader = () => null;
 
 const ProtectedRoute = ({ children, adminOnly = false }) => {
   const { user, isAdmin, loading } = useAuth();

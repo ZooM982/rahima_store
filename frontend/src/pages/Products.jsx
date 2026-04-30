@@ -126,12 +126,7 @@ const Products = () => {
         )}
       </div>
 
-      {/* Infinite Scroll Loader Target */}
-      {!loading && filteredProducts.length > visibleCount && (
-        <div ref={loaderRef} className="py-10 flex justify-center">
-          <Loader2 className="animate-spin text-primary" size={32} />
-        </div>
-      )}
+
 
       {filteredProducts.length === 0 && !loading && (
         <div className="text-center py-20 bg-white/5 rounded-[40px] border border-white/10">

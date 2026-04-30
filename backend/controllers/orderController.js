@@ -2,6 +2,7 @@ const User = require('../models/User');
 const Order = require('../models/Order');
 const bcrypt = require('bcryptjs');
 const { sendNotificationToAdmins } = require('./notificationController');
+const { sendOrderConfirmation, sendStatusUpdate } = require('../services/emailService');
 
 const createOrder = async (req, res) => {
   try {
@@ -94,6 +95,9 @@ const createOrder = async (req, res) => {
       }, 'newCustomerAlert');
     }
 
+    // 6. Send Confirmation Email to Customer
+    sendOrderConfirmation(order);
+
     res.status(201).json(order);
   } catch (err) {
     console.error('Order creation error:', err);
@@ -136,6 +140,23 @@ const updateOrderStatus = async (req, res) => {
       { status: req.body.status },
       { new: true }
     );
+    
+    // Send Status Update Email
+    if (order) {
+      let statusLabel = order.status;
+      let statusMessage = "Votre commande est en cours de traitement.";
+      
+      if (order.status === 'Expédiée') {
+        statusMessage = "Bonne nouvelle ! Votre colis est en route.";
+      } else if (order.status === 'Livrée') {
+        statusMessage = "Votre colis a été livré. Nous espérons que vos produits vous plairont !";
+      } else if (order.status === 'Annulée') {
+        statusMessage = "Votre commande a été annulée.";
+      }
+      
+      sendStatusUpdate(order, statusLabel, statusMessage);
+    }
+
     res.json(order);
   } catch (err) {
     res.status(500).json({ message: err.message });

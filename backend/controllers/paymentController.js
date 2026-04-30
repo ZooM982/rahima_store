@@ -1,5 +1,6 @@
 const axios = require('axios');
 const Order = require('../models/Order');
+const { sendPaymentSuccess } = require('../services/emailService');
 
 const initiatePayment = async (req, res) => {
   try {
@@ -68,8 +69,12 @@ const handleIPN = async (req, res) => {
       const order = await Order.findById(ref_command);
       if (order) {
         order.paymentStatus = 'Paid';
-        order.status = 'Processing'; // Passer à l'étape suivante
+        order.status = 'Processing'; 
         await order.save();
+        
+        // Send Payment Success Email
+        sendPaymentSuccess(order);
+        
         console.log(`Payment confirmed for order ${ref_command}`);
       }
     }

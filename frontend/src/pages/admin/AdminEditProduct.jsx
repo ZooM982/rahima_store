@@ -5,6 +5,7 @@ import Input from '../../components/ui/Input';
 import { Plus, Trash2, Image as ImageIcon, Check, Upload, Loader2, ArrowLeft } from 'lucide-react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import productService from '../../services/productService';
+import { compressImage } from '../../utils/imageCompression';
 
 const AdminEditProduct = () => {
   const { id } = useParams();
@@ -69,12 +70,19 @@ const AdminEditProduct = () => {
     };
   }, [id, navigate]);
 
-  const handleFileChange = (e, callback) => {
+  const handleFileChange = async (e, callback) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => callback(file, reader.result);
-      reader.readAsDataURL(file);
+      try {
+        const compressedBase64 = await compressImage(file);
+        callback(file, compressedBase64);
+      } catch (err) {
+        console.error("Compression failed:", err);
+        // Fallback to original
+        const reader = new FileReader();
+        reader.onloadend = () => callback(file, reader.result);
+        reader.readAsDataURL(file);
+      }
     }
   };
 
