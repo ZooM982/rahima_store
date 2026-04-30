@@ -26,7 +26,7 @@ const Footer = () => {
           <div className="space-y-6">
             <Link to="/" className="text-2xl font-bold tracking-tighter flex items-center gap-2 group">
               <div className="w-10 h-10 rounded-full bg-gold-gradient p-[1px]">
-                <img src={logo} alt="Rahima Store" className="w-full h-full object-contain p-1 rounded-full bg-black shadow-sm group-hover:scale-110 transition-transform duration-300" />
+                <img src={logo} alt="Rahima Store" className="w-full h-full object-contain p-2 rounded-full bg-black shadow-sm group-hover:scale-110 transition-transform duration-300" />
               </div>
               <span className="font-serif italic text-gold-gradient">Rahima Store</span>
             </Link>
