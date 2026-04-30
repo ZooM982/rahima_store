@@ -1,7 +1,7 @@
 const express = require('express');
 const { login, register, getMe, updateProfile, deleteMyAccount } = require('../controllers/authController');
 const { getProducts, getProductById, createProduct, updateProduct, deleteProduct } = require('../controllers/productController');
-const { createOrder, getOrders, getMyOrders, getOrderById, updateOrderStatus } = require('../controllers/orderController');
+const { createOrder, getOrders, getMyOrders, getOrderById, updateOrderStatus, getOrderInvoice } = require('../controllers/orderController');
 const { getUsers, deleteUser, getCustomerDetails } = require('../controllers/userController');
 const { generateSitemap, generateRobots } = require('../controllers/seoController');
 const { authMiddleware, adminMiddleware } = require('../middleware/auth');
@@ -71,6 +71,7 @@ router.get('/orders/my', authMiddleware, getMyOrders);
 router.get('/orders', authMiddleware, adminMiddleware, getOrders);
 router.get('/orders/:id', authMiddleware, adminMiddleware, getOrderById);
 router.put('/orders/:id/status', authMiddleware, adminMiddleware, updateOrderStatus);
+router.get('/orders/:id/invoice', authMiddleware, getOrderInvoice);
 
 // Payment (PayTech)
 const paymentRoutes = require('./paymentRoutes');

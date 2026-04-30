@@ -164,4 +164,23 @@ const updateOrderStatus = async (req, res) => {
   }
 };
 
-module.exports = { createOrder, getOrders, getMyOrders, getOrderById, updateOrderStatus };
+const invoiceTemplate = require('../utils/invoiceTemplate');
+
+const getOrderInvoice = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id).populate('items.productId');
+    if (!order) return res.status(404).json({ message: 'Commande introuvable' });
+
+    // Check if the user is authorized (admin or owner)
+    if (req.user.role !== 'admin' && order.userId?.toString() !== req.user.id) {
+      return res.status(403).json({ message: 'Non autorisé' });
+    }
+
+    const html = invoiceTemplate(order);
+    res.send(html);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+module.exports = { createOrder, getOrders, getMyOrders, getOrderById, updateOrderStatus, getOrderInvoice };
