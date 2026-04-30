@@ -16,10 +16,17 @@ const rateLimit = require("express-rate-limit");
 const hpp = require("hpp");
 const xss = require("xss-clean");
 
-// Connect to Database
-connectDB().then(() => {
-	seedAdmin();
-	backfillSlugs(); // Generate slugs for existing products
+// Connect to Database & Init tasks
+connectDB().then(async () => {
+	try {
+		await seedAdmin();
+		await backfillSlugs(); // Generate slugs for existing products
+		console.log("Initialization tasks complete.");
+	} catch (err) {
+		console.error("Error during init tasks:", err.message);
+	}
+}).catch(err => {
+    console.error("Database connection failed:", err.message);
 });
 
 const app = express();
