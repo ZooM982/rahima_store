@@ -5,7 +5,7 @@ import { ShoppingBag, User, LogOut, LayoutDashboard, LayoutGrid, Menu, X } from 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../hooks/useCart';
 import { useAuth } from '../hooks/useAuth';
-import logo from '../assets/pictogram.svg';
+import logo from '../assets/pictogram-gold.svg';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);

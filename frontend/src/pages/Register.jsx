@@ -6,7 +6,7 @@ import Input from '../components/ui/Input';
 import { ArrowLeft, Loader2, Check } from 'lucide-react';
 import SEO from '../components/SEO';
 
-import logo from '../assets/logo.png';
+import logo from '../assets/pictogram-gold.svg';
 
 const Register = () => {
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });

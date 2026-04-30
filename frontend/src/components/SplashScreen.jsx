@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import logo from '../assets/pictogram.svg';
+import logo from '../assets/pictogram-gold.svg';
 
 const SplashScreen = ({ finishLoading }) => {
   const [text, setText] = useState('');
