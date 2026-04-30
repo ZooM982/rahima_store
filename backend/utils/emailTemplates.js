@@ -3,39 +3,54 @@
  */
 
 const header = `
-  <div style="background-color: #000000; padding: 40px 20px; text-align: center; border-radius: 20px 20px 0 0;">
-    <img src="https://rahima.store/logo.png" alt="Rahima Store" style="width: 80px; height: 80px; margin-bottom: 20px;">
-    <h1 style="color: #D4AF37; font-family: 'Playfair Display', serif; margin: 0; font-size: 28px; font-style: italic;">Rahima Store</h1>
-    <p style="color: #ffffff; font-family: Arial, sans-serif; letter-spacing: 2px; text-transform: uppercase; font-size: 10px; margin-top: 10px;">L'excellence de la beauté africaine</p>
+  <div style="background-color: #000000; padding: 30px 20px; text-align: center; border-radius: 20px 20px 0 0;">
+    <div style="margin-bottom: 20px;">
+      <img src="https://rahima.store/logo.png" alt="Rahima Store" style="width: 100px; height: 100px; border-radius: 50%; border: 2px solid #D4AF37; padding: 5px; object-fit: contain; background-color: #000;">
+    </div>
+    <h1 style="color: #D4AF37; font-family: 'Playfair Display', serif; margin: 0; font-size: 32px; font-style: italic; font-weight: normal;">Rahima Store</h1>
+    <p style="color: #ffffff; font-family: 'Arial', sans-serif; letter-spacing: 4px; text-transform: uppercase; font-size: 10px; margin-top: 10px; font-weight: 300;">L'excellence de la beauté africaine</p>
   </div>
 `;
 
 const footer = `
-  <div style="background-color: #f9f9f9; padding: 30px; text-align: center; border-radius: 0 0 20px 20px; border-top: 1px solid #eeeeee;">
-    <p style="color: #999999; font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5;">
-      Vous recevez cet email suite à votre commande sur rahima.store.<br>
-      Besoin d'aide ? Contactez-nous à <a href="mailto:contact@rahima.store" style="color: #D4AF37; text-decoration: none;">contact@rahima.store</a>
+  <div style="background-color: #000000; padding: 40px 30px; text-align: center; border-radius: 0 0 20px 20px; border-top: 1px solid #333333;">
+    <p style="color: #666666; font-family: 'Arial', sans-serif; font-size: 11px; line-height: 1.8; letter-spacing: 0.5px;">
+      Cet email a été envoyé par Rahima Store.<br>
+      Besoin d'assistance ? Notre équipe vous répond à <a href="mailto:contact@rahima.store" style="color: #D4AF37; text-decoration: none; font-weight: bold;">contact@rahima.store</a>
     </p>
-    <div style="margin-top: 20px;">
-      <a href="https://rahima.store" style="color: #D4AF37; text-decoration: none; font-weight: bold; font-size: 12px; margin: 0 10px;">Boutique</a>
-      <a href="https://rahima.store/dashboard" style="color: #D4AF37; text-decoration: none; font-weight: bold; font-size: 12px; margin: 0 10px;">Mon Compte</a>
+    
+    <div style="margin-top: 30px; margin-bottom: 30px;">
+      <a href="https://rahima.store/products" style="color: #ffffff; text-decoration: none; font-size: 11px; font-weight: bold; margin: 0 15px; text-transform: uppercase; letter-spacing: 1px;">La Boutique</a>
+      <a href="https://rahima.store/dashboard" style="color: #ffffff; text-decoration: none; font-size: 11px; font-weight: bold; margin: 0 15px; text-transform: uppercase; letter-spacing: 1px;">Mon Compte</a>
+      <a href="https://rahima.store/faq" style="color: #ffffff; text-decoration: none; font-size: 11px; font-weight: bold; margin: 0 15px; text-transform: uppercase; letter-spacing: 1px;">Aide</a>
     </div>
-    <p style="color: #cccccc; font-family: Arial, sans-serif; font-size: 10px; margin-top: 20px;">
-      © ${new Date().getFullYear()} Rahima Store. Tous droits réservés.
-    </p>
+
+    <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #1a1a1a;">
+      <p style="color: #333333; font-family: 'Arial', sans-serif; font-size: 9px; text-transform: uppercase; letter-spacing: 2px;">
+        © ${new Date().getFullYear()} RAHIMA STORE — L'EXCELLENCE DE LA BEAUTÉ AFRICAINE
+      </p>
+    </div>
   </div>
 `;
 
 const baseLayout = (content) => `
-  <div style="background-color: #f3f3f3; padding: 20px; font-family: Arial, sans-serif;">
-    <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 20px; shadow: 0 10px 30px rgba(0,0,0,0.1);">
-      ${header}
-      <div style="padding: 40px 30px; color: #333333; line-height: 1.6;">
-        ${content}
-      </div>
-      ${footer}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rahima Store</title>
+</head>
+<body style="font-family: 'Arial', sans-serif; color: #333333; background-color: #ffffff; margin: 0; padding: 0; -webkit-font-smoothing: antialiased;">
+  <div style="max-width: 600px; margin: 0 auto; overflow: hidden;">
+    ${header}
+    <div style="padding: 10px 0; line-height: 1.6;">
+      ${content}
     </div>
+    ${footer}
   </div>
+</body>
+</html>
 `;
 
 const orderConfirmationTemplate = (order) => baseLayout(`
@@ -130,9 +145,26 @@ const newAccountTemplate = (user, tempPassword) => baseLayout(`
   </div>
 `);
 
+const welcomeEmailTemplate = (user) => baseLayout(`
+  <h2 style="color: #000000; font-family: 'Playfair Display', serif; margin-bottom: 20px;">Bienvenue dans l'univers Rahima Store, ${user.name} !</h2>
+  <p>Nous sommes ravis de vous compter parmi nos clients privilégiés. Votre compte a été créé avec succès.</p>
+  
+  <p>Vous pouvez désormais :</p>
+  <ul style="color: #333; line-height: 2; margin: 20px 0;">
+    <li>Suivre vos commandes en temps réel</li>
+    <li>Gérer vos adresses de livraison</li>
+    <li>Accéder à des offres exclusives</li>
+  </ul>
+
+  <div style="text-align: center; margin-top: 40px;">
+    <a href="https://rahima.store/dashboard" style="background-color: #D4AF37; color: #000000; padding: 15px 30px; text-decoration: none; border-radius: 50px; font-weight: bold; display: inline-block;">Explorer mon tableau de bord</a>
+  </div>
+`);
+
 module.exports = {
   orderConfirmationTemplate,
   paymentSuccessTemplate,
   orderStatusUpdateTemplate,
-  newAccountTemplate
+  newAccountTemplate,
+  welcomeEmailTemplate
 };

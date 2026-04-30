@@ -38,6 +38,11 @@ export const AuthProvider = ({ children }) => {
     return response.data;
   };
 
+  const deleteAccount = async () => {
+    await API.delete('/auth/profile');
+    logout();
+  };
+
   useEffect(() => {
     const fetchMe = async () => {
       const token = localStorage.getItem('rahima_token');
@@ -57,7 +62,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, updateProfile, loading, isAdmin: user?.role === 'admin' }}>
+    <AuthContext.Provider value={{ user, login, register, logout, updateProfile, deleteAccount, loading, isAdmin: user?.role === 'admin' }}>
       {!loading && children}
     </AuthContext.Provider>
   );

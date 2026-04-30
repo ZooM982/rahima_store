@@ -1,5 +1,5 @@
 const express = require('express');
-const { login, register, getMe, updateProfile } = require('../controllers/authController');
+const { login, register, getMe, updateProfile, deleteMyAccount } = require('../controllers/authController');
 const { getProducts, getProductById, createProduct, updateProduct, deleteProduct } = require('../controllers/productController');
 const { createOrder, getOrders, getMyOrders, getOrderById, updateOrderStatus } = require('../controllers/orderController');
 const { getUsers, deleteUser, getCustomerDetails } = require('../controllers/userController');
@@ -56,6 +56,7 @@ router.post('/auth/register', register);
 router.post('/auth/login', login);
 router.get('/auth/me', authMiddleware, getMe);
 router.put('/auth/profile', authMiddleware, updateProfile);
+router.delete('/auth/profile', authMiddleware, deleteMyAccount);
 
 // Products
 router.get('/products', getProducts);

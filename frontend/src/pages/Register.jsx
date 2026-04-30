@@ -3,7 +3,7 @@ import { useAuth } from '../hooks/useAuth';
 import { useNavigate, Link } from 'react-router-dom';
 import Button from '../components/common/Button';
 import Input from '../components/ui/Input';
-import { ArrowLeft, Loader2 } from 'lucide-react';
+import { ArrowLeft, Loader2, Check } from 'lucide-react';
 import SEO from '../components/SEO';
 
 import logo from '../assets/logo.png';
@@ -12,6 +12,7 @@ const Register = () => {
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
   const { register } = useAuth();
   const navigate = useNavigate();
 
@@ -21,10 +22,13 @@ const Register = () => {
     setError('');
     try {
       await register(formData.name, formData.email, formData.password);
-      navigate('/login');
+      setSuccess(true);
+      // Wait 2 seconds before redirecting
+      setTimeout(() => {
+        navigate('/login');
+      }, 2500);
     } catch (err) {
       setError(err.response?.data?.message || 'Erreur lors de l\'inscription');
-    } finally {
       setLoading(false);
     }
   };
@@ -45,45 +49,55 @@ const Register = () => {
         
         {error && <p className="bg-red-500/10 text-red-500 p-3 rounded-2xl mb-4 text-center text-xs font-medium border border-red-500/20">{error}</p>}
         
-        <form onSubmit={handleSubmit} className="space-y-3">
-          <Input 
-            label="Nom complet"
-            placeholder="Rahima" 
-            value={formData.name}
-            onChange={(e) => setFormData({...formData, name: e.target.value})}
-            required
-          />
-          <Input 
-            label="Email"
-            type="email" 
-            placeholder="votre@email.com" 
-            value={formData.email}
-            onChange={(e) => setFormData({...formData, email: e.target.value})}
-            required
-          />
-          <Input 
-            label="Mot de passe"
-            type="password" 
-            placeholder="••••••••" 
-            value={formData.password}
-            onChange={(e) => setFormData({...formData, password: e.target.value})}
-            required
-          />
-          <Button 
-            type="submit" 
-            className="w-full mt-6 flex items-center justify-center gap-2 bg-primary text-black hover:bg-primary-dark"
-            disabled={loading}
-          >
-            {loading ? (
-              <>
-                <Loader2 size={20} className="animate-spin" />
-                Création du compte...
-              </>
-            ) : (
-              'Rejoindre Rahima'
-            )}
-          </Button>
-        </form>
+        {success ? (
+          <div className="py-12 flex flex-col items-center justify-center animate-fade-up">
+            <div className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mb-6 border border-green-500/20">
+              <Check className="text-green-500" size={40} />
+            </div>
+            <h2 className="text-2xl font-serif text-white mb-2">Bienvenue parmi nous !</h2>
+            <p className="text-gray-400 text-sm text-center">Votre compte a été créé avec succès.<br/>Redirection vers la connexion...</p>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-3">
+            <Input 
+              label="Nom complet"
+              placeholder="Rahima" 
+              value={formData.name}
+              onChange={(e) => setFormData({...formData, name: e.target.value})}
+              required
+            />
+            <Input 
+              label="Email"
+              type="email" 
+              placeholder="votre@email.com" 
+              value={formData.email}
+              onChange={(e) => setFormData({...formData, email: e.target.value})}
+              required
+            />
+            <Input 
+              label="Mot de passe"
+              type="password" 
+              placeholder="••••••••" 
+              value={formData.password}
+              onChange={(e) => setFormData({...formData, password: e.target.value})}
+              required
+            />
+            <Button 
+              type="submit" 
+              className="w-full mt-6 flex items-center justify-center gap-2 bg-primary text-black hover:bg-primary-dark"
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <Loader2 size={20} className="animate-spin" />
+                  Création du compte...
+                </>
+              ) : (
+                'Rejoindre Rahima'
+              )}
+            </Button>
+          </form>
+        )}
         
         <div className="mt-8 text-center border-t border-white/5 pt-8">
           <p className="text-gray-500 text-sm italic">"Révélez votre éclat naturel avec nous."</p>

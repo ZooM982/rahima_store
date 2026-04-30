@@ -37,7 +37,7 @@ const Hero = () => {
               src="/hero.png" 
               alt="Rahima Store" 
               className="w-full h-full object-cover scale-105 grayscale hover:grayscale-0 hover:scale-100 transition-transform duration-700" 
-              fetchpriority="high"
+              fetchPriority="high"
               loading="eager"
               width="600"
               height="500"

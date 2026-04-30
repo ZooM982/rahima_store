@@ -10,7 +10,7 @@ import { productSlug } from '../utils/slug';
 import { useQuery } from '@tanstack/react-query';
 
 const UserDashboard = () => {
-  const { user, updateProfile, logout } = useAuth();
+  const { user, updateProfile, logout, deleteAccount } = useAuth();
   const [activeTab, setActiveTab] = useState('orders');
   const [formData, setFormData] = useState({
     name: user?.name || '',
@@ -18,7 +18,24 @@ const UserDashboard = () => {
     address: user?.address || ''
   });
   const [updateLoading, setUpdateLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [updateSuccess, setUpdateSuccess] = useState(false);
+
+  // ... (useQuery code stays the same)
+
+  const handleDeleteAccount = async () => {
+    if (window.confirm("Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible et supprimera toutes vos données personnelles.")) {
+      setDeleteLoading(true);
+      try {
+        await deleteAccount();
+        window.location.href = '/';
+      } catch (err) {
+        console.error("Delete account error:", err);
+        alert("Erreur lors de la suppression du compte.");
+        setDeleteLoading(false);
+      }
+    }
+  };
 
   // Fetch user orders with caching
   const { data: orders = [], isLoading: loading } = useQuery({
@@ -249,8 +266,12 @@ const UserDashboard = () => {
                 <p className="text-red-500/60 text-sm mb-4">
                   Une fois que vous supprimez votre compte, il n'y a pas de retour en arrière. S'il vous plaît soyez certain.
                 </p>
-                <button className="text-red-500 font-bold text-sm underline hover:text-red-400 transition-colors">
-                  Supprimer mon compte
+                <button 
+                  onClick={handleDeleteAccount}
+                  disabled={deleteLoading}
+                  className="text-red-500 font-bold text-sm underline hover:text-red-400 transition-colors disabled:opacity-50"
+                >
+                  {deleteLoading ? 'Suppression en cours...' : 'Supprimer mon compte définitivement'}
                 </button>
               </div>
             </div>
