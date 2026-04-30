@@ -45,6 +45,20 @@ app.use(cors({
 	optionsSuccessStatus: 204,
 }));
 
+// DB Connection Check Middleware
+app.use((req, res, next) => {
+    const mongoose = require('mongoose');
+    const isHealthCheck = req.path === '/health' || req.path === '/api/health';
+    if (!isHealthCheck && mongoose.connection.readyState !== 1) {
+        return res.status(503).json({ 
+            message: "La base de données n'est pas encore connectée.",
+            state: mongoose.connection.readyState,
+            info: "Vérifiez vos variables d'environnement MONGODB_URI sur Vercel."
+        });
+    }
+    next();
+});
+
 // Logging middleware to debug
 app.use((req, res, next) => {
 	const origin = req.headers.origin;
@@ -88,7 +102,18 @@ app.use("/", apiRoutes); // Support pour les requêtes où Vercel retire le pré
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 app.get("/api/health", (req, res) => {
-	res.json({ status: "ok", message: "Rahima Store API is alive", timestamp: new Date() });
+	res.json({ status: "ok", message: "Rahima Store API is alive", timestamp: new Date(), dbState: require('mongoose').connection.readyState });
+});
+
+// Route secrète pour initialiser la nouvelle BD (si vide)
+app.get("/api/admin/setup-db", async (req, res) => {
+    try {
+        await seedAdmin();
+        await backfillSlugs();
+        res.json({ message: "La base de données 'rahima_store' a été initialisée avec succès (Admin + Slugs)." });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 });
 
 app.get("/health", (req, res) => {
