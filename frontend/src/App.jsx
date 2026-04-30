@@ -46,6 +46,16 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
   return children;
 };
 
+import { AnimatePresence } from 'framer-motion';
+import SplashScreen from './components/SplashScreen';
+import { useGetProductsQuery } from './store/productApi';
+
+const Prefetcher = () => {
+  // Cette ligne déclenche l'appel API et remplit le cache RTK Query pendant le splash screen
+  useGetProductsQuery();
+  return null;
+};
+
 const AppContent = () => {
   const location = useLocation();
   const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
@@ -104,11 +114,20 @@ const AppContent = () => {
 };
 
 function App() {
+  const [showSplash, setShowSplash] = React.useState(true);
+
   return (
     <AuthProvider>
       <CartProvider>
         <ScrollToTop />
-        <AppContent />
+        <Prefetcher />
+        <AnimatePresence>
+          {showSplash ? (
+            <SplashScreen key="splash" finishLoading={() => setShowSplash(false)} />
+          ) : (
+            <AppContent key="app" />
+          )}
+        </AnimatePresence>
       </CartProvider>
     </AuthProvider>
   );
