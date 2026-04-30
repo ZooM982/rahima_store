@@ -54,8 +54,8 @@ const Navbar = () => {
     <nav className={`fixed z-50 transition-all duration-500 ${scrolled ? 'glass-effect py-3 shadow-sm rounded-[30px] top-4 right-0 left-0 w-[92%] md:w-[80%] mx-auto' : 'py-4 w-full top-0 left-0'}`}>
       <div className="custom-container flex justify-between items-center">
         <Link to="/" onClick={scrollToTop} className="text-2xl font-bold flex items-center gap-3 group">
-          <div className="w-10 h-10 rounded-full bg-gold-gradient p-[1px] overflow-hidden">
-            <div className="w-full h-full rounded-full bg-black flex items-center justify-center p-2.5">
+          <div className="w-12 h-12 rounded-full bg-gold-gradient p-[1px] overflow-hidden">
+            <div className="w-full h-full rounded-full bg-black flex items-center justify-center p-1.5">
               <img src={logo} alt="Rahima Store" className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110" />
             </div>
           </div>
