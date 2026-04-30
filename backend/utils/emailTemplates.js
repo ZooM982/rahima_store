@@ -161,10 +161,24 @@ const welcomeEmailTemplate = (user) => baseLayout(`
   </div>
 `);
 
+const forgotPasswordTemplate = (user, resetUrl) => baseLayout(`
+  <h2 style="color: #000000; font-family: 'Playfair Display', serif; margin-bottom: 20px;">Réinitialisation de votre mot de passe</h2>
+  <p>Bonjour ${user.name},</p>
+  <p>Vous avez demandé la réinitialisation du mot de passe de votre compte Rahima Store. Cliquez sur le bouton ci-dessous pour procéder au changement :</p>
+  
+  <div style="text-align: center; margin: 40px 0;">
+    <a href="${resetUrl}" style="background-color: #D4AF37; color: #000000; padding: 15px 30px; text-decoration: none; border-radius: 50px; font-weight: bold; display: inline-block; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);">Réinitialiser mon mot de passe</a>
+  </div>
+
+  <p style="font-size: 13px; color: #888;">Si vous n'avez pas demandé ce changement, vous pouvez ignorer cet email en toute sécurité. Ce lien est valable pendant 1 heure.</p>
+  <p style="font-size: 11px; color: #aaa; margin-top: 20px;">Si le bouton ne fonctionne pas, copiez et collez ce lien dans votre navigateur :<br>${resetUrl}</p>
+`);
+
 module.exports = {
   orderConfirmationTemplate,
   paymentSuccessTemplate,
   orderStatusUpdateTemplate,
   newAccountTemplate,
-  welcomeEmailTemplate
+  welcomeEmailTemplate,
+  forgotPasswordTemplate
 };

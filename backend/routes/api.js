@@ -54,6 +54,8 @@ const router = express.Router();
 // Auth
 router.post('/auth/register', register);
 router.post('/auth/login', login);
+router.post('/auth/forgot-password', forgotPassword);
+router.post('/auth/reset-password/:token', resetPassword);
 router.get('/auth/me', authMiddleware, getMe);
 router.put('/auth/profile', authMiddleware, updateProfile);
 router.delete('/auth/profile', authMiddleware, deleteMyAccount);

@@ -26,6 +26,8 @@ const PolitiqueConfidentialite = lazy(() => import('./pages/legal/PolitiqueConfi
 const LivraisonRetours = lazy(() => import('./pages/legal/LivraisonRetours'));
 const FAQ = lazy(() => import('./pages/legal/FAQ'));
 const OrderSuccess = lazy(() => import('./pages/OrderSuccess'));
+const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
+const ResetPassword = lazy(() => import('./pages/ResetPassword'));
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -54,7 +56,7 @@ const Prefetcher = () => {
 
 const AppContent = () => {
   const location = useLocation();
-  const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
+  const isAuthPage = ['/login', '/register', '/forgot-password'].includes(location.pathname) || location.pathname.startsWith('/reset-password');
   const isAdminPage = location.pathname.startsWith('/admin');
   const isDashboardPage = location.pathname === '/dashboard';
 
@@ -81,6 +83,8 @@ const AppContent = () => {
           <Route path="/livraison-retours" element={<LivraisonRetours />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/order-success" element={<OrderSuccess />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
           
           {/* Admin Routes */}
           <Route 

@@ -100,10 +100,27 @@ const sendWelcomeEmail = async (user) => {
   }
 };
 
+const sendForgotPasswordEmail = async (user, resetUrl) => {
+  try {
+    const html = forgotPasswordTemplate(user, resetUrl);
+    await transporter.sendMail({
+      from: `"Rahima Store" <${process.env.EMAIL_USER}>`,
+      to: user.email,
+      subject: 'Réinitialisation de votre mot de passe - Rahima Store',
+      html,
+      text: `Bonjour ${user.name}, vous avez demandé la réinitialisation de votre mot de passe. Utilisez ce lien pour procéder : ${resetUrl}`
+    });
+    console.log('Forgot password email sent to:', user.email);
+  } catch (error) {
+    console.error('Error sending forgot password email:', error);
+  }
+};
+
 module.exports = {
   sendOrderConfirmation,
   sendPaymentSuccess,
   sendStatusUpdate,
   sendNewAccountEmail,
-  sendWelcomeEmail
+  sendWelcomeEmail,
+  sendForgotPasswordEmail
 };

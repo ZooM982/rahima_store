@@ -66,6 +66,9 @@ const Login = () => {
             autoComplete="current-password"
             required
           />
+          <div className="flex justify-end px-1">
+            <Link to="/forgot-password" size="sm" className="text-xs text-primary hover:underline font-medium">Mot de passe oublié ?</Link>
+          </div>
           <Button 
             type="submit" 
             className="w-full mt-4 flex items-center justify-center gap-2 bg-primary text-black hover:bg-primary-dark"
