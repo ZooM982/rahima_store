@@ -46,19 +46,7 @@ app.use((req, res, next) => {
 });
 
 const corsOptions = {
-	origin: function (origin, callback) {
-		if (!origin) return callback(null, true);
-
-		const isAllowed = allowedOrigins.some(
-			(o) => o.toLowerCase() === origin.toLowerCase(),
-		);
-		if (isAllowed) {
-			callback(null, true);
-		} else {
-			console.warn(`CORS Blocked: Origin "${origin}" not in allowed list.`);
-			callback(new Error("Not allowed by CORS"));
-		}
-	},
+	origin: allowedOrigins,
 	methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
 	allowedHeaders: [
 		"Content-Type",
