@@ -36,30 +36,24 @@ const allowedOrigins = [
 	"https://www.rahima.store",
 	"http://localhost:5173",
 	"http://localhost:3000",
-];
+    process.env.FRONTEND_URL
+].filter(Boolean);
 
-// Logging middleware to debug CORS and requests - visible in Render logs
-app.use((req, res, next) => {
-	const origin = req.headers.origin;
-	console.log(`${req.method} ${req.url} - Origin: ${origin}`);
-	next();
-});
-
-const corsOptions = {
+// 1. CORS - MUST BE FIRST
+app.use(cors({
 	origin: allowedOrigins,
-	methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
-	allowedHeaders: [
-		"Content-Type",
-		"Authorization",
-		"X-Requested-With",
-		"Accept",
-		"Origin",
-	],
 	credentials: true,
 	optionsSuccessStatus: 204,
-};
+}));
 
-app.use(cors(corsOptions));
+// Logging middleware to debug
+app.use((req, res, next) => {
+	const origin = req.headers.origin;
+	if (origin) {
+        console.log(`${req.method} ${req.url} - Origin: ${origin}`);
+    }
+	next();
+});
 
 // 2. Security Middlewares
 app.use(
