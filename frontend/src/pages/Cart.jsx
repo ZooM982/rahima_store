@@ -160,7 +160,7 @@ const Cart = () => {
 										<p className="text-xl text-white mb-8">
 											Votre panier est désolément vide.
 										</p>
-										<Link to="/" className="inline-block">
+										<Link to="/products" className="inline-block">
 											<Button>Continuer mes achats</Button>
 										</Link>
 									</div>

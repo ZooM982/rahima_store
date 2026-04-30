@@ -46,7 +46,7 @@ const SplashScreen = ({ finishLoading }) => {
             <img 
               src={logo} 
               alt="Rahima Store" 
-              className="w-full h-full object-contain"
+              className="w-full h-full object-contain rounded-full"
             />
           </div>
         </div>
