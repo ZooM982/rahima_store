@@ -4,7 +4,8 @@ import ProductCard from '../components/ui/ProductCard';
 import ProductSkeleton from '../components/ui/ProductSkeleton';
 import SectionHeader from '../components/ui/SectionHeader';
 import { Filter, Loader2 } from 'lucide-react';
-import SEO, { buildBreadcrumbSchema } from '../components/SEO';
+import SEO from '../components/SEO';
+import { buildBreadcrumbSchema } from '../utils/seoData';
 import { useGetProductsQuery } from '../store/productApi';
 
 const Products = () => {

@@ -4,7 +4,8 @@ import { ShoppingBag, ChevronLeft, Star, ShieldCheck, Truck, RotateCcw, Loader2,
 import { useCart } from '../hooks/useCart';
 import Button from '../components/common/Button';
 import DetailsSkeleton from '../components/ui/DetailsSkeleton';
-import SEO, { buildProductSchema, buildBreadcrumbSchema } from '../components/SEO';
+import SEO from '../components/SEO';
+import { buildProductSchema, buildBreadcrumbSchema } from '../utils/seoData';
 import { productSlug } from '../utils/slug';
 import ProductCard from '../components/ui/ProductCard'
 

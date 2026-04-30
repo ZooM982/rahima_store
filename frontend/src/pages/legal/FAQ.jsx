@@ -75,7 +75,7 @@ const faqs = [
       },
       {
         q: 'Que faire si je reçois un produit endommagé ?',
-        a: "Prenez des photos du produit et de l&rsquo;emballage et contactez-nous immédiatement par email à contact@rahima-store.com. Nous vous enverrons un produit de remplacement ou vous rembourserons dans les meilleurs délais."
+        a: "Prenez des photos du produit et de l&rsquo;emballage et contactez-nous immédiatement par email à contact@rahima.store. Nous vous enverrons un produit de remplacement ou vous rembourserons dans les meilleurs délais."
       },
     ]
   },
@@ -124,13 +124,13 @@ const FAQ = () => (
         <p className="text-sm text-gray-500 mb-6">Notre équipe est disponible du lundi au samedi, de 9h à 19h.</p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <a
-            href="mailto:contact@rahima-store.com"
+            href="mailto:contact@rahima.store"
             className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white rounded-2xl text-sm font-bold hover:bg-primary/90 transition-colors"
           >
             Envoyer un email
           </a>
           <a
-            href="tel:+221338000000"
+            href="tel:+221788201212"
             className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-transparent border border-white/10 text-white rounded-2xl text-sm font-bold hover:border-primary hover:text-primary transition-colors"
           >
             Appeler le service client

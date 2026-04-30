@@ -5,7 +5,7 @@ const PolitiqueConfidentialite = () => (
   <LegalLayout title="Politique de Confidentialité" lastUpdated="22 Avril 2025">
     <Section title="Article 1 – Responsable du traitement">
       <p><strong>Rahima Store</strong>, entreprise individuelle sise au Plateau, Rue Félix Faure, Dakar (Sénégal) est responsable du traitement de vos données personnelles.</p>
-      <p>Contact DPO : contact@rahima-store.com | +221 33 800 00 00</p>
+      <p>Contact DPO : contact@rahima.store | +221 78 820 12 12 / 78 820 18 18</p>
     </Section>
 
     <Section title="Article 2 – Base légale">
@@ -64,7 +64,7 @@ const PolitiqueConfidentialite = () => (
         <li><strong>Droit d&rsquo;opposition</strong> : s&rsquo;opposer au traitement de vos données à des fins marketing</li>
         <li><strong>Droit à la portabilité</strong> : recevoir vos données dans un format structuré</li>
       </ul>
-      <p className="mt-2">Pour exercer ces droits, contactez-nous à : <strong>contact@rahima-store.com</strong>. Vous pouvez également introduire une réclamation auprès de la <strong>Commission de Protection des Données Personnelles (CDP)</strong> du Sénégal.</p>
+      <p className="mt-2">Pour exercer ces droits, contactez-nous à : <strong>contact@rahima.store</strong>. Vous pouvez également introduire une réclamation auprès de la <strong>Commission de Protection des Données Personnelles (CDP)</strong> du Sénégal.</p>
     </Section>
 
     <Section title="Article 8 – Cookies">

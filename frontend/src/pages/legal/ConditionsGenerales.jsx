@@ -5,11 +5,11 @@ const ConditionsGenerales = () => (
   <LegalLayout title="Conditions Générales de Vente" lastUpdated="22 Avril 2025">
     <Section title="Article 1 – Identification du vendeur">
       <p>La société <strong>Rahima Store</strong>, entreprise individuelle de droit sénégalais, dont le siège social est situé Plateau, Rue Félix Faure, Dakar (Sénégal), immatriculée au Registre du Commerce et du Crédit Mobilier (RCCM) de Dakar, est le vendeur au sens des présentes Conditions Générales de Vente (CGV).</p>
-      <p>Contact : contact@rahima-store.com | +221 33 800 00 00</p>
+      <p>Contact : contact@rahima.store | +221 78 820 12 12 / 78 820 18 18</p>
     </Section>
 
     <Section title="Article 2 – Champ d&rsquo;application">
-      <p>Les présentes Conditions Générales de Vente s&rsquo;appliquent à toutes les ventes de produits cosmétiques et de beauté effectuées via le site web <strong>rahima-store.com</strong>, conformément aux dispositions de la <strong>Loi n° 2008-08 du 25 janvier 2008</strong> sur les transactions électroniques au Sénégal et du <strong>Code des Obligations Civiles et Commerciales (COCC)</strong> sénégalais.</p>
+      <p>Les présentes Conditions Générales de Vente s&rsquo;appliquent à toutes les ventes de produits cosmétiques et de beauté effectuées via le site web <strong>rahima.store</strong>, conformément aux dispositions de la <strong>Loi n° 2008-08 du 25 janvier 2008</strong> sur les transactions électroniques au Sénégal et du <strong>Code des Obligations Civiles et Commerciales (COCC)</strong> sénégalais.</p>
       <p>Toute commande passée sur le site implique l&rsquo;acceptation pleine et entière des présentes CGV.</p>
     </Section>
 

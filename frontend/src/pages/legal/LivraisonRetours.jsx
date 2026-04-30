@@ -82,7 +82,7 @@ const LivraisonRetours = () => (
     <Section title="5. Procédure de retour">
       <p>Pour initier un retour, veuillez :</p>
       <ol className="list-decimal pl-5 space-y-1">
-        <li>Contacter notre service client par email à <strong>contact@rahima-store.com</strong> ou par téléphone</li>
+        <li>Contacter notre service client par email à <strong>contact@rahima.store</strong> ou par téléphone</li>
         <li>Indiquer votre numéro de commande et le motif du retour</li>
         <li>Attendre la confirmation et les instructions de retour de notre équipe</li>
         <li>Renvoyer le produit à l&rsquo;adresse indiquée, bien emballé</li>

@@ -7,7 +7,8 @@ import About from '../components/home/About';
 import Testimonials from '../components/home/Testimonials';
 import ProductSkeleton from '../components/ui/ProductSkeleton';
 import SectionHeader from '../components/ui/SectionHeader';
-import SEO, { organizationSchema, webSiteSchema, storeSchema } from '../components/SEO';
+import SEO from '../components/SEO';
+import { organizationSchema, webSiteSchema, storeSchema } from '../utils/seoData';
 import { useGetProductsQuery } from '../store/productApi';
 
 const Home = () => {
