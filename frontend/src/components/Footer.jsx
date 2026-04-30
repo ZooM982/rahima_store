@@ -25,8 +25,10 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           <div className="space-y-6">
             <Link to="/" className="text-2xl font-bold tracking-tighter flex items-center gap-2 group">
-              <div className="w-10 h-10 rounded-full bg-gold-gradient p-[1px]">
-                <img src={logo} alt="Rahima Store" className="w-full h-full object-contain p-2 rounded-full bg-black shadow-sm group-hover:scale-110 transition-transform duration-300" />
+              <div className="w-10 h-10 rounded-full bg-gold-gradient p-[1px] overflow-hidden">
+                <div className="w-full h-full rounded-full bg-black flex items-center justify-center p-2.5">
+                  <img src={logo} alt="Rahima Store" className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110" />
+                </div>
               </div>
               <span className="font-serif italic text-gold-gradient">Rahima Store</span>
             </Link>
