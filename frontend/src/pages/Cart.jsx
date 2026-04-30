@@ -32,6 +32,14 @@ const Cart = () => {
 		phone: user?.phone || "",
 		address: user?.address || "",
 	});
+	const [selectedMethod, setSelectedMethod] = useState("Wave");
+
+	const paymentMethods = [
+		{ id: 'Wave', name: 'Wave', color: '#1dbf73' },
+		{ id: 'Orange Money', name: 'Orange Money', color: '#ff7900' },
+		{ id: 'Free Money', name: 'Free Money', color: '#e30613' },
+		{ id: 'Carte Bancaire', name: 'Carte', color: '#004a99' },
+	];
 
 	const [createOrder] = useCreateOrderMutation();
 	const [initiatePayment] = useInitiatePaymentMutation();
@@ -59,8 +67,11 @@ const Cart = () => {
 			const orderId = response?._id;
 
 			if (orderId) {
-				// Initier le paiement PayTech
-				const paymentResponse = await initiatePayment(orderId).unwrap();
+				// Initier le paiement PayTech avec le mode sélectionné
+				const paymentResponse = await initiatePayment({ 
+					orderId, 
+					paymentMethod: selectedMethod 
+				}).unwrap();
 				
 				if (paymentResponse.success && paymentResponse.redirect_url) {
 					// Vider le panier avant de partir pour éviter les doublons au retour
@@ -345,6 +356,26 @@ const Cart = () => {
 												)}
 											</div>
 										)}
+
+										<div className="space-y-3 py-4 border-t border-white/5">
+											<h3 className="text-[10px] font-bold uppercase tracking-widest text-primary px-2">Mode de paiement</h3>
+											<div className="grid grid-cols-2 gap-2">
+												{paymentMethods.map((method) => (
+													<button
+														key={method.id}
+														type="button"
+														onClick={() => setSelectedMethod(method.id)}
+														className={`flex items-center justify-center p-3 rounded-2xl border-2 transition-all text-xs font-bold ${
+															selectedMethod === method.id 
+																? 'border-primary bg-primary/10 text-white' 
+																: 'border-white/5 bg-white/5 text-gray-500 hover:border-white/20'
+														}`}
+													>
+														{method.name}
+													</button>
+												))}
+											</div>
+										</div>
 
 										<Button
 											type="submit"

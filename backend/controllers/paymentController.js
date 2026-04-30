@@ -4,7 +4,7 @@ const { sendPaymentSuccess } = require('../services/emailService');
 
 const initiatePayment = async (req, res) => {
   try {
-    const { orderId } = req.body;
+    const { orderId, paymentMethod } = req.body;
     const order = await Order.findById(orderId);
 
     if (!order) {
@@ -12,16 +12,21 @@ const initiatePayment = async (req, res) => {
     }
 
     const payload = {
-      item_name: `Commande Rahima Store #${order._id}`,
+      item_name: `Commande Rahima Store #${order._id.toString().slice(-6).toUpperCase()}`,
       item_price: order.totalAmount,
       currency: 'XOF',
       ref_command: order._id.toString(),
-      command_name: `Paiement pour la commande #${order._id}`,
+      command_name: `Paiement pour la commande #${order._id.toString().slice(-6).toUpperCase()}`,
       env: 'test', // Passer à 'prod' en production
       success_url: `${process.env.FRONTEND_URL || 'http://localhost:5173'}/order-success?id=${order._id}`,
       cancel_url: `${process.env.FRONTEND_URL || 'http://localhost:5173'}/cart`,
       ipn_url: `${process.env.BACKEND_URL || 'http://localhost:5001'}/api/payment/ipn`,
     };
+
+    // If a specific payment method is selected, target it
+    if (paymentMethod) {
+      payload.target_payment = paymentMethod;
+    }
 
     const config = {
       headers: {
@@ -33,13 +38,31 @@ const initiatePayment = async (req, res) => {
     const response = await axios.post('https://paytech.sn/api/payment/request-payment', payload, config);
 
     if (response.data.success === 1) {
-      // Mettre à jour la commande avec le token de transaction si nécessaire
       order.paymentToken = response.data.token;
       await order.save();
 
+      let redirect_url = response.data.redirect_url;
+
+      // Add Autofill and Auto-submit parameters if a specific method is used
+      if (paymentMethod && !paymentMethod.includes(',')) {
+        const phone = order.customer.phone.replace(/\s+/g, '');
+        // Clean phone number (remove +221 or 00221 for 'nn' param)
+        const cleanPhone = phone.replace(/^(\+221|00221|221)/, '');
+        
+        const params = new URLSearchParams({
+          pn: phone.startsWith('+') ? phone : `+221${phone.replace(/^0/, '')}`, // Ensure +221 format
+          nn: cleanPhone,
+          fn: order.customer.name,
+          tp: paymentMethod,
+          nac: paymentMethod === 'Carte Bancaire' ? '0' : '1' // 1 for auto-submit
+        });
+        
+        redirect_url += `?${params.toString()}`;
+      }
+
       res.json({
         success: true,
-        redirect_url: response.data.redirect_url,
+        redirect_url: redirect_url,
         token: response.data.token
       });
     } else {
