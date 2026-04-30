@@ -46,17 +46,29 @@ app.use(cors({
 }));
 
 // DB Connection Check Middleware
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
     const mongoose = require('mongoose');
     const isHealthCheck = req.path === '/health' || req.path === '/api/health';
-    if (!isHealthCheck && mongoose.connection.readyState !== 1) {
-        return res.status(503).json({ 
-            message: "La base de données n'est pas encore connectée.",
-            state: mongoose.connection.readyState,
-            info: "Vérifiez vos variables d'environnement MONGODB_URI sur Vercel."
-        });
+    
+    if (isHealthCheck) return next();
+
+    // Si la connexion n'est pas prête (0 = disconnected, 2 = connecting)
+    if (mongoose.connection.readyState !== 1) {
+        try {
+            // On attend la connexion ou on tente de la rétablir
+            await connectDB();
+            next();
+        } catch (err) {
+            return res.status(503).json({ 
+                message: "La base de données n'est pas encore connectée.",
+                state: mongoose.connection.readyState,
+                error: err.message, // Affiche l'erreur réelle (ex: Auth failed, Timeout)
+                info: "Vérifiez vos variables MONGODB_URI sur Vercel et l'accès IP sur Atlas (0.0.0.0/0)."
+            });
+        }
+    } else {
+        next();
     }
-    next();
 });
 
 // Logging middleware to debug
