@@ -18,9 +18,12 @@ const ProductCard = ({ product, onAddToCart, isNew }) => {
     <div className="group">
       <div className="relative h-[220px] md:h-[320px] rounded-3xl overflow-hidden mb-6 bg-white/5 border border-white/5 group-hover:border-primary/20 transition-colors">
         <Link to={`/products/${productSlug(product)}`}>
+          <div className="w-full h-full bg-white/5 animate-pulse absolute inset-0 -z-10" />
           <img 
             src={product.mainImage || product.img} 
             alt={product.name} 
+            loading="lazy"
+            decoding="async"
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
           />
           <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors"></div>

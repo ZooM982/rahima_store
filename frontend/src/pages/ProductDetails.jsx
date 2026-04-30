@@ -1,57 +1,37 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ShoppingBag, ChevronLeft, Star, ShieldCheck, Truck, RotateCcw, Loader2, Check } from 'lucide-react';
 import { useCart } from '../hooks/useCart';
 import Button from '../components/common/Button';
-import productService from '../services/productService';
 import DetailsSkeleton from '../components/ui/DetailsSkeleton';
 import SEO, { buildProductSchema, buildBreadcrumbSchema } from '../components/SEO';
 import { productSlug } from '../utils/slug';
 import ProductCard from '../components/ui/ProductCard'
 
+import { useGetProductQuery } from '../store/productApi';
+
 const ProductDetails = () => {
   const { slug } = useParams();
   const { addToCart } = useCart();
-  const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState('');
   const [selectedVariant, setSelectedVariant] = useState(0);
   const [isAdded, setIsAdded] = useState(false);
 
+  // Use RTK Query for automatic caching and re-validation
+  const { data: product, isLoading: loading } = useGetProductQuery(slug);
+
   const handleAddToCart = () => {
+    const variant = product?.variants?.[selectedVariant];
     addToCart({
       ...product,
-      _id: `${product._id}-${product.variants[selectedVariant]?.color || 'main'}`,
+      _id: variant ? `${product._id}-${variant.color}` : product._id,
       price: product.price,
       img: selectedImage || product.mainImage,
-      selectedColor: product.variants[selectedVariant]?.color
+      selectedColor: variant?.color
     });
     setIsAdded(true);
     setTimeout(() => setIsAdded(false), 2000);
   };
-
-  useEffect(() => {
-    let ignore = false;
-
-    const fetchProduct = async () => {
-      try {
-        const { data } = await productService.getProductById(slug);
-        if (!ignore) {
-          setProduct(data);
-          if (data.variants && data.variants.length > 0) {
-            setSelectedVariant(0);
-          }
-          setSelectedImage(data.mainImage);
-        }
-      } catch (err) {
-        console.error(err);
-      } finally {
-        if (!ignore) setLoading(false);
-      }
-    };
-    fetchProduct();
-    return () => { ignore = true; };
-  }, [slug]);
 
   if (loading) return <DetailsSkeleton />;
 

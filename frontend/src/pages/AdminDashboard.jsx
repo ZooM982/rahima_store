@@ -2,28 +2,14 @@ import React from 'react';
 import { Package, Users, ShoppingCart, TrendingUp, Plus, Edit, Trash2, Loader2 } from 'lucide-react';
 import AdminLayout from '../components/admin/AdminLayout';
 import { Link } from 'react-router-dom';
-import productService from '../services/productService';
-import orderService from '../services/orderService';
-import userService from '../services/userService';
-import { useQuery } from '@tanstack/react-query';
+
+import { useGetProductsQuery } from '../store/productApi';
+import { useGetOrdersQuery } from '../store/orderApi';
 
 const AdminDashboard = () => {
-  // Reuse the same query keys to share data with specific list pages
-  const { data: products = [], isLoading: productsLoading } = useQuery({
-    queryKey: ['admin-products'],
-    queryFn: async () => {
-      const { data } = await productService.getProducts();
-      return data;
-    },
-  });
-
-  const { data: orders = [], isLoading: ordersLoading } = useQuery({
-    queryKey: ['admin-orders'],
-    queryFn: async () => {
-      const { data } = await orderService.getOrders();
-      return data;
-    },
-  });
+  // Use RTK Query for automatic caching and shared state
+  const { data: products = [], isLoading: productsLoading } = useGetProductsQuery();
+  const { data: orders = [], isLoading: ordersLoading } = useGetOrdersQuery();
 
   const loading = productsLoading || ordersLoading;
 

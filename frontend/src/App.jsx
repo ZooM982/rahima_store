@@ -5,11 +5,8 @@ import { AuthProvider } from './context/AuthContext';
 import { useAuth } from './hooks/useAuth';
 import { Loader2 } from 'lucide-react';
 
-// Core pages (could be lazy too, but keeping them for now)
-import Home from './pages/Home';
-import Products from './pages/Products';
-
-// Lazy loaded pages
+const Home = lazy(() => import('./pages/Home'));
+const Products = lazy(() => import('./pages/Products'));
 const ProductDetails = lazy(() => import('./pages/ProductDetails'));
 const Cart = lazy(() => import('./pages/Cart'));
 const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
@@ -28,6 +25,7 @@ const ConditionsGenerales = lazy(() => import('./pages/legal/ConditionsGenerales
 const PolitiqueConfidentialite = lazy(() => import('./pages/legal/PolitiqueConfidentialite'));
 const LivraisonRetours = lazy(() => import('./pages/legal/LivraisonRetours'));
 const FAQ = lazy(() => import('./pages/legal/FAQ'));
+const OrderSuccess = lazy(() => import('./pages/OrderSuccess'));
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -76,6 +74,7 @@ const AppContent = () => {
           <Route path="/politique-confidentialite" element={<PolitiqueConfidentialite />} />
           <Route path="/livraison-retours" element={<LivraisonRetours />} />
           <Route path="/faq" element={<FAQ />} />
+          <Route path="/order-success" element={<OrderSuccess />} />
           
           {/* Admin Routes */}
           <Route 

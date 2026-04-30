@@ -4,9 +4,8 @@ import ProductCard from '../components/ui/ProductCard';
 import ProductSkeleton from '../components/ui/ProductSkeleton';
 import SectionHeader from '../components/ui/SectionHeader';
 import { Filter, Loader2 } from 'lucide-react';
-import productService from '../services/productService';
 import SEO, { buildBreadcrumbSchema } from '../components/SEO';
-import { useQuery } from '@tanstack/react-query';
+import { useGetProductsQuery } from '../store/productApi';
 
 const Products = () => {
   const { addToCart } = useCart();
@@ -14,24 +13,22 @@ const Products = () => {
   const [visibleCount, setVisibleCount] = useState(parseInt(sessionStorage.getItem('catalog-visible-count')) || 30);
   const loaderRef = useRef(null);
 
-  // Fetch products with caching
-  const { data: allProducts = [], isLoading: loading } = useQuery({
-    queryKey: ['catalog-products'],
-    queryFn: async () => {
-      const { data } = await productService.getProducts();
-      return data;
-    },
-    onSuccess: () => {
-      // Restore scroll position after a short delay to ensure rendering is complete
+  // Use RTK Query with caching and optimized re-fetching
+  const { data: allProducts = [], isLoading: loading, isSuccess } = useGetProductsQuery();
+
+  // Restore scroll position when products are loaded
+  useEffect(() => {
+    if (isSuccess && allProducts.length > 0) {
       const savedScroll = sessionStorage.getItem('catalog-scroll');
       if (savedScroll) {
-        setTimeout(() => {
+        const timeoutId = setTimeout(() => {
           window.scrollTo(0, parseInt(savedScroll));
           sessionStorage.removeItem('catalog-scroll');
         }, 100);
+        return () => clearTimeout(timeoutId);
       }
     }
-  });
+  }, [isSuccess, allProducts]);
 
   // Save state on change
   useEffect(() => {

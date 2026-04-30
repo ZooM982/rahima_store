@@ -71,6 +71,10 @@ router.get('/orders', authMiddleware, adminMiddleware, getOrders);
 router.get('/orders/:id', authMiddleware, adminMiddleware, getOrderById);
 router.put('/orders/:id/status', authMiddleware, adminMiddleware, updateOrderStatus);
 
+// Payment (PayTech)
+const paymentRoutes = require('./paymentRoutes');
+router.use('/payment', paymentRoutes);
+
 // Users
 router.get('/users', authMiddleware, adminMiddleware, getUsers);
 router.get('/users/customer/:email', authMiddleware, adminMiddleware, getCustomerDetails);

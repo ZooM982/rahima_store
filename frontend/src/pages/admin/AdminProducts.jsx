@@ -3,34 +3,20 @@ import AdminLayout from '../../components/admin/AdminLayout';
 import { Plus, Edit, Trash2, Search, Filter, Loader2 } from 'lucide-react';
 import Button from '../../components/common/Button';
 import { Link } from 'react-router-dom';
-import productService from '../../services/productService';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useGetProductsQuery, useDeleteProductMutation } from '../../store/productApi';
 
 const AdminProducts = () => {
-  const queryClient = useQueryClient();
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Fetch products with caching
-  const { data: products = [], isLoading: loading } = useQuery({
-    queryKey: ['admin-products'],
-    queryFn: async () => {
-      const { data } = await productService.getProducts();
-      return data;
-    },
-  });
+  // Fetch products with RTK Query caching
+  const { data: products = [], isLoading: loading } = useGetProductsQuery();
 
-  // Mutation for deleting products
-  const deleteMutation = useMutation({
-    mutationFn: (id) => productService.deleteProduct(id),
-    onSuccess: () => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ['admin-products'] });
-    },
-  });
+  // Mutation for deleting products with automatic cache invalidation
+  const [deleteProduct] = useDeleteProductMutation();
 
   const handleDelete = async (id) => {
     if (window.confirm("Supprimer ce produit définitivement ?")) {
-      deleteMutation.mutate(id);
+      await deleteProduct(id);
     }
   };
 

@@ -7,6 +7,9 @@ import { HelmetProvider } from 'react-helmet-async'
 import { Analytics } from '@vercel/analytics/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
+import { Provider } from 'react-redux'
+import { store } from './store'
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -19,13 +22,15 @@ const queryClient = new QueryClient({
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <HelmetProvider>
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <App />
-          <Analytics />
-        </BrowserRouter>
-      </QueryClientProvider>
-    </HelmetProvider>
+    <Provider store={store}>
+      <HelmetProvider>
+        <QueryClientProvider client={queryClient}>
+          <BrowserRouter>
+            <App />
+            <Analytics />
+          </BrowserRouter>
+        </QueryClientProvider>
+      </HelmetProvider>
+    </Provider>
   </React.StrictMode>,
 )

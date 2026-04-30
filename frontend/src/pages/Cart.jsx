@@ -16,16 +16,14 @@ import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import Button from "../components/common/Button";
 import Input from "../components/ui/Input";
-import orderService from "../services/orderService";
-import { generateInvoice } from "../utils/invoiceGenerator";
+import { useInitiatePaymentMutation } from "../store/paymentApi";
+import { useCreateOrderMutation } from "../store/orderApi";
 
 const Cart = () => {
 	const { cart, removeFromCart, updateQuantity, cartTotal, clearCart } =
 		useCart();
 	const { user } = useAuth();
-	const [orderComplete, setOrderComplete] = useState(false);
 	const [isProcessing, setIsProcessing] = useState(false);
-	const [lastOrder, setLastOrder] = useState(null);
 	const [autoCreateAccount, setAutoCreateAccount] = useState(false);
 	const [formData, setFormData] = useState({
 		name: user?.name || "",
@@ -34,8 +32,8 @@ const Cart = () => {
 		address: user?.address || "",
 	});
 
-	// Instead of useEffect, we'll use a 'key' on the form to reset it
-	// when the user identity changes. This is the recommended React pattern.
+	const [createOrder] = useCreateOrderMutation();
+	const [initiatePayment] = useInitiatePaymentMutation();
 
 	const handleCheckout = async (e) => {
 		e.preventDefault();
@@ -56,89 +54,31 @@ const Cart = () => {
 				autoCreateAccount: !user && autoCreateAccount,
 			};
 
-			const response = await orderService.createOrder(orderData);
-			const orderId = response.data?._id;
+			const response = await createOrder(orderData).unwrap();
+			const orderId = response?._id;
 
-			setTimeout(() => {
-				setLastOrder({
-					items: [...cart],
-					totalAmount: cartTotal,
-					_id: orderId,
-				});
-				setOrderComplete(true);
-				setIsProcessing(false);
-				clearCart();
-				window.scrollTo(0, 0);
-			}, 2500);
+			if (orderId) {
+				// Initier le paiement PayTech
+				const paymentResponse = await initiatePayment(orderId).unwrap();
+				
+				if (paymentResponse.success && paymentResponse.redirect_url) {
+					// Vider le panier avant de partir pour éviter les doublons au retour
+					clearCart();
+					// Rediriger vers PayTech
+					window.location.href = paymentResponse.redirect_url;
+				} else {
+					throw new Error(paymentResponse.message || "Erreur PayTech");
+				}
+			} else {
+				throw new Error("Impossible de créer la commande");
+			}
 		} catch (err) {
 			console.error(err);
 			setIsProcessing(false);
-			alert("Erreur lors de la validation de la commande");
+			alert("Erreur lors de la validation ou du paiement : " + (err.message || err.data?.message));
 		}
 	};
 
-	if (orderComplete && lastOrder) {
-		return (
-			<div className="pt-16 pb-10 md:pt-20 md:pb-14 custom-container">
-			<div className="bg-[#0a0a0a] p-12 rounded-[40px] shadow-2xl max-w-2xl mx-auto text-center border border-white/5">
-					<div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-8 text-3xl">
-						✓
-					</div>
-					<h1 className="text-4xl font-serif mb-4">
-						Merci pour votre commande !
-					</h1>
-					<p className="text-white mb-12">
-						Une facture détaillée a été envoyée à {formData.email}.
-					</p>
-
-					<div className="border-t border-b border-gray-100 py-8 mb-12 text-left">
-						<h2 className="text-xl font-bold mb-6 uppercase tracking-widest text-[10px]">
-							Détails de la facturation
-						</h2>
-						<p className="font-bold mb-1">{formData.name}</p>
-						<p className="text-white text-sm mb-6">{formData.address}</p>
-
-						<div className="space-y-4">
-							{lastOrder.items.map((item) => (
-								<div key={item._id} className="flex justify-between text-sm">
-									<span>
-										{item.name} (x{item.quantity})
-									</span>
-									<span>
-										{(item.price * item.quantity).toLocaleString()} FCFA
-									</span>
-								</div>
-							))}
-							<div className="pt-4 border-t border-gray-100 flex justify-between font-bold text-lg">
-								<span>Total</span>
-								<span className="text-primary">
-									{lastOrder.totalAmount.toLocaleString()} FCFA
-								</span>
-							</div>
-						</div>
-					</div>
-
-					<div className="flex flex-col sm:flex-row gap-4 justify-center">
-						<Link to="/products">
-							<Button variant="secondary">Retour à la boutique</Button>
-						</Link>
-						<Button
-							onClick={() =>
-								generateInvoice({
-									...lastOrder,
-									customer: formData,
-									_id: "SUCCESS",
-								})
-							}
-							className="flex items-center gap-2"
-						>
-							<FileText size={20} /> Télécharger la facture
-						</Button>
-					</div>
-				</div>
-			</div>
-		);
-	}
 
 	return (
 		<div className="pt-16 pb-10 md:pt-20 md:pb-14 custom-container relative overflow-hidden">
@@ -171,72 +111,6 @@ const Cart = () => {
 						<p className="text-gray-400 font-medium tracking-widest uppercase text-[10px]">
 							Paiement sécurisé Rahima Store
 						</p>
-					</motion.div>
-				: orderComplete && lastOrder ?
-						<motion.div
-							key="success"
-							initial={{ opacity: 0, y: 50 }}
-							animate={{ opacity: 1, y: 0 }}
-							className="bg-[#0a0a0a] p-12 rounded-[40px] shadow-2xl max-w-2xl mx-auto text-center border border-white/5"
-						>
-						<motion.div
-							initial={{ scale: 0 }}
-							animate={{ scale: 1 }}
-							transition={{ type: "spring", damping: 12, delay: 0.2 }}
-							className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-8 text-3xl"
-						>
-							✓
-						</motion.div>
-						<h1 className="text-4xl font-serif mb-4">
-							Merci pour votre commande !
-						</h1>
-						<p className="text-white mb-12">
-							Une facture détaillée a été générée pour vous.
-						</p>
-
-						<div className="border-t border-b border-gray-100 py-8 mb-12 text-left">
-							<h2 className="text-xl font-bold mb-6 uppercase tracking-widest text-[10px]">
-								Détails de la facturation
-							</h2>
-							<p className="font-bold mb-1">{formData.name}</p>
-							<p className="text-white text-sm mb-6">{formData.address}</p>
-
-							<div className="space-y-4">
-								{lastOrder.items.map((item) => (
-									<div key={item._id} className="flex justify-between text-sm">
-										<span>
-											{item.name} (x{item.quantity})
-										</span>
-										<span>
-											{(item.price * item.quantity).toLocaleString()} FCFA
-										</span>
-									</div>
-								))}
-								<div className="pt-4 border-t border-gray-100 flex justify-between font-bold text-lg">
-									<span>Total</span>
-									<span className="text-primary">
-										{lastOrder.total.toLocaleString()} FCFA
-									</span>
-								</div>
-							</div>
-						</div>
-
-						<div className="flex flex-col sm:flex-row gap-4 justify-center">
-							<Link to="/">
-								<Button variant="secondary">Retour à la boutique</Button>
-							</Link>
-							<motion.div
-								animate={{ scale: [1, 1.05, 1] }}
-								transition={{ duration: 2, repeat: Infinity }}
-							>
-								<Button
-									onClick={() => generateInvoice(lastOrder)}
-									className="flex items-center gap-2 shadow-xl shadow-primary/20"
-								>
-									<FileText size={20} /> Télécharger la facture
-								</Button>
-							</motion.div>
-						</div>
 					</motion.div>
 				:	<motion.div
 						key="cart"

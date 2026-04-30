@@ -1,27 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useCart } from '../hooks/useCart';
 import Hero from '../components/home/Hero';
 import Features from '../components/home/Features';
 import Bestsellers from '../components/home/Bestsellers';
 import About from '../components/home/About';
 import Testimonials from '../components/home/Testimonials';
-import productService from '../services/productService';
 import ProductSkeleton from '../components/ui/ProductSkeleton';
 import SectionHeader from '../components/ui/SectionHeader';
 import SEO, { organizationSchema, webSiteSchema, storeSchema } from '../components/SEO';
-import { useQuery } from '@tanstack/react-query';
+import { useGetProductsQuery } from '../store/productApi';
 
 const Home = () => {
   const { addToCart } = useCart();
 
-  // Reuse catalog-products query to share cache
-  const { data: allProducts = [], isLoading: loading } = useQuery({
-    queryKey: ['catalog-products'],
-    queryFn: async () => {
-      const { data } = await productService.getProducts();
-      return data;
-    },
-  });
+  // Use RTK Query for optimized fetching and caching
+  const { data: allProducts = [], isLoading: loading } = useGetProductsQuery();
 
   // 4 bestsellers to display
   const products = allProducts.slice(0, 4);
