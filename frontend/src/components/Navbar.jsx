@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { ShoppingBag, User, LogOut, LayoutDashboard, LayoutGrid, Menu, X } from 'lucide-react';

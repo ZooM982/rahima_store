@@ -1,8 +1,8 @@
 import { Helmet } from 'react-helmet-async';
 
-const SITE_URL = 'https://rahima-store.com';
+const SITE_URL = 'https://rahima.store';
 const SITE_NAME = 'Rahima Store';
-const DEFAULT_IMAGE = `${SITE_URL}/og-image.jpg`;
+const DEFAULT_IMAGE = `${SITE_URL}/logo.png`;
 const DEFAULT_DESC = "L'excellence de la beauté africaine et internationale. Cosmétiques premium, soins naturels, livraison à Dakar et partout au Sénégal.";
 
 /**
