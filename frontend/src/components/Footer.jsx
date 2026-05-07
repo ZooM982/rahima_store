@@ -23,10 +23,11 @@ const Footer = () => {
     e.preventDefault();
     if (navigator.share) {
       try {
+        const shareUrl = `${window.location.origin}?utm_source=footer&utm_medium=social&utm_campaign=site_share`;
         await navigator.share({
           title: 'Rahima Store',
           text: 'L\'excellence de la beauté africaine et internationale.',
-          url: window.location.origin,
+          url: shareUrl,
         });
       } catch (err) {
         if (err.name !== 'AbortError') {
@@ -35,7 +36,8 @@ const Footer = () => {
       }
     } else {
       try {
-        await navigator.clipboard.writeText(window.location.origin);
+        const shareUrl = `${window.location.origin}?utm_source=footer&utm_medium=social&utm_campaign=site_share`;
+        await navigator.clipboard.writeText(shareUrl);
         alert('Lien du site copié !');
       } catch (err) {
         console.error('Copy failed:', err);
