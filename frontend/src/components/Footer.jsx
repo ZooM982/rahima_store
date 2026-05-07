@@ -19,6 +19,30 @@ const Footer = () => {
     }
   };
 
+  const handleShare = async (e) => {
+    e.preventDefault();
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'Rahima Store',
+          text: 'L\'excellence de la beauté africaine et internationale.',
+          url: window.location.origin,
+        });
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          console.error('Share failed:', err);
+        }
+      }
+    } else {
+      try {
+        await navigator.clipboard.writeText(window.location.origin);
+        alert('Lien du site copié !');
+      } catch (err) {
+        console.error('Copy failed:', err);
+      }
+    }
+  };
+
   return (
     <footer className="bg-black border-t border-white/5 pt-20 pb-10">
       <div className="custom-container">
@@ -36,7 +60,7 @@ const Footer = () => {
               L'excellence de la beauté africaine et internationale. Nous sélectionnons le meilleur pour votre éclat naturel.
             </p>
             <div className="flex gap-4">
-              <a href="https://www.instagram.com/rahimaa_store?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/40 hover:bg-gold-gradient hover:text-black transition-all">
+              <a href="https://www.instagram.com/rahimaa_store" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/40 hover:bg-gold-gradient hover:text-black transition-all">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
                   <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
@@ -53,7 +77,10 @@ const Footer = () => {
                   <path d="M12 3c4.11 0 6 3 6 3s3 2 1 7c0 0 0 1-1 1s-1-1-1-1c0 4-1 6-5 6s-5-2-5-6c0 0 0 1-1 1s-1-1-1-1c-2-5 1-7 1-7s1.89-3 6-3z" />
                 </svg>
               </a>
-              {[Globe, Send, Share2].map((Icon, i) => (
+              <a href="#" onClick={handleShare} className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/40 hover:bg-gold-gradient hover:text-black transition-all">
+                <Share2 size={18} />
+              </a>
+              {[Globe, Send].map((Icon, i) => (
                 <a key={i} href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/40 hover:bg-gold-gradient hover:text-black transition-all">
                   <Icon size={18} />
                 </a>
