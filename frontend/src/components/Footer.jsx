@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Globe, Send, Share2, Mail, MapPin, Phone } from 'lucide-react';
+import { Globe, Send, Share2, Mail, MapPin, Phone, Instagram } from 'lucide-react';
 import logo from '../assets/pictogram-gold.svg';
 
 const Footer = () => {
@@ -36,6 +36,9 @@ const Footer = () => {
               L'excellence de la beauté africaine et internationale. Nous sélectionnons le meilleur pour votre éclat naturel.
             </p>
             <div className="flex gap-4">
+              <a href="https://www.instagram.com/rahimaa_store?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/40 hover:bg-gold-gradient hover:text-black transition-all">
+                <Instagram size={18} />
+              </a>
               {[Globe, Send, Share2].map((Icon, i) => (
                 <a key={i} href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/40 hover:bg-gold-gradient hover:text-black transition-all">
                   <Icon size={18} />
