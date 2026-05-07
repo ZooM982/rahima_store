@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://rahima.store/sitemap.xml
+
+# Block Admin and User Dashboards
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /order-success
+Disallow: /reset-password/
