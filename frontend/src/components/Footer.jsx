@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Globe, Send, Share2, Mail, MapPin, Phone, Instagram } from 'lucide-react';
+import { Globe, Send, Share2, Mail, MapPin, Phone } from 'lucide-react';
 import logo from '../assets/pictogram-gold.svg';
 
 const Footer = () => {
@@ -37,7 +37,11 @@ const Footer = () => {
             </p>
             <div className="flex gap-4">
               <a href="https://www.instagram.com/rahimaa_store?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/40 hover:bg-gold-gradient hover:text-black transition-all">
-                <Instagram size={18} />
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                  <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+                </svg>
               </a>
               <a href="https://www.tiktok.com/@rahima_store" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/40 hover:bg-gold-gradient hover:text-black transition-all">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
