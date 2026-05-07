@@ -48,6 +48,11 @@ const Footer = () => {
                   <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
                 </svg>
               </a>
+              <a href="https://www.snapchat.com/add/rahima_store" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/40 hover:bg-gold-gradient hover:text-black transition-all">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 3c4.11 0 6 3 6 3s3 2 1 7c0 0 0 1-1 1s-1-1-1-1c0 4-1 6-5 6s-5-2-5-6c0 0 0 1-1 1s-1-1-1-1c-2-5 1-7 1-7s1.89-3 6-3z" />
+                </svg>
+              </a>
               {[Globe, Send, Share2].map((Icon, i) => (
                 <a key={i} href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/40 hover:bg-gold-gradient hover:text-black transition-all">
                   <Icon size={18} />
